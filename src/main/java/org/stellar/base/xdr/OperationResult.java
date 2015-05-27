@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -13,8 +13,12 @@ import java.io.IOException;
 //  case opINNER:
 //      union switch (OperationType type)
 //      {
+//      case CREATE_ACCOUNT:
+//          CreateAccountResult createAccountResult;
 //      case PAYMENT:
 //          PaymentResult paymentResult;
+//      case PATH_PAYMENT:
+//          PathPaymentResult pathPaymentResult;
 //      case CREATE_OFFER:
 //          CreateOfferResult createOfferResult;
 //      case SET_OPTIONS:
@@ -80,12 +84,26 @@ public class OperationResult  {
     public void setDiscriminant(OperationType value) {
       this.type = value;
     }
+    private CreateAccountResult createAccountResult;
+    public CreateAccountResult getcreateAccountResult() {
+      return this.createAccountResult;
+    }
+    public void setcreateAccountResult(CreateAccountResult value) {
+      this.createAccountResult = value;
+    }
     private PaymentResult paymentResult;
     public PaymentResult getpaymentResult() {
       return this.paymentResult;
     }
     public void setpaymentResult(PaymentResult value) {
       this.paymentResult = value;
+    }
+    private PathPaymentResult pathPaymentResult;
+    public PathPaymentResult getpathPaymentResult() {
+      return this.pathPaymentResult;
+    }
+    public void setpathPaymentResult(PathPaymentResult value) {
+      this.pathPaymentResult = value;
     }
     private CreateOfferResult createOfferResult;
     public CreateOfferResult getcreateOfferResult() {
@@ -131,8 +149,14 @@ public class OperationResult  {
     }
     public static void encode(XdrDataOutputStream stream, OperationResultTr encodedOperationResultTr) throws IOException {
       switch (encodedOperationResultTr.getDiscriminant()) {
+    case CREATE_ACCOUNT:
+    CreateAccountResult.encode(stream, encodedOperationResultTr.createAccountResult);
+    break;
     case PAYMENT:
     PaymentResult.encode(stream, encodedOperationResultTr.paymentResult);
+    break;
+    case PATH_PAYMENT:
+    PathPaymentResult.encode(stream, encodedOperationResultTr.pathPaymentResult);
     break;
     case CREATE_OFFER:
     CreateOfferResult.encode(stream, encodedOperationResultTr.createOfferResult);
@@ -157,8 +181,14 @@ public class OperationResult  {
     public static OperationResultTr decode(XdrDataInputStream stream) throws IOException {
       OperationResultTr decodedOperationResultTr = new OperationResultTr();
       switch (decodedOperationResultTr.getDiscriminant()) {
+    case CREATE_ACCOUNT:
+    decodedOperationResultTr.createAccountResult = CreateAccountResult.decode(stream);
+    break;
     case PAYMENT:
     decodedOperationResultTr.paymentResult = PaymentResult.decode(stream);
+    break;
+    case PATH_PAYMENT:
+    decodedOperationResultTr.pathPaymentResult = PathPaymentResult.decode(stream);
     break;
     case CREATE_OFFER:
     decodedOperationResultTr.createOfferResult = CreateOfferResult.decode(stream);

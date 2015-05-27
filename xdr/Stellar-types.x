@@ -9,37 +9,31 @@ namespace stellar
 
 // messages
 typedef opaque uint512[64];
-typedef opaque uint256[32];
-typedef unsigned hyper uint64;
 typedef hyper int64;
-typedef unsigned int uint32;
 typedef int int32;
 typedef opaque AccountID[32];
-typedef opaque Signature[64];
-typedef opaque Hash[32];
 typedef opaque Thresholds[4];
+typedef string string32<32>;
 
 typedef uint64 SequenceNumber;
 
 enum CurrencyType
 {
-    NATIVE = 0,
-    ISO4217 = 1
-};
-
-struct ISOCurrencyIssuer
-{
-    opaque currencyCode[4];
-    AccountID issuer;
+    CURRENCY_TYPE_NATIVE = 0,
+    CURRENCY_TYPE_ALPHANUM = 1
 };
 
 union Currency switch (CurrencyType type)
 {
-case NATIVE:
+case CURRENCY_TYPE_NATIVE:
     void;
 
-case ISO4217:
-    ISOCurrencyIssuer isoCI;
+case CURRENCY_TYPE_ALPHANUM:
+    struct
+    {
+        opaque currencyCode[4];
+        AccountID issuer;
+    } alphaNum;
 
     // add other currency types here in the future
 };

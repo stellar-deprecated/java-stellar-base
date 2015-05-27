@@ -22,13 +22,22 @@ struct Signer
 
 enum AccountFlags
 { // masks for each flag
-    AUTH_REQUIRED_FLAG = 0x1
+
+    // if set, TrustLines are created with authorized set to "false"
+    // requiring the issuer to set it for each TrustLine
+    AUTH_REQUIRED_FLAG = 0x1,
+    // if set, the authorized flag in TrustTines can be cleared
+    // otherwise, authorization cannot be revoked
+    AUTH_REVOCABLE_FLAG = 0x2
 };
 
 /* AccountEntry
-    Main entry representing a user in Stellar. All transactions are performed
-    using an account.
+
+    Main entry representing a user in Stellar. All transactions are
+    performed using an account.
+
     Other ledger entries created require an account.
+
 */
 
 struct AccountEntry
@@ -45,6 +54,8 @@ struct AccountEntry
     // thresholds stores unsigned bytes: [weight of master|low|medium|high]
     Thresholds thresholds;
 
+    string32 homeDomain; // can be used for reverse federation and memo lookup
+
     Signer signers<20>; // possible signers for this account
 };
 
@@ -54,6 +65,12 @@ struct AccountEntry
     as well as the balance.
 */
 
+enum TrustLineFlags
+{
+    // issuer has authorized account to perform transactions with its credit
+    AUTHORIZED_FLAG = 1
+};
+
 struct TrustLineEntry
 {
     AccountID accountID; // account this trustline belongs to
@@ -61,14 +78,16 @@ struct TrustLineEntry
     int64 balance;       // how much of this currency the user has.
                          // Currency defines the unit for this;
 
-    int64 limit;     // balance cannot be above this
-    bool authorized; // issuer has authorized account to hold its credit
+    int64 limit;  // balance cannot be above this
+    uint32 flags; // see TrustLineFlags
 };
 
 /* OfferEntry
     An offer is the building block of the offer book, they are automatically
     claimed by payments when the price set by the owner is met.
+
     For example an Offer is selling 10A where 1A is priced at 1.5B
+
 */
 struct OfferEntry
 {

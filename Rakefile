@@ -3,7 +3,7 @@ Bundler.setup()
 
 namespace :xdr do
 
-  # As Hayashi adds more .x files, we'll need to update this array
+  # As stellar-core adds more .x files, we'll need to update this array
   # Prior to launch, we should be separating our .x files into a separate
   # repo, and should be able to improve this integration.
   HAYASHI_XDR = [
@@ -12,7 +12,6 @@ namespace :xdr do
     "src/xdr/Stellar-overlay.x",
     "src/xdr/Stellar-transaction.x",
     "src/xdr/Stellar-types.x",
-    "src/overlay/StellarXDR.x",
     "src/scp/SCPXDR.x",
   ]
 

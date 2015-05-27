@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,32 +10,32 @@ import java.io.IOException;
 
 //  struct TransactionMeta
 //  {
-//      BucketEntry entries<>;
+//      LedgerEntryChange changes<>;
 //  };
 
 //  ===========================================================================
 public class TransactionMeta  {
   public TransactionMeta () {}
-  private BucketEntry[] entries;
-  public BucketEntry[] getentries() {
-    return this.entries;
+  private LedgerEntryChange[] changes;
+  public LedgerEntryChange[] getchanges() {
+    return this.changes;
   }
-  public void setentries(BucketEntry[] value) {
-    this.entries = value;
+  public void setchanges(LedgerEntryChange[] value) {
+    this.changes = value;
   }
   public static void encode(XdrDataOutputStream stream, TransactionMeta encodedTransactionMeta) throws IOException{
-    int entriessize = encodedTransactionMeta.getentries().length;
-    stream.writeInt(entriessize);
-    for (int i = 0; i < entriessize; i++) {
-      BucketEntry.encode(stream, encodedTransactionMeta.entries[i]);
+    int changessize = encodedTransactionMeta.getchanges().length;
+    stream.writeInt(changessize);
+    for (int i = 0; i < changessize; i++) {
+      LedgerEntryChange.encode(stream, encodedTransactionMeta.changes[i]);
     }
   }
   public static TransactionMeta decode(XdrDataInputStream stream) throws IOException {
     TransactionMeta decodedTransactionMeta = new TransactionMeta();
-    int entriessize = stream.readInt();
-    decodedTransactionMeta.entries = new BucketEntry[entriessize];
-    for (int i = 0; i < entriessize; i++) {
-      decodedTransactionMeta.entries[i] = BucketEntry.decode(stream);
+    int changessize = stream.readInt();
+    decodedTransactionMeta.changes = new LedgerEntryChange[changessize];
+    for (int i = 0; i < changessize; i++) {
+      decodedTransactionMeta.changes[i] = LedgerEntryChange.decode(stream);
     }
     return decodedTransactionMeta;
   }

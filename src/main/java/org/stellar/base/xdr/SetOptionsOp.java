@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -16,6 +16,8 @@ import java.io.IOException;
 //      uint32* setFlags;   // which flags to set
 //  
 //      Thresholds* thresholds; // update the thresholds for the account
+//  
+//      string32* homeDomain; // sets the home domain
 //  
 //      // Add, update or remove a signer for the account
 //      // signer is deleted if the weight is 0
@@ -53,6 +55,13 @@ public class SetOptionsOp  {
   public void setthresholds(Thresholds value) {
     this.thresholds = value;
   }
+  private String32 homeDomain;
+  public String32 gethomeDomain() {
+    return this.homeDomain;
+  }
+  public void sethomeDomain(String32 value) {
+    this.homeDomain = value;
+  }
   private Signer signer;
   public Signer getsigner() {
     return this.signer;
@@ -72,6 +81,9 @@ public class SetOptionsOp  {
     }
     if (encodedSetOptionsOp.thresholds != null) {
     Thresholds.encode(stream, encodedSetOptionsOp.thresholds);
+    }
+    if (encodedSetOptionsOp.homeDomain != null) {
+    String32.encode(stream, encodedSetOptionsOp.homeDomain);
     }
     if (encodedSetOptionsOp.signer != null) {
     Signer.encode(stream, encodedSetOptionsOp.signer);
@@ -94,6 +106,10 @@ public class SetOptionsOp  {
     int thresholdsPresent = stream.readInt();
     if (thresholdsPresent != 0) {
     decodedSetOptionsOp.thresholds = Thresholds.decode(stream);
+    }
+    int homeDomainPresent = stream.readInt();
+    if (homeDomainPresent != 0) {
+    decodedSetOptionsOp.homeDomain = String32.decode(stream);
     }
     int signerPresent = stream.readInt();
     if (signerPresent != 0) {

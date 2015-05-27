@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -13,8 +13,8 @@ import java.io.IOException;
 //      AccountID trustor;
 //      union switch (CurrencyType type)
 //      {
-//      // NATIVE is not allowed
-//      case ISO4217:
+//      // CURRENCY_TYPE_NATIVE is not allowed
+//      case CURRENCY_TYPE_ALPHANUM:
 //          opaque currencyCode[4];
 //  
 //          // add other currency types here in the future
@@ -79,7 +79,7 @@ public class AllowTrustOp  {
     }
     public static void encode(XdrDataOutputStream stream, AllowTrustOpCurrency encodedAllowTrustOpCurrency) throws IOException {
       switch (encodedAllowTrustOpCurrency.getDiscriminant()) {
-    case ISO4217:
+    case CURRENCY_TYPE_ALPHANUM:
     int currencyCodesize = encodedAllowTrustOpCurrency.currencyCode.length;
     stream.write(encodedAllowTrustOpCurrency.getcurrencyCode(), 0, currencyCodesize);
     break;
@@ -88,7 +88,7 @@ public class AllowTrustOp  {
     public static AllowTrustOpCurrency decode(XdrDataInputStream stream) throws IOException {
       AllowTrustOpCurrency decodedAllowTrustOpCurrency = new AllowTrustOpCurrency();
       switch (decodedAllowTrustOpCurrency.getDiscriminant()) {
-    case ISO4217:
+    case CURRENCY_TYPE_ALPHANUM:
     int currencyCodesize = 4;
     decodedAllowTrustOpCurrency.currencyCode = new byte[currencyCodesize];
     stream.read(decodedAllowTrustOpCurrency.currencyCode, 0, currencyCodesize);

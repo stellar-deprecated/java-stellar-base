@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;

@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -21,6 +21,8 @@ import java.io.IOException;
 //      // fields used for signatures
 //      // thresholds stores unsigned bytes: [weight of master|low|medium|high]
 //      Thresholds thresholds;
+//  
+//      string32 homeDomain; // can be used for reverse federation and memo lookup
 //  
 //      Signer signers<20>; // possible signers for this account
 //  };
@@ -77,6 +79,13 @@ public class AccountEntry  {
   public void setthresholds(Thresholds value) {
     this.thresholds = value;
   }
+  private String32 homeDomain;
+  public String32 gethomeDomain() {
+    return this.homeDomain;
+  }
+  public void sethomeDomain(String32 value) {
+    this.homeDomain = value;
+  }
   private Signer[] signers;
   public Signer[] getsigners() {
     return this.signers;
@@ -94,6 +103,7 @@ public class AccountEntry  {
     }
     Uint32.encode(stream, encodedAccountEntry.flags);
     Thresholds.encode(stream, encodedAccountEntry.thresholds);
+    String32.encode(stream, encodedAccountEntry.homeDomain);
     int signerssize = encodedAccountEntry.getsigners().length;
     stream.writeInt(signerssize);
     for (int i = 0; i < signerssize; i++) {
@@ -112,6 +122,7 @@ public class AccountEntry  {
     }
     decodedAccountEntry.flags = Uint32.decode(stream);
     decodedAccountEntry.thresholds = Thresholds.decode(stream);
+    decodedAccountEntry.homeDomain = String32.decode(stream);
     int signerssize = stream.readInt();
     decodedAccountEntry.signers = new Signer[signerssize];
     for (int i = 0; i < signerssize; i++) {

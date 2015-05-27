@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -13,16 +13,16 @@ import java.io.IOException;
 //      // account used to run the transaction
 //      AccountID sourceAccount;
 //  
-//      // maximum fee this transaction can collect
-//      // the transaction is aborted if the fee is higher
-//      int32 maxFee;
+//      // the fee the sourceAccount will pay
+//      int32 fee;
 //  
 //      // sequence number to consume in the account
 //      SequenceNumber seqNum;
 //  
-//      // validity range (inclusive) for the ledger sequence number
-//      uint32 minLedger;
-//      uint32 maxLedger;
+//      // validity range (inclusive) for the last ledger close time
+//      TimeBounds* timeBounds;
+//  
+//      Memo memo;
 //  
 //      Operation operations<100>;
 //  };
@@ -37,12 +37,12 @@ public class Transaction  {
   public void setsourceAccount(AccountID value) {
     this.sourceAccount = value;
   }
-  private Int32 maxFee;
-  public Int32 getmaxFee() {
-    return this.maxFee;
+  private Int32 fee;
+  public Int32 getfee() {
+    return this.fee;
   }
-  public void setmaxFee(Int32 value) {
-    this.maxFee = value;
+  public void setfee(Int32 value) {
+    this.fee = value;
   }
   private SequenceNumber seqNum;
   public SequenceNumber getseqNum() {
@@ -51,19 +51,19 @@ public class Transaction  {
   public void setseqNum(SequenceNumber value) {
     this.seqNum = value;
   }
-  private Uint32 minLedger;
-  public Uint32 getminLedger() {
-    return this.minLedger;
+  private TimeBounds timeBounds;
+  public TimeBounds gettimeBounds() {
+    return this.timeBounds;
   }
-  public void setminLedger(Uint32 value) {
-    this.minLedger = value;
+  public void settimeBounds(TimeBounds value) {
+    this.timeBounds = value;
   }
-  private Uint32 maxLedger;
-  public Uint32 getmaxLedger() {
-    return this.maxLedger;
+  private Memo memo;
+  public Memo getmemo() {
+    return this.memo;
   }
-  public void setmaxLedger(Uint32 value) {
-    this.maxLedger = value;
+  public void setmemo(Memo value) {
+    this.memo = value;
   }
   private Operation[] operations;
   public Operation[] getoperations() {
@@ -74,10 +74,12 @@ public class Transaction  {
   }
   public static void encode(XdrDataOutputStream stream, Transaction encodedTransaction) throws IOException{
     AccountID.encode(stream, encodedTransaction.sourceAccount);
-    Int32.encode(stream, encodedTransaction.maxFee);
+    Int32.encode(stream, encodedTransaction.fee);
     SequenceNumber.encode(stream, encodedTransaction.seqNum);
-    Uint32.encode(stream, encodedTransaction.minLedger);
-    Uint32.encode(stream, encodedTransaction.maxLedger);
+    if (encodedTransaction.timeBounds != null) {
+    TimeBounds.encode(stream, encodedTransaction.timeBounds);
+    }
+    Memo.encode(stream, encodedTransaction.memo);
     int operationssize = encodedTransaction.getoperations().length;
     stream.writeInt(operationssize);
     for (int i = 0; i < operationssize; i++) {
@@ -87,10 +89,13 @@ public class Transaction  {
   public static Transaction decode(XdrDataInputStream stream) throws IOException {
     Transaction decodedTransaction = new Transaction();
     decodedTransaction.sourceAccount = AccountID.decode(stream);
-    decodedTransaction.maxFee = Int32.decode(stream);
+    decodedTransaction.fee = Int32.decode(stream);
     decodedTransaction.seqNum = SequenceNumber.decode(stream);
-    decodedTransaction.minLedger = Uint32.decode(stream);
-    decodedTransaction.maxLedger = Uint32.decode(stream);
+    int timeBoundsPresent = stream.readInt();
+    if (timeBoundsPresent != 0) {
+    decodedTransaction.timeBounds = TimeBounds.decode(stream);
+    }
+    decodedTransaction.memo = Memo.decode(stream);
     int operationssize = stream.readInt();
     decodedTransaction.operations = new Operation[operationssize];
     for (int i = 0; i < operationssize; i++) {

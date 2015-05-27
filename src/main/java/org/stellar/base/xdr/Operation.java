@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -17,8 +17,12 @@ import java.io.IOException;
 //  
 //      union switch (OperationType type)
 //      {
+//      case CREATE_ACCOUNT:
+//          CreateAccountOp createAccountOp;
 //      case PAYMENT:
 //          PaymentOp paymentOp;
+//      case PATH_PAYMENT:
+//          PathPaymentOp pathPaymentOp;
 //      case CREATE_OFFER:
 //          CreateOfferOp createOfferOp;
 //      case SET_OPTIONS:
@@ -30,7 +34,7 @@ import java.io.IOException;
 //      case ACCOUNT_MERGE:
 //          uint256 destination;
 //      case INFLATION:
-//          uint32 inflationSeq;
+//          void;
 //      }
 //      body;
 //  };
@@ -77,12 +81,26 @@ public class Operation  {
     public void setDiscriminant(OperationType value) {
       this.type = value;
     }
+    private CreateAccountOp createAccountOp;
+    public CreateAccountOp getcreateAccountOp() {
+      return this.createAccountOp;
+    }
+    public void setcreateAccountOp(CreateAccountOp value) {
+      this.createAccountOp = value;
+    }
     private PaymentOp paymentOp;
     public PaymentOp getpaymentOp() {
       return this.paymentOp;
     }
     public void setpaymentOp(PaymentOp value) {
       this.paymentOp = value;
+    }
+    private PathPaymentOp pathPaymentOp;
+    public PathPaymentOp getpathPaymentOp() {
+      return this.pathPaymentOp;
+    }
+    public void setpathPaymentOp(PathPaymentOp value) {
+      this.pathPaymentOp = value;
     }
     private CreateOfferOp createOfferOp;
     public CreateOfferOp getcreateOfferOp() {
@@ -119,17 +137,16 @@ public class Operation  {
     public void setdestination(Uint256 value) {
       this.destination = value;
     }
-    private Uint32 inflationSeq;
-    public Uint32 getinflationSeq() {
-      return this.inflationSeq;
-    }
-    public void setinflationSeq(Uint32 value) {
-      this.inflationSeq = value;
-    }
     public static void encode(XdrDataOutputStream stream, OperationBody encodedOperationBody) throws IOException {
       switch (encodedOperationBody.getDiscriminant()) {
+    case CREATE_ACCOUNT:
+    CreateAccountOp.encode(stream, encodedOperationBody.createAccountOp);
+    break;
     case PAYMENT:
     PaymentOp.encode(stream, encodedOperationBody.paymentOp);
+    break;
+    case PATH_PAYMENT:
+    PathPaymentOp.encode(stream, encodedOperationBody.pathPaymentOp);
     break;
     case CREATE_OFFER:
     CreateOfferOp.encode(stream, encodedOperationBody.createOfferOp);
@@ -147,15 +164,20 @@ public class Operation  {
     Uint256.encode(stream, encodedOperationBody.destination);
     break;
     case INFLATION:
-    Uint32.encode(stream, encodedOperationBody.inflationSeq);
     break;
     }
     }
     public static OperationBody decode(XdrDataInputStream stream) throws IOException {
       OperationBody decodedOperationBody = new OperationBody();
       switch (decodedOperationBody.getDiscriminant()) {
+    case CREATE_ACCOUNT:
+    decodedOperationBody.createAccountOp = CreateAccountOp.decode(stream);
+    break;
     case PAYMENT:
     decodedOperationBody.paymentOp = PaymentOp.decode(stream);
+    break;
+    case PATH_PAYMENT:
+    decodedOperationBody.pathPaymentOp = PathPaymentOp.decode(stream);
     break;
     case CREATE_OFFER:
     decodedOperationBody.createOfferOp = CreateOfferOp.decode(stream);
@@ -173,7 +195,6 @@ public class Operation  {
     decodedOperationBody.destination = Uint256.decode(stream);
     break;
     case INFLATION:
-    decodedOperationBody.inflationSeq = Uint32.decode(stream);
     break;
     }
       return decodedOperationBody;

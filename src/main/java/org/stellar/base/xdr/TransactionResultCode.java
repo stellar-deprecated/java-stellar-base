@@ -1,4 +1,4 @@
-// Automatically generated on 2015-04-10T00:48:12-07:00
+// Automatically generated on 2015-05-27T10:24:45-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -12,18 +12,17 @@ import java.io.IOException;
 //  {
 //      txSUCCESS = 0, // all operations succeeded
 //  
-//      txDUPLICATE = -1, // transaction was already submited
+//      txFAILED = -1, // one of the operations failed (but none were applied)
 //  
-//      txFAILED = -2, // one of the operations failed (but none were applied)
-//  
-//      txBAD_LEDGER = -3,        // ledger is not in range [minLeder; maxLedger]
+//      txTOO_EARLY = -2,         // ledger closeTime before minTime
+//      txTOO_LATE = -3,          // ledger closeTime after maxTime
 //      txMISSING_OPERATION = -4, // no operation was specified
 //      txBAD_SEQ = -5,           // sequence number does not match source account
 //  
 //      txBAD_AUTH = -6,             // not enough signatures to perform transaction
 //      txINSUFFICIENT_BALANCE = -7, // fee would bring account below reserve
 //      txNO_ACCOUNT = -8,           // source account not found
-//      txINSUFFICIENT_FEE = -9,     // max fee is too small
+//      txINSUFFICIENT_FEE = -9,     // fee is too small
 //      txBAD_AUTH_EXTRA = -10,      // too many signatures on transaction
 //      txINTERNAL_ERROR = -11       // an unknown error occured
 //  };
@@ -31,9 +30,9 @@ import java.io.IOException;
 //  ===========================================================================
 public enum TransactionResultCode  {
   txSUCCESS(0),
-  txDUPLICATE(-1),
-  txFAILED(-2),
-  txBAD_LEDGER(-3),
+  txFAILED(-1),
+  txTOO_EARLY(-2),
+  txTOO_LATE(-3),
   txMISSING_OPERATION(-4),
   txBAD_SEQ(-5),
   txBAD_AUTH(-6),
@@ -57,9 +56,9 @@ public enum TransactionResultCode  {
     int value = stream.readInt();
     switch (value) {
       case 0: return txSUCCESS;
-      case -1: return txDUPLICATE;
-      case -2: return txFAILED;
-      case -3: return txBAD_LEDGER;
+      case -1: return txFAILED;
+      case -2: return txTOO_EARLY;
+      case -3: return txTOO_LATE;
       case -4: return txMISSING_OPERATION;
       case -5: return txBAD_SEQ;
       case -6: return txBAD_AUTH;
