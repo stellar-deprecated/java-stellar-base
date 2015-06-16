@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -23,8 +23,10 @@ import java.io.IOException;
 //          PaymentOp paymentOp;
 //      case PATH_PAYMENT:
 //          PathPaymentOp pathPaymentOp;
-//      case CREATE_OFFER:
-//          CreateOfferOp createOfferOp;
+//      case MANAGE_OFFER:
+//          ManageOfferOp manageOfferOp;
+//      case CREATE_PASSIVE_OFFER:
+//          CreatePassiveOfferOp createPassiveOfferOp;
 //      case SET_OPTIONS:
 //          SetOptionsOp setOptionsOp;
 //      case CHANGE_TRUST:
@@ -102,12 +104,19 @@ public class Operation  {
     public void setpathPaymentOp(PathPaymentOp value) {
       this.pathPaymentOp = value;
     }
-    private CreateOfferOp createOfferOp;
-    public CreateOfferOp getcreateOfferOp() {
-      return this.createOfferOp;
+    private ManageOfferOp manageOfferOp;
+    public ManageOfferOp getmanageOfferOp() {
+      return this.manageOfferOp;
     }
-    public void setcreateOfferOp(CreateOfferOp value) {
-      this.createOfferOp = value;
+    public void setmanageOfferOp(ManageOfferOp value) {
+      this.manageOfferOp = value;
+    }
+    private CreatePassiveOfferOp createPassiveOfferOp;
+    public CreatePassiveOfferOp getcreatePassiveOfferOp() {
+      return this.createPassiveOfferOp;
+    }
+    public void setcreatePassiveOfferOp(CreatePassiveOfferOp value) {
+      this.createPassiveOfferOp = value;
     }
     private SetOptionsOp setOptionsOp;
     public SetOptionsOp getsetOptionsOp() {
@@ -148,8 +157,11 @@ public class Operation  {
     case PATH_PAYMENT:
     PathPaymentOp.encode(stream, encodedOperationBody.pathPaymentOp);
     break;
-    case CREATE_OFFER:
-    CreateOfferOp.encode(stream, encodedOperationBody.createOfferOp);
+    case MANAGE_OFFER:
+    ManageOfferOp.encode(stream, encodedOperationBody.manageOfferOp);
+    break;
+    case CREATE_PASSIVE_OFFER:
+    CreatePassiveOfferOp.encode(stream, encodedOperationBody.createPassiveOfferOp);
     break;
     case SET_OPTIONS:
     SetOptionsOp.encode(stream, encodedOperationBody.setOptionsOp);
@@ -179,8 +191,11 @@ public class Operation  {
     case PATH_PAYMENT:
     decodedOperationBody.pathPaymentOp = PathPaymentOp.decode(stream);
     break;
-    case CREATE_OFFER:
-    decodedOperationBody.createOfferOp = CreateOfferOp.decode(stream);
+    case MANAGE_OFFER:
+    decodedOperationBody.manageOfferOp = ManageOfferOp.decode(stream);
+    break;
+    case CREATE_PASSIVE_OFFER:
+    decodedOperationBody.createPassiveOfferOp = CreatePassiveOfferOp.decode(stream);
     break;
     case SET_OPTIONS:
     decodedOperationBody.setOptionsOp = SetOptionsOp.decode(stream);

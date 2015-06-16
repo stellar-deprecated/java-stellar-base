@@ -8,19 +8,19 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  enum TrustLineFlags
+//  enum OfferEntryFlags
 //  {
 //      // issuer has authorized account to perform transactions with its credit
-//      AUTHORIZED_FLAG = 1
+//      PASSIVE_FLAG = 1
 //  };
 
 //  ===========================================================================
-public enum TrustLineFlags  {
-  AUTHORIZED_FLAG(1),
+public enum OfferEntryFlags  {
+  PASSIVE_FLAG(1),
   ;
   private int mValue;
 
-  TrustLineFlags(int value) {
+  OfferEntryFlags(int value) {
       mValue = value;
   }
 
@@ -28,16 +28,16 @@ public enum TrustLineFlags  {
       return mValue;
   }
 
-  static TrustLineFlags decode(XdrDataInputStream stream) throws IOException {
+  static OfferEntryFlags decode(XdrDataInputStream stream) throws IOException {
     int value = stream.readInt();
     switch (value) {
-      case 1: return AUTHORIZED_FLAG;
+      case 1: return PASSIVE_FLAG;
       default:
         throw new RuntimeException("Unknown enum value: " + value);
     }
   }
 
-  static void encode(XdrDataOutputStream stream, TrustLineFlags value) throws IOException {
+  static void encode(XdrDataOutputStream stream, OfferEntryFlags value) throws IOException {
     stream.writeInt(value.getValue());
   }
 }

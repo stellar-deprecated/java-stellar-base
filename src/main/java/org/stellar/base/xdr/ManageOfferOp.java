@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -8,7 +8,7 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  struct CreateOfferOp
+//  struct ManageOfferOp
 //  {
 //      Currency takerGets;
 //      Currency takerPays;
@@ -20,8 +20,8 @@ import java.io.IOException;
 //  };
 
 //  ===========================================================================
-public class CreateOfferOp  {
-  public CreateOfferOp () {}
+public class ManageOfferOp  {
+  public ManageOfferOp () {}
   private Currency takerGets;
   public Currency gettakerGets() {
     return this.takerGets;
@@ -57,20 +57,20 @@ public class CreateOfferOp  {
   public void setofferID(Uint64 value) {
     this.offerID = value;
   }
-  public static void encode(XdrDataOutputStream stream, CreateOfferOp encodedCreateOfferOp) throws IOException{
-    Currency.encode(stream, encodedCreateOfferOp.takerGets);
-    Currency.encode(stream, encodedCreateOfferOp.takerPays);
-    Int64.encode(stream, encodedCreateOfferOp.amount);
-    Price.encode(stream, encodedCreateOfferOp.price);
-    Uint64.encode(stream, encodedCreateOfferOp.offerID);
+  public static void encode(XdrDataOutputStream stream, ManageOfferOp encodedManageOfferOp) throws IOException{
+    Currency.encode(stream, encodedManageOfferOp.takerGets);
+    Currency.encode(stream, encodedManageOfferOp.takerPays);
+    Int64.encode(stream, encodedManageOfferOp.amount);
+    Price.encode(stream, encodedManageOfferOp.price);
+    Uint64.encode(stream, encodedManageOfferOp.offerID);
   }
-  public static CreateOfferOp decode(XdrDataInputStream stream) throws IOException {
-    CreateOfferOp decodedCreateOfferOp = new CreateOfferOp();
-    decodedCreateOfferOp.takerGets = Currency.decode(stream);
-    decodedCreateOfferOp.takerPays = Currency.decode(stream);
-    decodedCreateOfferOp.amount = Int64.decode(stream);
-    decodedCreateOfferOp.price = Price.decode(stream);
-    decodedCreateOfferOp.offerID = Uint64.decode(stream);
-    return decodedCreateOfferOp;
+  public static ManageOfferOp decode(XdrDataInputStream stream) throws IOException {
+    ManageOfferOp decodedManageOfferOp = new ManageOfferOp();
+    decodedManageOfferOp.takerGets = Currency.decode(stream);
+    decodedManageOfferOp.takerPays = Currency.decode(stream);
+    decodedManageOfferOp.amount = Int64.decode(stream);
+    decodedManageOfferOp.price = Price.decode(stream);
+    decodedManageOfferOp.offerID = Uint64.decode(stream);
+    return decodedManageOfferOp;
   }
 }

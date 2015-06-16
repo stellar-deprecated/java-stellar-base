@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -22,6 +22,7 @@ import java.io.IOException;
 //          price is after fees
 //      */
 //      Price price;
+//      uint32 flags; // see OfferEntryFlags
 //  };
 
 //  ===========================================================================
@@ -69,6 +70,13 @@ public class OfferEntry  {
   public void setprice(Price value) {
     this.price = value;
   }
+  private Uint32 flags;
+  public Uint32 getflags() {
+    return this.flags;
+  }
+  public void setflags(Uint32 value) {
+    this.flags = value;
+  }
   public static void encode(XdrDataOutputStream stream, OfferEntry encodedOfferEntry) throws IOException{
     AccountID.encode(stream, encodedOfferEntry.accountID);
     Uint64.encode(stream, encodedOfferEntry.offerID);
@@ -76,6 +84,7 @@ public class OfferEntry  {
     Currency.encode(stream, encodedOfferEntry.takerPays);
     Int64.encode(stream, encodedOfferEntry.amount);
     Price.encode(stream, encodedOfferEntry.price);
+    Uint32.encode(stream, encodedOfferEntry.flags);
   }
   public static OfferEntry decode(XdrDataInputStream stream) throws IOException {
     OfferEntry decodedOfferEntry = new OfferEntry();
@@ -85,6 +94,7 @@ public class OfferEntry  {
     decodedOfferEntry.takerPays = Currency.decode(stream);
     decodedOfferEntry.amount = Int64.decode(stream);
     decodedOfferEntry.price = Price.decode(stream);
+    decodedOfferEntry.flags = Uint32.decode(stream);
     return decodedOfferEntry;
   }
 }

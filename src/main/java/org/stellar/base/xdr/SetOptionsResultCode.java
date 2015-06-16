@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -17,7 +17,8 @@ import java.io.IOException;
 //      SET_OPTIONS_TOO_MANY_SIGNERS = -2, // max number of signers already reached
 //      SET_OPTIONS_BAD_FLAGS = -3,        // invalid combination of clear/set flags
 //      SET_OPTIONS_INVALID_INFLATION = -4, // inflation account does not exist
-//      SET_OPTIONS_CANT_CHANGE = -5        // can no longer change this option
+//      SET_OPTIONS_CANT_CHANGE = -5,       // can no longer change this option
+//      SET_OPTIONS_UNKNOWN_FLAG = -6       // can't set an unknown flag
 //  };
 
 //  ===========================================================================
@@ -28,6 +29,7 @@ public enum SetOptionsResultCode  {
   SET_OPTIONS_BAD_FLAGS(-3),
   SET_OPTIONS_INVALID_INFLATION(-4),
   SET_OPTIONS_CANT_CHANGE(-5),
+  SET_OPTIONS_UNKNOWN_FLAG(-6),
   ;
   private int mValue;
 
@@ -48,6 +50,7 @@ public enum SetOptionsResultCode  {
       case -3: return SET_OPTIONS_BAD_FLAGS;
       case -4: return SET_OPTIONS_INVALID_INFLATION;
       case -5: return SET_OPTIONS_CANT_CHANGE;
+      case -6: return SET_OPTIONS_UNKNOWN_FLAG;
       default:
         throw new RuntimeException("Unknown enum value: " + value);
     }

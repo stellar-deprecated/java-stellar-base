@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -19,8 +19,10 @@ import java.io.IOException;
 //          PaymentResult paymentResult;
 //      case PATH_PAYMENT:
 //          PathPaymentResult pathPaymentResult;
-//      case CREATE_OFFER:
-//          CreateOfferResult createOfferResult;
+//      case MANAGE_OFFER:
+//          ManageOfferResult manageOfferResult;
+//      case CREATE_PASSIVE_OFFER:
+//          ManageOfferResult createPassiveOfferResult;
 //      case SET_OPTIONS:
 //          SetOptionsResult setOptionsResult;
 //      case CHANGE_TRUST:
@@ -105,12 +107,19 @@ public class OperationResult  {
     public void setpathPaymentResult(PathPaymentResult value) {
       this.pathPaymentResult = value;
     }
-    private CreateOfferResult createOfferResult;
-    public CreateOfferResult getcreateOfferResult() {
-      return this.createOfferResult;
+    private ManageOfferResult manageOfferResult;
+    public ManageOfferResult getmanageOfferResult() {
+      return this.manageOfferResult;
     }
-    public void setcreateOfferResult(CreateOfferResult value) {
-      this.createOfferResult = value;
+    public void setmanageOfferResult(ManageOfferResult value) {
+      this.manageOfferResult = value;
+    }
+    private ManageOfferResult createPassiveOfferResult;
+    public ManageOfferResult getcreatePassiveOfferResult() {
+      return this.createPassiveOfferResult;
+    }
+    public void setcreatePassiveOfferResult(ManageOfferResult value) {
+      this.createPassiveOfferResult = value;
     }
     private SetOptionsResult setOptionsResult;
     public SetOptionsResult getsetOptionsResult() {
@@ -158,8 +167,11 @@ public class OperationResult  {
     case PATH_PAYMENT:
     PathPaymentResult.encode(stream, encodedOperationResultTr.pathPaymentResult);
     break;
-    case CREATE_OFFER:
-    CreateOfferResult.encode(stream, encodedOperationResultTr.createOfferResult);
+    case MANAGE_OFFER:
+    ManageOfferResult.encode(stream, encodedOperationResultTr.manageOfferResult);
+    break;
+    case CREATE_PASSIVE_OFFER:
+    ManageOfferResult.encode(stream, encodedOperationResultTr.createPassiveOfferResult);
     break;
     case SET_OPTIONS:
     SetOptionsResult.encode(stream, encodedOperationResultTr.setOptionsResult);
@@ -190,8 +202,11 @@ public class OperationResult  {
     case PATH_PAYMENT:
     decodedOperationResultTr.pathPaymentResult = PathPaymentResult.decode(stream);
     break;
-    case CREATE_OFFER:
-    decodedOperationResultTr.createOfferResult = CreateOfferResult.decode(stream);
+    case MANAGE_OFFER:
+    decodedOperationResultTr.manageOfferResult = ManageOfferResult.decode(stream);
+    break;
+    case CREATE_PASSIVE_OFFER:
+    decodedOperationResultTr.createPassiveOfferResult = ManageOfferResult.decode(stream);
     break;
     case SET_OPTIONS:
     decodedOperationResultTr.setOptionsResult = SetOptionsResult.decode(stream);

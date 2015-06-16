@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,7 +10,6 @@ import java.io.IOException;
 
 //  struct SCPEnvelope
 //  {
-//      uint256 nodeID; // v
 //      SCPStatement statement;
 //      Signature signature;
 //  };
@@ -18,13 +17,6 @@ import java.io.IOException;
 //  ===========================================================================
 public class SCPEnvelope  {
   public SCPEnvelope () {}
-  private Uint256 nodeID;
-  public Uint256 getnodeID() {
-    return this.nodeID;
-  }
-  public void setnodeID(Uint256 value) {
-    this.nodeID = value;
-  }
   private SCPStatement statement;
   public SCPStatement getstatement() {
     return this.statement;
@@ -40,13 +32,11 @@ public class SCPEnvelope  {
     this.signature = value;
   }
   public static void encode(XdrDataOutputStream stream, SCPEnvelope encodedSCPEnvelope) throws IOException{
-    Uint256.encode(stream, encodedSCPEnvelope.nodeID);
     SCPStatement.encode(stream, encodedSCPEnvelope.statement);
     Signature.encode(stream, encodedSCPEnvelope.signature);
   }
   public static SCPEnvelope decode(XdrDataInputStream stream) throws IOException {
     SCPEnvelope decodedSCPEnvelope = new SCPEnvelope();
-    decodedSCPEnvelope.nodeID = Uint256.decode(stream);
     decodedSCPEnvelope.statement = SCPStatement.decode(stream);
     decodedSCPEnvelope.signature = Signature.decode(stream);
     return decodedSCPEnvelope;

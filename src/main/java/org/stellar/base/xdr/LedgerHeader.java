@@ -1,4 +1,4 @@
-// Automatically generated on 2015-05-27T10:24:45-07:00
+// Automatically generated on 2015-06-16T15:35:11-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -27,6 +27,9 @@ import java.io.IOException;
 //  
 //      int32 baseFee;     // base fee per operation in stroops
 //      int32 baseReserve; // account base reserve in stroops
+//  
+//      Hash skipList[4];  // hashes of ledgers in the past. allows you to jump back
+//                         // in time without walking the chain back ledger by ledger
 //  };
 
 //  ===========================================================================
@@ -116,6 +119,13 @@ public class LedgerHeader  {
   public void setbaseReserve(Int32 value) {
     this.baseReserve = value;
   }
+  private Hash[] skipList;
+  public Hash[] getskipList() {
+    return this.skipList;
+  }
+  public void setskipList(Hash[] value) {
+    this.skipList = value;
+  }
   public static void encode(XdrDataOutputStream stream, LedgerHeader encodedLedgerHeader) throws IOException{
     Hash.encode(stream, encodedLedgerHeader.previousLedgerHash);
     Hash.encode(stream, encodedLedgerHeader.txSetHash);
@@ -129,6 +139,10 @@ public class LedgerHeader  {
     Uint64.encode(stream, encodedLedgerHeader.idPool);
     Int32.encode(stream, encodedLedgerHeader.baseFee);
     Int32.encode(stream, encodedLedgerHeader.baseReserve);
+    int skipListsize = encodedLedgerHeader.getskipList().length;
+    for (int i = 0; i < skipListsize; i++) {
+      Hash.encode(stream, encodedLedgerHeader.skipList[i]);
+    }
   }
   public static LedgerHeader decode(XdrDataInputStream stream) throws IOException {
     LedgerHeader decodedLedgerHeader = new LedgerHeader();
@@ -144,6 +158,11 @@ public class LedgerHeader  {
     decodedLedgerHeader.idPool = Uint64.decode(stream);
     decodedLedgerHeader.baseFee = Int32.decode(stream);
     decodedLedgerHeader.baseReserve = Int32.decode(stream);
+    int skipListsize = 4;
+    decodedLedgerHeader.skipList = new Hash[skipListsize];
+    for (int i = 0; i < skipListsize; i++) {
+      decodedLedgerHeader.skipList[i] = Hash.decode(stream);
+    }
     return decodedLedgerHeader;
   }
 }
