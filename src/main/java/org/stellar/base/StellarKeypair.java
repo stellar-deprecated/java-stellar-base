@@ -1,12 +1,14 @@
 package org.stellar.base;
 
 import java.security.GeneralSecurityException;
+import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.Signature;
 import java.security.SignatureException;
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
+import net.i2p.crypto.eddsa.KeyPairGenerator;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
@@ -85,6 +87,14 @@ public class StellarKeypair {
   public static StellarKeypair fromAddress(byte[] address) {
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(address, ed25519);
     return new StellarKeypair(new EdDSAPublicKey(publicKeySpec));
+  }
+
+  /**
+   * @return a random Stellar keypair.
+   */
+  public static StellarKeypair random() {
+    KeyPair keypair = new KeyPairGenerator().generateKeyPair();
+    return new StellarKeypair((EdDSAPublicKey) keypair.getPublic(), (EdDSAPrivateKey) keypair.getPrivate());
   }
 
   /**
