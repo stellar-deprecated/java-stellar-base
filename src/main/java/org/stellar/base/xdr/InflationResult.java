@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -34,6 +34,7 @@ public class InflationResult  {
     this.payouts = value;
   }
   public static void encode(XdrDataOutputStream stream, InflationResult encodedInflationResult) throws IOException {
+    stream.writeInt(encodedInflationResult.getDiscriminant().getValue());
     switch (encodedInflationResult.getDiscriminant()) {
   case INFLATION_SUCCESS:
   int payoutssize = encodedInflationResult.getpayouts().length;

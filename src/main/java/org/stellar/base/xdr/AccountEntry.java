@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -99,7 +99,10 @@ public class AccountEntry  {
     SequenceNumber.encode(stream, encodedAccountEntry.seqNum);
     Uint32.encode(stream, encodedAccountEntry.numSubEntries);
     if (encodedAccountEntry.inflationDest != null) {
+    stream.writeInt(1);
     AccountID.encode(stream, encodedAccountEntry.inflationDest);
+    } else {
+    stream.writeInt(0);
     }
     Uint32.encode(stream, encodedAccountEntry.flags);
     Thresholds.encode(stream, encodedAccountEntry.thresholds);

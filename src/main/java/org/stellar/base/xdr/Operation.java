@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -34,7 +34,7 @@ import java.io.IOException;
 //      case ALLOW_TRUST:
 //          AllowTrustOp allowTrustOp;
 //      case ACCOUNT_MERGE:
-//          uint256 destination;
+//          AccountID destination;
 //      case INFLATION:
 //          void;
 //      }
@@ -60,7 +60,10 @@ public class Operation  {
   }
   public static void encode(XdrDataOutputStream stream, Operation encodedOperation) throws IOException{
     if (encodedOperation.sourceAccount != null) {
+    stream.writeInt(1);
     AccountID.encode(stream, encodedOperation.sourceAccount);
+    } else {
+    stream.writeInt(0);
     }
     OperationBody.encode(stream, encodedOperation.body);
   }
@@ -139,14 +142,15 @@ public class Operation  {
     public void setallowTrustOp(AllowTrustOp value) {
       this.allowTrustOp = value;
     }
-    private Uint256 destination;
-    public Uint256 getdestination() {
+    private AccountID destination;
+    public AccountID getdestination() {
       return this.destination;
     }
-    public void setdestination(Uint256 value) {
+    public void setdestination(AccountID value) {
       this.destination = value;
     }
     public static void encode(XdrDataOutputStream stream, OperationBody encodedOperationBody) throws IOException {
+      stream.writeInt(encodedOperationBody.getDiscriminant().getValue());
       switch (encodedOperationBody.getDiscriminant()) {
     case CREATE_ACCOUNT:
     CreateAccountOp.encode(stream, encodedOperationBody.createAccountOp);
@@ -173,7 +177,7 @@ public class Operation  {
     AllowTrustOp.encode(stream, encodedOperationBody.allowTrustOp);
     break;
     case ACCOUNT_MERGE:
-    Uint256.encode(stream, encodedOperationBody.destination);
+    AccountID.encode(stream, encodedOperationBody.destination);
     break;
     case INFLATION:
     break;
@@ -207,7 +211,7 @@ public class Operation  {
     decodedOperationBody.allowTrustOp = AllowTrustOp.decode(stream);
     break;
     case ACCOUNT_MERGE:
-    decodedOperationBody.destination = Uint256.decode(stream);
+    decodedOperationBody.destination = AccountID.decode(stream);
     break;
     case INFLATION:
     break;

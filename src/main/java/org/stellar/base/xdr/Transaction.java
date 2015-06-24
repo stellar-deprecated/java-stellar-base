@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -77,7 +77,10 @@ public class Transaction  {
     Int32.encode(stream, encodedTransaction.fee);
     SequenceNumber.encode(stream, encodedTransaction.seqNum);
     if (encodedTransaction.timeBounds != null) {
+    stream.writeInt(1);
     TimeBounds.encode(stream, encodedTransaction.timeBounds);
+    } else {
+    stream.writeInt(0);
     }
     Memo.encode(stream, encodedTransaction.memo);
     int operationssize = encodedTransaction.getoperations().length;

@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -27,6 +27,7 @@ public class AllowTrustResult  {
     this.code = value;
   }
   public static void encode(XdrDataOutputStream stream, AllowTrustResult encodedAllowTrustResult) throws IOException {
+    stream.writeInt(encodedAllowTrustResult.getDiscriminant().getValue());
     switch (encodedAllowTrustResult.getDiscriminant()) {
   case ALLOW_TRUST_SUCCESS:
   break;

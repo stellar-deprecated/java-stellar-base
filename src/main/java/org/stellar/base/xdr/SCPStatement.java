@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 //  struct SCPStatement
 //  {
-//      uint256 nodeID;   // v
+//      NodeID nodeID;    // v
 //      uint64 slotIndex; // i
 //  
 //      union switch (SCPStatementType type)
@@ -51,11 +51,11 @@ import java.io.IOException;
 //  ===========================================================================
 public class SCPStatement  {
   public SCPStatement () {}
-  private Uint256 nodeID;
-  public Uint256 getnodeID() {
+  private NodeID nodeID;
+  public NodeID getnodeID() {
     return this.nodeID;
   }
-  public void setnodeID(Uint256 value) {
+  public void setnodeID(NodeID value) {
     this.nodeID = value;
   }
   private Uint64 slotIndex;
@@ -73,13 +73,13 @@ public class SCPStatement  {
     this.pledges = value;
   }
   public static void encode(XdrDataOutputStream stream, SCPStatement encodedSCPStatement) throws IOException{
-    Uint256.encode(stream, encodedSCPStatement.nodeID);
+    NodeID.encode(stream, encodedSCPStatement.nodeID);
     Uint64.encode(stream, encodedSCPStatement.slotIndex);
     SCPStatementPledges.encode(stream, encodedSCPStatement.pledges);
   }
   public static SCPStatement decode(XdrDataInputStream stream) throws IOException {
     SCPStatement decodedSCPStatement = new SCPStatement();
-    decodedSCPStatement.nodeID = Uint256.decode(stream);
+    decodedSCPStatement.nodeID = NodeID.decode(stream);
     decodedSCPStatement.slotIndex = Uint64.decode(stream);
     decodedSCPStatement.pledges = SCPStatementPledges.decode(stream);
     return decodedSCPStatement;
@@ -123,6 +123,7 @@ public class SCPStatement  {
       this.nominate = value;
     }
     public static void encode(XdrDataOutputStream stream, SCPStatementPledges encodedSCPStatementPledges) throws IOException {
+      stream.writeInt(encodedSCPStatementPledges.getDiscriminant().getValue());
       switch (encodedSCPStatementPledges.getDiscriminant()) {
     case SCP_ST_PREPARE:
     SCPStatementPrepare.encode(stream, encodedSCPStatementPledges.prepare);
@@ -205,10 +206,16 @@ public class SCPStatement  {
         Hash.encode(stream, encodedSCPStatementPrepare.quorumSetHash);
         SCPBallot.encode(stream, encodedSCPStatementPrepare.ballot);
         if (encodedSCPStatementPrepare.prepared != null) {
+        stream.writeInt(1);
         SCPBallot.encode(stream, encodedSCPStatementPrepare.prepared);
+        } else {
+        stream.writeInt(0);
         }
         if (encodedSCPStatementPrepare.preparedPrime != null) {
+        stream.writeInt(1);
         SCPBallot.encode(stream, encodedSCPStatementPrepare.preparedPrime);
+        } else {
+        stream.writeInt(0);
         }
         Uint32.encode(stream, encodedSCPStatementPrepare.nC);
         Uint32.encode(stream, encodedSCPStatementPrepare.nP);

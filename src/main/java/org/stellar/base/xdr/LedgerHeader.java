@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,6 +10,7 @@ import java.io.IOException;
 
 //  struct LedgerHeader
 //  {
+//      uint32 ledgerVersion;
 //      Hash previousLedgerHash; // hash of the previous ledger header
 //      Hash txSetHash;          // the tx set that was SCP confirmed
 //      Hash txSetResultHash;    // the TransactionResultSet that led to this ledger
@@ -28,13 +29,20 @@ import java.io.IOException;
 //      int32 baseFee;     // base fee per operation in stroops
 //      int32 baseReserve; // account base reserve in stroops
 //  
-//      Hash skipList[4];  // hashes of ledgers in the past. allows you to jump back
-//                         // in time without walking the chain back ledger by ledger
+//      Hash skipList[4]; // hashes of ledgers in the past. allows you to jump back
+//                        // in time without walking the chain back ledger by ledger
 //  };
 
 //  ===========================================================================
 public class LedgerHeader  {
   public LedgerHeader () {}
+  private Uint32 ledgerVersion;
+  public Uint32 getledgerVersion() {
+    return this.ledgerVersion;
+  }
+  public void setledgerVersion(Uint32 value) {
+    this.ledgerVersion = value;
+  }
   private Hash previousLedgerHash;
   public Hash getpreviousLedgerHash() {
     return this.previousLedgerHash;
@@ -127,6 +135,7 @@ public class LedgerHeader  {
     this.skipList = value;
   }
   public static void encode(XdrDataOutputStream stream, LedgerHeader encodedLedgerHeader) throws IOException{
+    Uint32.encode(stream, encodedLedgerHeader.ledgerVersion);
     Hash.encode(stream, encodedLedgerHeader.previousLedgerHash);
     Hash.encode(stream, encodedLedgerHeader.txSetHash);
     Hash.encode(stream, encodedLedgerHeader.txSetResultHash);
@@ -146,6 +155,7 @@ public class LedgerHeader  {
   }
   public static LedgerHeader decode(XdrDataInputStream stream) throws IOException {
     LedgerHeader decodedLedgerHeader = new LedgerHeader();
+    decodedLedgerHeader.ledgerVersion = Uint32.decode(stream);
     decodedLedgerHeader.previousLedgerHash = Hash.decode(stream);
     decodedLedgerHeader.txSetHash = Hash.decode(stream);
     decodedLedgerHeader.txSetResultHash = Hash.decode(stream);

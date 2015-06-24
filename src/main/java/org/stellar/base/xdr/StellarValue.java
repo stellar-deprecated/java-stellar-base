@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,6 +10,7 @@ import java.io.IOException;
 
 //  struct StellarValue
 //  {
+//      uint32 ledgerVersion;
 //      Hash txSetHash;
 //      uint64 closeTime;
 //      uint32 baseFee;
@@ -18,6 +19,13 @@ import java.io.IOException;
 //  ===========================================================================
 public class StellarValue  {
   public StellarValue () {}
+  private Uint32 ledgerVersion;
+  public Uint32 getledgerVersion() {
+    return this.ledgerVersion;
+  }
+  public void setledgerVersion(Uint32 value) {
+    this.ledgerVersion = value;
+  }
   private Hash txSetHash;
   public Hash gettxSetHash() {
     return this.txSetHash;
@@ -40,12 +48,14 @@ public class StellarValue  {
     this.baseFee = value;
   }
   public static void encode(XdrDataOutputStream stream, StellarValue encodedStellarValue) throws IOException{
+    Uint32.encode(stream, encodedStellarValue.ledgerVersion);
     Hash.encode(stream, encodedStellarValue.txSetHash);
     Uint64.encode(stream, encodedStellarValue.closeTime);
     Uint32.encode(stream, encodedStellarValue.baseFee);
   }
   public static StellarValue decode(XdrDataInputStream stream) throws IOException {
     StellarValue decodedStellarValue = new StellarValue();
+    decodedStellarValue.ledgerVersion = Uint32.decode(stream);
     decodedStellarValue.txSetHash = Hash.decode(stream);
     decodedStellarValue.closeTime = Uint64.decode(stream);
     decodedStellarValue.baseFee = Uint32.decode(stream);

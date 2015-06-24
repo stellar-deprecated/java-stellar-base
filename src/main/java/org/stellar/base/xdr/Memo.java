@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -61,6 +61,7 @@ public class Memo  {
     this.retHash = value;
   }
   public static void encode(XdrDataOutputStream stream, Memo encodedMemo) throws IOException {
+    stream.writeInt(encodedMemo.getDiscriminant().getValue());
     switch (encodedMemo.getDiscriminant()) {
   case MEMO_NONE:
   break;

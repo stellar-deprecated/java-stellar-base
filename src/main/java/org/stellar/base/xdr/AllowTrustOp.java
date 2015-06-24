@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -78,6 +78,7 @@ public class AllowTrustOp  {
       this.currencyCode = value;
     }
     public static void encode(XdrDataOutputStream stream, AllowTrustOpCurrency encodedAllowTrustOpCurrency) throws IOException {
+      stream.writeInt(encodedAllowTrustOpCurrency.getDiscriminant().getValue());
       switch (encodedAllowTrustOpCurrency.getDiscriminant()) {
     case CURRENCY_TYPE_ALPHANUM:
     int currencyCodesize = encodedAllowTrustOpCurrency.currencyCode.length;

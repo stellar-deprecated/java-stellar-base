@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-16T15:35:11-07:00
+// Automatically generated on 2015-06-24T13:46:48-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -71,22 +71,40 @@ public class SetOptionsOp  {
   }
   public static void encode(XdrDataOutputStream stream, SetOptionsOp encodedSetOptionsOp) throws IOException{
     if (encodedSetOptionsOp.inflationDest != null) {
+    stream.writeInt(1);
     AccountID.encode(stream, encodedSetOptionsOp.inflationDest);
+    } else {
+    stream.writeInt(0);
     }
     if (encodedSetOptionsOp.clearFlags != null) {
+    stream.writeInt(1);
     Uint32.encode(stream, encodedSetOptionsOp.clearFlags);
+    } else {
+    stream.writeInt(0);
     }
     if (encodedSetOptionsOp.setFlags != null) {
+    stream.writeInt(1);
     Uint32.encode(stream, encodedSetOptionsOp.setFlags);
+    } else {
+    stream.writeInt(0);
     }
     if (encodedSetOptionsOp.thresholds != null) {
+    stream.writeInt(1);
     Thresholds.encode(stream, encodedSetOptionsOp.thresholds);
+    } else {
+    stream.writeInt(0);
     }
     if (encodedSetOptionsOp.homeDomain != null) {
+    stream.writeInt(1);
     String32.encode(stream, encodedSetOptionsOp.homeDomain);
+    } else {
+    stream.writeInt(0);
     }
     if (encodedSetOptionsOp.signer != null) {
+    stream.writeInt(1);
     Signer.encode(stream, encodedSetOptionsOp.signer);
+    } else {
+    stream.writeInt(0);
     }
   }
   public static SetOptionsOp decode(XdrDataInputStream stream) throws IOException {
