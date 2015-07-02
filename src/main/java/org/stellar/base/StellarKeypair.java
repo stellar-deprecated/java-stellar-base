@@ -76,7 +76,7 @@ public class StellarKeypair {
    */
   public static StellarKeypair fromAddress(String address) throws AddressFormatException {
     byte[] decoded = Base58.decodeStellarAddress(address);
-    return fromAddress(decoded);
+    return fromPublicKey(decoded);
   }
 
   /**
@@ -84,7 +84,7 @@ public class StellarKeypair {
    * @param address The 32 byte address.
    * @return {@link StellarKeypair}
    */
-  public static StellarKeypair fromAddress(byte[] address) {
+  public static StellarKeypair fromPublicKey(byte[] address) {
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(address, ed25519);
     return new StellarKeypair(new EdDSAPublicKey(publicKeySpec));
   }
@@ -109,6 +109,10 @@ public class StellarKeypair {
    */
   public String getSecretSeed() {
     return Base58.encodeStellarSecretSeed(mPrivateKey.getSeed());
+  }
+
+  public byte[] getPublicKey() {
+    return mPublicKey.getAbyte();
   }
 
   /**
@@ -148,5 +152,10 @@ public class StellarKeypair {
     } catch (GeneralSecurityException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
   }
 }

@@ -3,7 +3,6 @@
 
 package org.stellar.base.xdr;
 
-
 import java.io.IOException;
 
 // === xdr source ============================================================
