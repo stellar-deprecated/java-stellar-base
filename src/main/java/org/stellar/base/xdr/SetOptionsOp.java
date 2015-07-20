@@ -3,7 +3,6 @@
 
 package org.stellar.base.xdr;
 
-
 import java.io.IOException;
 
 // === xdr source ============================================================
@@ -11,14 +10,14 @@ import java.io.IOException;
 //  struct SetOptionsOp
 //  {
 //      AccountID* inflationDest; // sets the inflation destination
-//  
+//
 //      uint32* clearFlags; // which flags to clear
 //      uint32* setFlags;   // which flags to set
-//  
+//
 //      Thresholds* thresholds; // update the thresholds for the account
-//  
+//
 //      string32* homeDomain; // sets the home domain
-//  
+//
 //      // Add, update or remove a signer for the account
 //      // signer is deleted if the weight is 0
 //      Signer* signer;

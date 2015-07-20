@@ -30,6 +30,15 @@ abstract class Operation {
       case PATH_PAYMENT:
         operation = new PathPaymentOperation.Builder(body.getpathPaymentOp()).build();
         break;
+      case CHANGE_TRUST:
+        operation = new ChangeTrustOperation.Builder(body.getchangeTrustOp()).build();
+        break;
+      case ALLOW_TRUST:
+        operation = new AllowTrustOperation.Builder(body.getallowTrustOp()).build();
+        break;
+      case SET_OPTIONS:
+        operation = new SetOptionsOperation.Builder(body.getsetOptionsOp()).build();
+        break;
       default:
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }
