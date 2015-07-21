@@ -39,6 +39,9 @@ abstract class Operation {
       case SET_OPTIONS:
         operation = new SetOptionsOperation.Builder(body.getsetOptionsOp()).build();
         break;
+      case MANAGE_OFFER:
+        operation = new ManagerOfferOperation.Builder(body.getmanageOfferOp()).build();
+        break;
       default:
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }

@@ -136,4 +136,27 @@ public class OperationTest extends TestCase {
     Assert.assertEquals(signer.getAddress(), operation.getSigner().getAddress());
     Assert.assertEquals(signerWeight, operation.getSignerWeight());
   }
+
+  public void testManagerOfferOperation() {
+    StellarKeypair source = StellarKeypair.random();
+    Asset selling = new AssetTypeNative();
+    Asset buying = new AssetTypeNative();
+    long amount = 1L;
+    float price = 1.1F;
+    long offerId = 1L;
+
+    ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying,
+        amount, price, offerId)
+        .setSourceAccount(source)
+        .build();
+
+    org.stellar.base.xdr.Operation xdr = operation.toXdr();
+    ManagerOfferOperation parsedOperation = (ManagerOfferOperation) ManagerOfferOperation.fromXdr(xdr);
+
+    Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
+    Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeNative);
+    Assert.assertEquals(amount, parsedOperation.getAmount());
+    Assert.assertEquals(price, parsedOperation.getPrice(), 0);
+    Assert.assertEquals(offerId, parsedOperation.getOfferId());
+  }
 }
