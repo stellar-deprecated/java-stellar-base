@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -14,7 +14,7 @@ import java.io.IOException;
 //      AccountID sourceAccount;
 //  
 //      // the fee the sourceAccount will pay
-//      int32 fee;
+//      uint32 fee;
 //  
 //      // sequence number to consume in the account
 //      SequenceNumber seqNum;
@@ -25,6 +25,14 @@ import java.io.IOException;
 //      Memo memo;
 //  
 //      Operation operations<100>;
+//  
+//      // reserved for future use
+//      union switch (int v)
+//      {
+//      case 0:
+//          void;
+//      }
+//      ext;
 //  };
 
 //  ===========================================================================
@@ -37,11 +45,11 @@ public class Transaction  {
   public void setsourceAccount(AccountID value) {
     this.sourceAccount = value;
   }
-  private Int32 fee;
-  public Int32 getfee() {
+  private Uint32 fee;
+  public Uint32 getfee() {
     return this.fee;
   }
-  public void setfee(Int32 value) {
+  public void setfee(Uint32 value) {
     this.fee = value;
   }
   private SequenceNumber seqNum;
@@ -72,9 +80,16 @@ public class Transaction  {
   public void setoperations(Operation[] value) {
     this.operations = value;
   }
+  private TransactionExt ext;
+  public TransactionExt getext() {
+    return this.ext;
+  }
+  public void setext(TransactionExt value) {
+    this.ext = value;
+  }
   public static void encode(XdrDataOutputStream stream, Transaction encodedTransaction) throws IOException{
     AccountID.encode(stream, encodedTransaction.sourceAccount);
-    Int32.encode(stream, encodedTransaction.fee);
+    Uint32.encode(stream, encodedTransaction.fee);
     SequenceNumber.encode(stream, encodedTransaction.seqNum);
     if (encodedTransaction.timeBounds != null) {
     stream.writeInt(1);
@@ -88,11 +103,12 @@ public class Transaction  {
     for (int i = 0; i < operationssize; i++) {
       Operation.encode(stream, encodedTransaction.operations[i]);
     }
+    TransactionExt.encode(stream, encodedTransaction.ext);
   }
   public static Transaction decode(XdrDataInputStream stream) throws IOException {
     Transaction decodedTransaction = new Transaction();
     decodedTransaction.sourceAccount = AccountID.decode(stream);
-    decodedTransaction.fee = Int32.decode(stream);
+    decodedTransaction.fee = Uint32.decode(stream);
     decodedTransaction.seqNum = SequenceNumber.decode(stream);
     int timeBoundsPresent = stream.readInt();
     if (timeBoundsPresent != 0) {
@@ -104,6 +120,34 @@ public class Transaction  {
     for (int i = 0; i < operationssize; i++) {
       decodedTransaction.operations[i] = Operation.decode(stream);
     }
+    decodedTransaction.ext = TransactionExt.decode(stream);
     return decodedTransaction;
+  }
+
+  public static class TransactionExt {
+    public TransactionExt () {}
+    Integer v;
+    public Integer getDiscriminant() {
+      return this.v;
+    }
+    public void setDiscriminant(Integer value) {
+      this.v = value;
+    }
+    public static void encode(XdrDataOutputStream stream, TransactionExt encodedTransactionExt) throws IOException {
+    stream.writeInt(encodedTransactionExt.getDiscriminant().intValue());
+    switch (encodedTransactionExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+    }
+    public static TransactionExt decode(XdrDataInputStream stream) throws IOException {
+      TransactionExt decodedTransactionExt = new TransactionExt();
+      switch (decodedTransactionExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+      return decodedTransactionExt;
+    }
+
   }
 }

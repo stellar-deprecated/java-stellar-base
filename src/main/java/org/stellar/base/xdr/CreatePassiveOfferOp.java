@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,28 +10,28 @@ import java.io.IOException;
 
 //  struct CreatePassiveOfferOp
 //  {
-//      Currency takerGets;
-//      Currency takerPays;
-//      int64 amount; // amount taker gets. if set to 0, delete the offer
-//      Price price;  // =takerPaysAmount/takerGetsAmount
+//      Asset selling;  // A
+//      Asset buying;   // B
+//      int64 amount;   // amount taker gets. if set to 0, delete the offer
+//      Price price;    // cost of A in terms of B
 //  };
 
 //  ===========================================================================
 public class CreatePassiveOfferOp  {
   public CreatePassiveOfferOp () {}
-  private Currency takerGets;
-  public Currency gettakerGets() {
-    return this.takerGets;
+  private Asset selling;
+  public Asset getselling() {
+    return this.selling;
   }
-  public void settakerGets(Currency value) {
-    this.takerGets = value;
+  public void setselling(Asset value) {
+    this.selling = value;
   }
-  private Currency takerPays;
-  public Currency gettakerPays() {
-    return this.takerPays;
+  private Asset buying;
+  public Asset getbuying() {
+    return this.buying;
   }
-  public void settakerPays(Currency value) {
-    this.takerPays = value;
+  public void setbuying(Asset value) {
+    this.buying = value;
   }
   private Int64 amount;
   public Int64 getamount() {
@@ -48,15 +48,15 @@ public class CreatePassiveOfferOp  {
     this.price = value;
   }
   public static void encode(XdrDataOutputStream stream, CreatePassiveOfferOp encodedCreatePassiveOfferOp) throws IOException{
-    Currency.encode(stream, encodedCreatePassiveOfferOp.takerGets);
-    Currency.encode(stream, encodedCreatePassiveOfferOp.takerPays);
+    Asset.encode(stream, encodedCreatePassiveOfferOp.selling);
+    Asset.encode(stream, encodedCreatePassiveOfferOp.buying);
     Int64.encode(stream, encodedCreatePassiveOfferOp.amount);
     Price.encode(stream, encodedCreatePassiveOfferOp.price);
   }
   public static CreatePassiveOfferOp decode(XdrDataInputStream stream) throws IOException {
     CreatePassiveOfferOp decodedCreatePassiveOfferOp = new CreatePassiveOfferOp();
-    decodedCreatePassiveOfferOp.takerGets = Currency.decode(stream);
-    decodedCreatePassiveOfferOp.takerPays = Currency.decode(stream);
+    decodedCreatePassiveOfferOp.selling = Asset.decode(stream);
+    decodedCreatePassiveOfferOp.buying = Asset.decode(stream);
     decodedCreatePassiveOfferOp.amount = Int64.decode(stream);
     decodedCreatePassiveOfferOp.price = Price.decode(stream);
     return decodedCreatePassiveOfferOp;

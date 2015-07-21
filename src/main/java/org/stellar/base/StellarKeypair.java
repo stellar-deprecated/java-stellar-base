@@ -13,6 +13,9 @@ import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
+import org.stellar.base.xdr.CryptoKeyType;
+import org.stellar.base.xdr.PublicKey;
+import org.stellar.base.xdr.Uint256;
 
 /**
  * Holds a Stellar keypair.
@@ -113,6 +116,19 @@ public class StellarKeypair {
 
   public byte[] getPublicKey() {
     return mPublicKey.getAbyte();
+  }
+
+  public PublicKey getXdrPublicKey() {
+    PublicKey publicKey = new PublicKey();
+    publicKey.setDiscriminant(CryptoKeyType.KEY_TYPE_ED25519);
+    Uint256 uint256 = new Uint256();
+    uint256.setuint256(getPublicKey());
+    publicKey.seted25519(uint256);
+    return publicKey;
+  }
+
+  public static StellarKeypair fromXdrPublicKey(PublicKey key) {
+    return StellarKeypair.fromPublicKey(key.geted25519().getuint256());
   }
 
   /**

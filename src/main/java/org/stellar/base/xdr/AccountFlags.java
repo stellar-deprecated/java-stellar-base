@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -14,7 +14,7 @@ import java.io.IOException;
 //      // if set, TrustLines are created with authorized set to "false"
 //      // requiring the issuer to set it for each TrustLine
 //      AUTH_REQUIRED_FLAG = 0x1,
-//      // if set, the authorized flag in TrustTines can be cleared
+//      // if set, the authorized flag in TrustLines can be cleared
 //      // otherwise, authorization cannot be revoked
 //      AUTH_REVOCABLE_FLAG = 0x2
 //  };

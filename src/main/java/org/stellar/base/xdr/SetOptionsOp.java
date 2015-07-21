@@ -1,7 +1,8 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
+
 
 import java.io.IOException;
 
@@ -10,14 +11,18 @@ import java.io.IOException;
 //  struct SetOptionsOp
 //  {
 //      AccountID* inflationDest; // sets the inflation destination
-//
+//  
 //      uint32* clearFlags; // which flags to clear
 //      uint32* setFlags;   // which flags to set
-//
-//      Thresholds* thresholds; // update the thresholds for the account
-//
+//  
+//      // account threshold manipulation
+//      uint32* masterWeight; // weight of the master account
+//      uint32* lowThreshold;
+//      uint32* medThreshold;
+//      uint32* highThreshold;
+//  
 //      string32* homeDomain; // sets the home domain
-//
+//  
 //      // Add, update or remove a signer for the account
 //      // signer is deleted if the weight is 0
 //      Signer* signer;
@@ -47,12 +52,33 @@ public class SetOptionsOp  {
   public void setsetFlags(Uint32 value) {
     this.setFlags = value;
   }
-  private Thresholds thresholds;
-  public Thresholds getthresholds() {
-    return this.thresholds;
+  private Uint32 masterWeight;
+  public Uint32 getmasterWeight() {
+    return this.masterWeight;
   }
-  public void setthresholds(Thresholds value) {
-    this.thresholds = value;
+  public void setmasterWeight(Uint32 value) {
+    this.masterWeight = value;
+  }
+  private Uint32 lowThreshold;
+  public Uint32 getlowThreshold() {
+    return this.lowThreshold;
+  }
+  public void setlowThreshold(Uint32 value) {
+    this.lowThreshold = value;
+  }
+  private Uint32 medThreshold;
+  public Uint32 getmedThreshold() {
+    return this.medThreshold;
+  }
+  public void setmedThreshold(Uint32 value) {
+    this.medThreshold = value;
+  }
+  private Uint32 highThreshold;
+  public Uint32 gethighThreshold() {
+    return this.highThreshold;
+  }
+  public void sethighThreshold(Uint32 value) {
+    this.highThreshold = value;
   }
   private String32 homeDomain;
   public String32 gethomeDomain() {
@@ -87,9 +113,27 @@ public class SetOptionsOp  {
     } else {
     stream.writeInt(0);
     }
-    if (encodedSetOptionsOp.thresholds != null) {
+    if (encodedSetOptionsOp.masterWeight != null) {
     stream.writeInt(1);
-    Thresholds.encode(stream, encodedSetOptionsOp.thresholds);
+    Uint32.encode(stream, encodedSetOptionsOp.masterWeight);
+    } else {
+    stream.writeInt(0);
+    }
+    if (encodedSetOptionsOp.lowThreshold != null) {
+    stream.writeInt(1);
+    Uint32.encode(stream, encodedSetOptionsOp.lowThreshold);
+    } else {
+    stream.writeInt(0);
+    }
+    if (encodedSetOptionsOp.medThreshold != null) {
+    stream.writeInt(1);
+    Uint32.encode(stream, encodedSetOptionsOp.medThreshold);
+    } else {
+    stream.writeInt(0);
+    }
+    if (encodedSetOptionsOp.highThreshold != null) {
+    stream.writeInt(1);
+    Uint32.encode(stream, encodedSetOptionsOp.highThreshold);
     } else {
     stream.writeInt(0);
     }
@@ -120,9 +164,21 @@ public class SetOptionsOp  {
     if (setFlagsPresent != 0) {
     decodedSetOptionsOp.setFlags = Uint32.decode(stream);
     }
-    int thresholdsPresent = stream.readInt();
-    if (thresholdsPresent != 0) {
-    decodedSetOptionsOp.thresholds = Thresholds.decode(stream);
+    int masterWeightPresent = stream.readInt();
+    if (masterWeightPresent != 0) {
+    decodedSetOptionsOp.masterWeight = Uint32.decode(stream);
+    }
+    int lowThresholdPresent = stream.readInt();
+    if (lowThresholdPresent != 0) {
+    decodedSetOptionsOp.lowThreshold = Uint32.decode(stream);
+    }
+    int medThresholdPresent = stream.readInt();
+    if (medThresholdPresent != 0) {
+    decodedSetOptionsOp.medThreshold = Uint32.decode(stream);
+    }
+    int highThresholdPresent = stream.readInt();
+    if (highThresholdPresent != 0) {
+    decodedSetOptionsOp.highThreshold = Uint32.decode(stream);
     }
     int homeDomainPresent = stream.readInt();
     if (homeDomainPresent != 0) {

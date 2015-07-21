@@ -29,7 +29,7 @@ public class CreateAccountOperation extends Operation {
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     CreateAccountOp op = new CreateAccountOp();
     AccountID destination = new AccountID();
-    destination.setAccountID(mDestination.getPublicKey());
+    destination.setAccountID(mDestination.getXdrPublicKey());
     op.setdestination(destination);
     Int64 startingBalance = new Int64();
     startingBalance.setint64(Long.valueOf(mStartingBalance));
@@ -52,7 +52,7 @@ public class CreateAccountOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(CreateAccountOp op) {
-      mDestination = StellarKeypair.fromPublicKey(op.getdestination().getAccountID());
+      mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
       mStartingBalance = op.getstartingBalance().getint64().longValue();
     }
 

@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,18 +10,18 @@ import java.io.IOException;
 
 //  struct Signer
 //  {
-//      uint256 pubKey;
+//      AccountID pubKey;
 //      uint32 weight; // really only need 1byte
 //  };
 
 //  ===========================================================================
 public class Signer  {
   public Signer () {}
-  private Uint256 pubKey;
-  public Uint256 getpubKey() {
+  private AccountID pubKey;
+  public AccountID getpubKey() {
     return this.pubKey;
   }
-  public void setpubKey(Uint256 value) {
+  public void setpubKey(AccountID value) {
     this.pubKey = value;
   }
   private Uint32 weight;
@@ -32,12 +32,12 @@ public class Signer  {
     this.weight = value;
   }
   public static void encode(XdrDataOutputStream stream, Signer encodedSigner) throws IOException{
-    Uint256.encode(stream, encodedSigner.pubKey);
+    AccountID.encode(stream, encodedSigner.pubKey);
     Uint32.encode(stream, encodedSigner.weight);
   }
   public static Signer decode(XdrDataInputStream stream) throws IOException {
     Signer decodedSigner = new Signer();
-    decodedSigner.pubKey = Uint256.decode(stream);
+    decodedSigner.pubKey = AccountID.decode(stream);
     decodedSigner.weight = Uint32.decode(stream);
     return decodedSigner;
   }

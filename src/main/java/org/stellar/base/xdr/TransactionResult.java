@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -21,6 +21,14 @@ import java.io.IOException;
 //          void;
 //      }
 //      result;
+//  
+//      // reserved for future use
+//      union switch (int v)
+//      {
+//      case 0:
+//          void;
+//      }
+//      ext;
 //  };
 
 //  ===========================================================================
@@ -40,14 +48,23 @@ public class TransactionResult  {
   public void setresult(TransactionResultResult value) {
     this.result = value;
   }
+  private TransactionResultExt ext;
+  public TransactionResultExt getext() {
+    return this.ext;
+  }
+  public void setext(TransactionResultExt value) {
+    this.ext = value;
+  }
   public static void encode(XdrDataOutputStream stream, TransactionResult encodedTransactionResult) throws IOException{
     Int64.encode(stream, encodedTransactionResult.feeCharged);
     TransactionResultResult.encode(stream, encodedTransactionResult.result);
+    TransactionResultExt.encode(stream, encodedTransactionResult.ext);
   }
   public static TransactionResult decode(XdrDataInputStream stream) throws IOException {
     TransactionResult decodedTransactionResult = new TransactionResult();
     decodedTransactionResult.feeCharged = Int64.decode(stream);
     decodedTransactionResult.result = TransactionResultResult.decode(stream);
+    decodedTransactionResult.ext = TransactionResultExt.decode(stream);
     return decodedTransactionResult;
   }
 
@@ -68,8 +85,8 @@ public class TransactionResult  {
       this.results = value;
     }
     public static void encode(XdrDataOutputStream stream, TransactionResultResult encodedTransactionResultResult) throws IOException {
-      stream.writeInt(encodedTransactionResultResult.getDiscriminant().getValue());
-      switch (encodedTransactionResultResult.getDiscriminant()) {
+    stream.writeInt(encodedTransactionResultResult.getDiscriminant().getValue());
+    switch (encodedTransactionResultResult.getDiscriminant()) {
     case txSUCCESS:
     case txFAILED:
     int resultssize = encodedTransactionResultResult.getresults().length;
@@ -97,6 +114,32 @@ public class TransactionResult  {
     break;
     }
       return decodedTransactionResultResult;
+    }
+
+  }
+  public static class TransactionResultExt {
+    public TransactionResultExt () {}
+    Integer v;
+    public Integer getDiscriminant() {
+      return this.v;
+    }
+    public void setDiscriminant(Integer value) {
+      this.v = value;
+    }
+    public static void encode(XdrDataOutputStream stream, TransactionResultExt encodedTransactionResultExt) throws IOException {
+    stream.writeInt(encodedTransactionResultExt.getDiscriminant().intValue());
+    switch (encodedTransactionResultExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+    }
+    public static TransactionResultExt decode(XdrDataInputStream stream) throws IOException {
+      TransactionResultExt decodedTransactionResultExt = new TransactionResultExt();
+      switch (decodedTransactionResultExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+      return decodedTransactionResultExt;
     }
 
   }

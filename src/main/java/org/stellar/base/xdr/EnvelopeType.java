@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -8,20 +8,20 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  enum CurrencyType
+//  enum EnvelopeType
 //  {
-//      CURRENCY_TYPE_NATIVE = 0,
-//      CURRENCY_TYPE_ALPHANUM = 1
+//      ENVELOPE_TYPE_SCP = 1,
+//      ENVELOPE_TYPE_TX = 2
 //  };
 
 //  ===========================================================================
-public enum CurrencyType  {
-  CURRENCY_TYPE_NATIVE(0),
-  CURRENCY_TYPE_ALPHANUM(1),
+public enum EnvelopeType  {
+  ENVELOPE_TYPE_SCP(1),
+  ENVELOPE_TYPE_TX(2),
   ;
   private int mValue;
 
-  CurrencyType(int value) {
+  EnvelopeType(int value) {
       mValue = value;
   }
 
@@ -29,17 +29,17 @@ public enum CurrencyType  {
       return mValue;
   }
 
-  static CurrencyType decode(XdrDataInputStream stream) throws IOException {
+  static EnvelopeType decode(XdrDataInputStream stream) throws IOException {
     int value = stream.readInt();
     switch (value) {
-      case 0: return CURRENCY_TYPE_NATIVE;
-      case 1: return CURRENCY_TYPE_ALPHANUM;
+      case 1: return ENVELOPE_TYPE_SCP;
+      case 2: return ENVELOPE_TYPE_TX;
       default:
         throw new RuntimeException("Unknown enum value: " + value);
     }
   }
 
-  static void encode(XdrDataOutputStream stream, CurrencyType value) throws IOException {
+  static void encode(XdrDataOutputStream stream, EnvelopeType value) throws IOException {
     stream.writeInt(value.getValue());
   }
 }

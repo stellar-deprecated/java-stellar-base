@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -12,10 +12,8 @@ import java.io.IOException;
 //  {
 //  case ACCOUNT:
 //      AccountEntry account;
-//  
 //  case TRUSTLINE:
 //      TrustLineEntry trustLine;
-//  
 //  case OFFER:
 //      OfferEntry offer;
 //  };
@@ -52,8 +50,8 @@ public class LedgerEntry  {
     this.offer = value;
   }
   public static void encode(XdrDataOutputStream stream, LedgerEntry encodedLedgerEntry) throws IOException {
-    stream.writeInt(encodedLedgerEntry.getDiscriminant().getValue());
-    switch (encodedLedgerEntry.getDiscriminant()) {
+  stream.writeInt(encodedLedgerEntry.getDiscriminant().getValue());
+  switch (encodedLedgerEntry.getDiscriminant()) {
   case ACCOUNT:
   AccountEntry.encode(stream, encodedLedgerEntry.account);
   break;

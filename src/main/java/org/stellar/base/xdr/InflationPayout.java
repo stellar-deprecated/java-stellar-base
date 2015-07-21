@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -8,7 +8,7 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  struct inflationPayout // or use PaymentResultAtom to limit types?
+//  struct InflationPayout // or use PaymentResultAtom to limit types?
 //  {
 //      AccountID destination;
 //      int64 amount;

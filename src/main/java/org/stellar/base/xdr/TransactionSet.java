@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -11,7 +11,7 @@ import java.io.IOException;
 //  struct TransactionSet
 //  {
 //      Hash previousLedgerHash;
-//      TransactionEnvelope txs<5000>;
+//      TransactionEnvelope txs<MAX_TX_PER_LEDGER>;
 //  };
 
 //  ===========================================================================

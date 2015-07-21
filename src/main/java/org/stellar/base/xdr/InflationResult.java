@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -11,7 +11,7 @@ import java.io.IOException;
 //  union InflationResult switch (InflationResultCode code)
 //  {
 //  case INFLATION_SUCCESS:
-//      inflationPayout payouts<>;
+//      InflationPayout payouts<>;
 //  default:
 //      void;
 //  };
@@ -34,8 +34,8 @@ public class InflationResult  {
     this.payouts = value;
   }
   public static void encode(XdrDataOutputStream stream, InflationResult encodedInflationResult) throws IOException {
-    stream.writeInt(encodedInflationResult.getDiscriminant().getValue());
-    switch (encodedInflationResult.getDiscriminant()) {
+  stream.writeInt(encodedInflationResult.getDiscriminant().getValue());
+  switch (encodedInflationResult.getDiscriminant()) {
   case INFLATION_SUCCESS:
   int payoutssize = encodedInflationResult.getpayouts().length;
   stream.writeInt(payoutssize);

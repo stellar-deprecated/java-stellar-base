@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -8,26 +8,23 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  typedef opaque AccountID[32];
+//  typedef PublicKey AccountID;
 
 //  ===========================================================================
 public class AccountID  {
-  private byte[] AccountID;
-  public byte[] getAccountID() {
+  private PublicKey AccountID;
+  public PublicKey getAccountID() {
     return this.AccountID;
   }
-  public void setAccountID(byte[] value) {
+  public void setAccountID(PublicKey value) {
     this.AccountID = value;
   }
   public static void encode(XdrDataOutputStream stream, AccountID  encodedAccountID) throws IOException {
-  int AccountIDsize = encodedAccountID.AccountID.length;
-  stream.write(encodedAccountID.getAccountID(), 0, AccountIDsize);
+  PublicKey.encode(stream, encodedAccountID.AccountID);
   }
   public static AccountID decode(XdrDataInputStream stream) throws IOException {
     AccountID decodedAccountID = new AccountID();
-  int AccountIDsize = 32;
-  decodedAccountID.AccountID = new byte[AccountIDsize];
-  stream.read(decodedAccountID.AccountID, 0, AccountIDsize);
+  decodedAccountID.AccountID = PublicKey.decode(stream);
     return decodedAccountID;
   }
 }

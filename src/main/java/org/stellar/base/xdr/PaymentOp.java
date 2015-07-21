@@ -1,7 +1,8 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
+
 
 import java.io.IOException;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 //  struct PaymentOp
 //  {
 //      AccountID destination; // recipient of the payment
-//      Currency currency;     // what they end up with
+//      Asset asset;     // what they end up with
 //      int64 amount;          // amount they end up with
 //  };
 
@@ -24,12 +25,12 @@ public class PaymentOp  {
   public void setdestination(AccountID value) {
     this.destination = value;
   }
-  private Currency currency;
-  public Currency getcurrency() {
-    return this.currency;
+  private Asset asset;
+  public Asset getasset() {
+    return this.asset;
   }
-  public void setcurrency(Currency value) {
-    this.currency = value;
+  public void setasset(Asset value) {
+    this.asset = value;
   }
   private Int64 amount;
   public Int64 getamount() {
@@ -40,13 +41,13 @@ public class PaymentOp  {
   }
   public static void encode(XdrDataOutputStream stream, PaymentOp encodedPaymentOp) throws IOException{
     AccountID.encode(stream, encodedPaymentOp.destination);
-    Currency.encode(stream, encodedPaymentOp.currency);
+    Asset.encode(stream, encodedPaymentOp.asset);
     Int64.encode(stream, encodedPaymentOp.amount);
   }
   public static PaymentOp decode(XdrDataInputStream stream) throws IOException {
     PaymentOp decodedPaymentOp = new PaymentOp();
     decodedPaymentOp.destination = AccountID.decode(stream);
-    decodedPaymentOp.currency = Currency.decode(stream);
+    decodedPaymentOp.asset = Asset.decode(stream);
     decodedPaymentOp.amount = Int64.decode(stream);
     return decodedPaymentOp;
   }

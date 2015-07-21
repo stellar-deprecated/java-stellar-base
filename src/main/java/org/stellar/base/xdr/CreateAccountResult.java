@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -27,8 +27,8 @@ public class CreateAccountResult  {
     this.code = value;
   }
   public static void encode(XdrDataOutputStream stream, CreateAccountResult encodedCreateAccountResult) throws IOException {
-    stream.writeInt(encodedCreateAccountResult.getDiscriminant().getValue());
-    switch (encodedCreateAccountResult.getDiscriminant()) {
+  stream.writeInt(encodedCreateAccountResult.getDiscriminant().getValue());
+  switch (encodedCreateAccountResult.getDiscriminant()) {
   case CREATE_ACCOUNT_SUCCESS:
   break;
   default:

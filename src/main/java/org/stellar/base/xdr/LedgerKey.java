@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -20,13 +20,13 @@ import java.io.IOException;
 //      struct
 //      {
 //          AccountID accountID;
-//          Currency currency;
+//          Asset asset;
 //      } trustLine;
 //  
 //  case OFFER:
 //      struct
 //      {
-//          AccountID accountID;
+//          AccountID sellerID;
 //          uint64 offerID;
 //      } offer;
 //  };
@@ -63,8 +63,8 @@ public class LedgerKey  {
     this.offer = value;
   }
   public static void encode(XdrDataOutputStream stream, LedgerKey encodedLedgerKey) throws IOException {
-    stream.writeInt(encodedLedgerKey.getDiscriminant().getValue());
-    switch (encodedLedgerKey.getDiscriminant()) {
+  stream.writeInt(encodedLedgerKey.getDiscriminant().getValue());
+  switch (encodedLedgerKey.getDiscriminant()) {
   case ACCOUNT:
   LedgerKeyAccount.encode(stream, encodedLedgerKey.account);
   break;
@@ -120,33 +120,33 @@ public class LedgerKey  {
     public void setaccountID(AccountID value) {
       this.accountID = value;
     }
-    private Currency currency;
-    public Currency getcurrency() {
-      return this.currency;
+    private Asset asset;
+    public Asset getasset() {
+      return this.asset;
     }
-    public void setcurrency(Currency value) {
-      this.currency = value;
+    public void setasset(Asset value) {
+      this.asset = value;
     }
     public static void encode(XdrDataOutputStream stream, LedgerKeyTrustLine encodedLedgerKeyTrustLine) throws IOException{
       AccountID.encode(stream, encodedLedgerKeyTrustLine.accountID);
-      Currency.encode(stream, encodedLedgerKeyTrustLine.currency);
+      Asset.encode(stream, encodedLedgerKeyTrustLine.asset);
     }
     public static LedgerKeyTrustLine decode(XdrDataInputStream stream) throws IOException {
       LedgerKeyTrustLine decodedLedgerKeyTrustLine = new LedgerKeyTrustLine();
       decodedLedgerKeyTrustLine.accountID = AccountID.decode(stream);
-      decodedLedgerKeyTrustLine.currency = Currency.decode(stream);
+      decodedLedgerKeyTrustLine.asset = Asset.decode(stream);
       return decodedLedgerKeyTrustLine;
     }
 
   }
   public static class LedgerKeyOffer {
     public LedgerKeyOffer () {}
-    private AccountID accountID;
-    public AccountID getaccountID() {
-      return this.accountID;
+    private AccountID sellerID;
+    public AccountID getsellerID() {
+      return this.sellerID;
     }
-    public void setaccountID(AccountID value) {
-      this.accountID = value;
+    public void setsellerID(AccountID value) {
+      this.sellerID = value;
     }
     private Uint64 offerID;
     public Uint64 getofferID() {
@@ -156,12 +156,12 @@ public class LedgerKey  {
       this.offerID = value;
     }
     public static void encode(XdrDataOutputStream stream, LedgerKeyOffer encodedLedgerKeyOffer) throws IOException{
-      AccountID.encode(stream, encodedLedgerKeyOffer.accountID);
+      AccountID.encode(stream, encodedLedgerKeyOffer.sellerID);
       Uint64.encode(stream, encodedLedgerKeyOffer.offerID);
     }
     public static LedgerKeyOffer decode(XdrDataInputStream stream) throws IOException {
       LedgerKeyOffer decodedLedgerKeyOffer = new LedgerKeyOffer();
-      decodedLedgerKeyOffer.accountID = AccountID.decode(stream);
+      decodedLedgerKeyOffer.sellerID = AccountID.decode(stream);
       decodedLedgerKeyOffer.offerID = Uint64.decode(stream);
       return decodedLedgerKeyOffer;
     }

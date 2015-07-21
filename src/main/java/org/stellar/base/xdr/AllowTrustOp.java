@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -11,15 +11,18 @@ import java.io.IOException;
 //  struct AllowTrustOp
 //  {
 //      AccountID trustor;
-//      union switch (CurrencyType type)
+//      union switch (AssetType type)
 //      {
-//      // CURRENCY_TYPE_NATIVE is not allowed
-//      case CURRENCY_TYPE_ALPHANUM:
-//          opaque currencyCode[4];
+//      // ASSET_TYPE_NATIVE is not allowed
+//      case ASSET_TYPE_CREDIT_ALPHANUM4:
+//          opaque assetCode4[4];
 //  
-//          // add other currency types here in the future
+//  	case ASSET_TYPE_CREDIT_ALPHANUM12:
+//          opaque assetCode12[12];
+//  
+//          // add other asset types here in the future
 //      }
-//      currency;
+//      asset;
 //  
 //      bool authorize;
 //  };
@@ -34,12 +37,12 @@ public class AllowTrustOp  {
   public void settrustor(AccountID value) {
     this.trustor = value;
   }
-  private AllowTrustOpCurrency currency;
-  public AllowTrustOpCurrency getcurrency() {
-    return this.currency;
+  private AllowTrustOpAsset asset;
+  public AllowTrustOpAsset getasset() {
+    return this.asset;
   }
-  public void setcurrency(AllowTrustOpCurrency value) {
-    this.currency = value;
+  public void setasset(AllowTrustOpAsset value) {
+    this.asset = value;
   }
   private Boolean authorize;
   public Boolean getauthorize() {
@@ -50,52 +53,68 @@ public class AllowTrustOp  {
   }
   public static void encode(XdrDataOutputStream stream, AllowTrustOp encodedAllowTrustOp) throws IOException{
     AccountID.encode(stream, encodedAllowTrustOp.trustor);
-    AllowTrustOpCurrency.encode(stream, encodedAllowTrustOp.currency);
+    AllowTrustOpAsset.encode(stream, encodedAllowTrustOp.asset);
     stream.writeBoolean(encodedAllowTrustOp.authorize);
   }
   public static AllowTrustOp decode(XdrDataInputStream stream) throws IOException {
     AllowTrustOp decodedAllowTrustOp = new AllowTrustOp();
     decodedAllowTrustOp.trustor = AccountID.decode(stream);
-    decodedAllowTrustOp.currency = AllowTrustOpCurrency.decode(stream);
+    decodedAllowTrustOp.asset = AllowTrustOpAsset.decode(stream);
     decodedAllowTrustOp.authorize = stream.readBoolean();
     return decodedAllowTrustOp;
   }
 
-  public static class AllowTrustOpCurrency {
-    public AllowTrustOpCurrency () {}
-    CurrencyType type;
-    public CurrencyType getDiscriminant() {
+  public static class AllowTrustOpAsset {
+    public AllowTrustOpAsset () {}
+    AssetType type;
+    public AssetType getDiscriminant() {
       return this.type;
     }
-    public void setDiscriminant(CurrencyType value) {
+    public void setDiscriminant(AssetType value) {
       this.type = value;
     }
-    private byte[] currencyCode;
-    public byte[] getcurrencyCode() {
-      return this.currencyCode;
+    private byte[] assetCode4;
+    public byte[] getassetCode4() {
+      return this.assetCode4;
     }
-    public void setcurrencyCode(byte[] value) {
-      this.currencyCode = value;
+    public void setassetCode4(byte[] value) {
+      this.assetCode4 = value;
     }
-    public static void encode(XdrDataOutputStream stream, AllowTrustOpCurrency encodedAllowTrustOpCurrency) throws IOException {
-      stream.writeInt(encodedAllowTrustOpCurrency.getDiscriminant().getValue());
-      switch (encodedAllowTrustOpCurrency.getDiscriminant()) {
-    case CURRENCY_TYPE_ALPHANUM:
-    int currencyCodesize = encodedAllowTrustOpCurrency.currencyCode.length;
-    stream.write(encodedAllowTrustOpCurrency.getcurrencyCode(), 0, currencyCodesize);
+    private byte[] assetCode12;
+    public byte[] getassetCode12() {
+      return this.assetCode12;
+    }
+    public void setassetCode12(byte[] value) {
+      this.assetCode12 = value;
+    }
+    public static void encode(XdrDataOutputStream stream, AllowTrustOpAsset encodedAllowTrustOpAsset) throws IOException {
+    stream.writeInt(encodedAllowTrustOpAsset.getDiscriminant().getValue());
+    switch (encodedAllowTrustOpAsset.getDiscriminant()) {
+    case ASSET_TYPE_CREDIT_ALPHANUM4:
+    int assetCode4size = encodedAllowTrustOpAsset.assetCode4.length;
+    stream.write(encodedAllowTrustOpAsset.getassetCode4(), 0, assetCode4size);
+    break;
+    case ASSET_TYPE_CREDIT_ALPHANUM12:
+    int assetCode12size = encodedAllowTrustOpAsset.assetCode12.length;
+    stream.write(encodedAllowTrustOpAsset.getassetCode12(), 0, assetCode12size);
     break;
     }
     }
-    public static AllowTrustOpCurrency decode(XdrDataInputStream stream) throws IOException {
-      AllowTrustOpCurrency decodedAllowTrustOpCurrency = new AllowTrustOpCurrency();
-      switch (decodedAllowTrustOpCurrency.getDiscriminant()) {
-    case CURRENCY_TYPE_ALPHANUM:
-    int currencyCodesize = 4;
-    decodedAllowTrustOpCurrency.currencyCode = new byte[currencyCodesize];
-    stream.read(decodedAllowTrustOpCurrency.currencyCode, 0, currencyCodesize);
+    public static AllowTrustOpAsset decode(XdrDataInputStream stream) throws IOException {
+      AllowTrustOpAsset decodedAllowTrustOpAsset = new AllowTrustOpAsset();
+      switch (decodedAllowTrustOpAsset.getDiscriminant()) {
+    case ASSET_TYPE_CREDIT_ALPHANUM4:
+    int assetCode4size = 4;
+    decodedAllowTrustOpAsset.assetCode4 = new byte[assetCode4size];
+    stream.read(decodedAllowTrustOpAsset.assetCode4, 0, assetCode4size);
+    break;
+    case ASSET_TYPE_CREDIT_ALPHANUM12:
+    int assetCode12size = 12;
+    decodedAllowTrustOpAsset.assetCode12 = new byte[assetCode12size];
+    stream.read(decodedAllowTrustOpAsset.assetCode12, 0, assetCode12size);
     break;
     }
-      return decodedAllowTrustOpCurrency;
+      return decodedAllowTrustOpAsset;
     }
 
   }

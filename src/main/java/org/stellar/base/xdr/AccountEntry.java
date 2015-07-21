@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -18,13 +18,21 @@ import java.io.IOException;
 //      AccountID* inflationDest; // Account to vote during inflation
 //      uint32 flags;             // see AccountFlags
 //  
+//      string32 homeDomain; // can be used for reverse federation and memo lookup
+//  
 //      // fields used for signatures
 //      // thresholds stores unsigned bytes: [weight of master|low|medium|high]
 //      Thresholds thresholds;
 //  
-//      string32 homeDomain; // can be used for reverse federation and memo lookup
-//  
 //      Signer signers<20>; // possible signers for this account
+//  
+//      // reserved for future use
+//      union switch (int v)
+//      {
+//      case 0:
+//          void;
+//      }
+//      ext;
 //  };
 
 //  ===========================================================================
@@ -72,13 +80,6 @@ public class AccountEntry  {
   public void setflags(Uint32 value) {
     this.flags = value;
   }
-  private Thresholds thresholds;
-  public Thresholds getthresholds() {
-    return this.thresholds;
-  }
-  public void setthresholds(Thresholds value) {
-    this.thresholds = value;
-  }
   private String32 homeDomain;
   public String32 gethomeDomain() {
     return this.homeDomain;
@@ -86,12 +87,26 @@ public class AccountEntry  {
   public void sethomeDomain(String32 value) {
     this.homeDomain = value;
   }
+  private Thresholds thresholds;
+  public Thresholds getthresholds() {
+    return this.thresholds;
+  }
+  public void setthresholds(Thresholds value) {
+    this.thresholds = value;
+  }
   private Signer[] signers;
   public Signer[] getsigners() {
     return this.signers;
   }
   public void setsigners(Signer[] value) {
     this.signers = value;
+  }
+  private AccountEntryExt ext;
+  public AccountEntryExt getext() {
+    return this.ext;
+  }
+  public void setext(AccountEntryExt value) {
+    this.ext = value;
   }
   public static void encode(XdrDataOutputStream stream, AccountEntry encodedAccountEntry) throws IOException{
     AccountID.encode(stream, encodedAccountEntry.accountID);
@@ -105,13 +120,14 @@ public class AccountEntry  {
     stream.writeInt(0);
     }
     Uint32.encode(stream, encodedAccountEntry.flags);
-    Thresholds.encode(stream, encodedAccountEntry.thresholds);
     String32.encode(stream, encodedAccountEntry.homeDomain);
+    Thresholds.encode(stream, encodedAccountEntry.thresholds);
     int signerssize = encodedAccountEntry.getsigners().length;
     stream.writeInt(signerssize);
     for (int i = 0; i < signerssize; i++) {
       Signer.encode(stream, encodedAccountEntry.signers[i]);
     }
+    AccountEntryExt.encode(stream, encodedAccountEntry.ext);
   }
   public static AccountEntry decode(XdrDataInputStream stream) throws IOException {
     AccountEntry decodedAccountEntry = new AccountEntry();
@@ -124,13 +140,41 @@ public class AccountEntry  {
     decodedAccountEntry.inflationDest = AccountID.decode(stream);
     }
     decodedAccountEntry.flags = Uint32.decode(stream);
-    decodedAccountEntry.thresholds = Thresholds.decode(stream);
     decodedAccountEntry.homeDomain = String32.decode(stream);
+    decodedAccountEntry.thresholds = Thresholds.decode(stream);
     int signerssize = stream.readInt();
     decodedAccountEntry.signers = new Signer[signerssize];
     for (int i = 0; i < signerssize; i++) {
       decodedAccountEntry.signers[i] = Signer.decode(stream);
     }
+    decodedAccountEntry.ext = AccountEntryExt.decode(stream);
     return decodedAccountEntry;
+  }
+
+  public static class AccountEntryExt {
+    public AccountEntryExt () {}
+    Integer v;
+    public Integer getDiscriminant() {
+      return this.v;
+    }
+    public void setDiscriminant(Integer value) {
+      this.v = value;
+    }
+    public static void encode(XdrDataOutputStream stream, AccountEntryExt encodedAccountEntryExt) throws IOException {
+    stream.writeInt(encodedAccountEntryExt.getDiscriminant().intValue());
+    switch (encodedAccountEntryExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+    }
+    public static AccountEntryExt decode(XdrDataInputStream stream) throws IOException {
+      AccountEntryExt decodedAccountEntryExt = new AccountEntryExt();
+      switch (decodedAccountEntryExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+      return decodedAccountEntryExt;
+    }
+
   }
 }

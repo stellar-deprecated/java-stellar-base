@@ -7,25 +7,25 @@ import org.stellar.base.xdr.PathPaymentOp;
 
 public class PathPaymentOperation extends Operation {
 
-  private final Currency mSendCurrency;
+  private final Asset mSendAsset;
   private final long mSendMax;
   private final StellarKeypair mDestination;
-  private final Currency mDestCurrency;
+  private final Asset mDestAsset;
   private final long mDestAmount;
-  private final Currency[] mPath;
+  private final Asset[] mPath;
 
-  private PathPaymentOperation(Currency sendCurrency, long sendMax, StellarKeypair destination,
-      Currency destCurrency, long destAmount, Currency[] path) {
-    mSendCurrency = sendCurrency;
+  private PathPaymentOperation(Asset sendAsset, long sendMax, StellarKeypair destination,
+      Asset destAsset, long destAmount, Asset[] path) {
+    mSendAsset = sendAsset;
     mSendMax = sendMax;
     mDestination = destination;
-    mDestCurrency = destCurrency;
+    mDestAsset = destAsset;
     mDestAmount = destAmount;
     mPath = path;
   }
 
-  public Currency getSendCurrency() {
-    return mSendCurrency;
+  public Asset getSendCurrency() {
+    return mSendAsset;
   }
 
   public long getSendMax() {
@@ -36,33 +36,33 @@ public class PathPaymentOperation extends Operation {
     return mDestination;
   }
 
-  public Currency getDestCurrency() {
-    return mDestCurrency;
+  public Asset getDestCurrency() {
+    return mDestAsset;
   }
 
   public long getDestAmount() {
     return mDestAmount;
   }
 
-  public Currency[] getPath() {
+  public Asset[] getPath() {
     return mPath;
   }
 
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     PathPaymentOp op = new PathPaymentOp();
-    op.setsendCurrency(mSendCurrency.toXdr());
+    op.setsendAsset(mSendAsset.toXdr());
     Int64 sendMax = new Int64();
     sendMax.setint64(mSendMax);
     op.setsendMax(sendMax);
     AccountID destination = new AccountID();
-    destination.setAccountID(mDestination.getPublicKey());
+    destination.setAccountID(mDestination.getXdrPublicKey());
     op.setdestination(destination);
-    op.setdestCurrency(mDestCurrency.toXdr());
+    op.setdestAsset(mDestAsset.toXdr());
     Int64 destAmount = new Int64();
     destAmount.setint64(mDestAmount);
     op.setdestAmount(destAmount);
-    org.stellar.base.xdr.Currency[] path = new org.stellar.base.xdr.Currency[mPath.length];
+    org.stellar.base.xdr.Asset[] path = new org.stellar.base.xdr.Asset[mPath.length];
     for (int i = 0; i < mPath.length; i++) {
       path[i] = mPath[i].toXdr();
     }
@@ -75,33 +75,33 @@ public class PathPaymentOperation extends Operation {
   }
 
   public static class Builder {
-    private final Currency mSendCurrency;
+    private final Asset mSendAsset;
     private final long mSendMax;
     private final StellarKeypair mDestination;
-    private final Currency mDestCurrency;
+    private final Asset mDestAsset;
     private final long mDestAmount;
-    private final Currency[] mPath;
+    private final Asset[] mPath;
 
     private StellarKeypair mSourceAccount;
 
     Builder(PathPaymentOp op) {
-      mSendCurrency = Currency.fromXdr(op.getsendCurrency());
+      mSendAsset = Asset.fromXdr(op.getsendAsset());
       mSendMax = op.getsendMax().getint64();
-      mDestination = StellarKeypair.fromPublicKey(op.getdestination().getAccountID());
-      mDestCurrency = Currency.fromXdr(op.getdestCurrency());
+      mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
+      mDestAsset = Asset.fromXdr(op.getdestAsset());
       mDestAmount = op.getdestAmount().getint64();
-      mPath = new Currency[op.getpath().length];
+      mPath = new Asset[op.getpath().length];
       for (int i = 0; i < op.getpath().length; i++) {
-        mPath[i] = Currency.fromXdr(op.getpath()[i]);
+        mPath[i] = Asset.fromXdr(op.getpath()[i]);
       }
     }
 
-    public Builder(Currency sendCurrency, long sendMax, StellarKeypair destination,
-        Currency destCurrency, long destAmount, Currency[] path) {
-      mSendCurrency = sendCurrency;
+    public Builder(Asset sendAsset, long sendMax, StellarKeypair destination,
+        Asset destAsset, long destAmount, Asset[] path) {
+      mSendAsset = sendAsset;
       mSendMax = sendMax;
       mDestination = destination;
-      mDestCurrency = destCurrency;
+      mDestAsset = destAsset;
       mDestAmount = destAmount;
       mPath = path;
     }
@@ -112,8 +112,8 @@ public class PathPaymentOperation extends Operation {
     }
 
     public PathPaymentOperation build() {
-      PathPaymentOperation operation = new PathPaymentOperation(mSendCurrency, mSendMax, mDestination,
-          mDestCurrency, mDestAmount, mPath);
+      PathPaymentOperation operation = new PathPaymentOperation(mSendAsset, mSendMax, mDestination,
+          mDestAsset, mDestAmount, mPath);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

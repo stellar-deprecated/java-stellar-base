@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -11,7 +11,7 @@ import java.io.IOException;
 //  struct Operation
 //  {
 //      // sourceAccount is the account used to run the operation
-//      // if not set, the runtime defaults to "account" specified at
+//      // if not set, the runtime defaults to "sourceAccount" specified at
 //      // the transaction level
 //      AccountID* sourceAccount;
 //  
@@ -150,8 +150,8 @@ public class Operation  {
       this.destination = value;
     }
     public static void encode(XdrDataOutputStream stream, OperationBody encodedOperationBody) throws IOException {
-      stream.writeInt(encodedOperationBody.getDiscriminant().getValue());
-      switch (encodedOperationBody.getDiscriminant()) {
+    stream.writeInt(encodedOperationBody.getDiscriminant().getValue());
+    switch (encodedOperationBody.getDiscriminant()) {
     case CREATE_ACCOUNT:
     CreateAccountOp.encode(stream, encodedOperationBody.createAccountOp);
     break;

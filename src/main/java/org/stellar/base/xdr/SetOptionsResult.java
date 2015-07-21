@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -27,8 +27,8 @@ public class SetOptionsResult  {
     this.code = value;
   }
   public static void encode(XdrDataOutputStream stream, SetOptionsResult encodedSetOptionsResult) throws IOException {
-    stream.writeInt(encodedSetOptionsResult.getDiscriminant().getValue());
-    switch (encodedSetOptionsResult.getDiscriminant()) {
+  stream.writeInt(encodedSetOptionsResult.getDiscriminant().getValue());
+  switch (encodedSetOptionsResult.getDiscriminant()) {
   case SET_OPTIONS_SUCCESS:
   break;
   default:

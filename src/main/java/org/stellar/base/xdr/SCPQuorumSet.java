@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -11,7 +11,7 @@ import java.io.IOException;
 //  struct SCPQuorumSet
 //  {
 //      uint32 threshold;
-//      Hash validators<>;
+//      PublicKey validators<>;
 //      SCPQuorumSet innerSets<>;
 //  };
 
@@ -25,11 +25,11 @@ public class SCPQuorumSet  {
   public void setthreshold(Uint32 value) {
     this.threshold = value;
   }
-  private Hash[] validators;
-  public Hash[] getvalidators() {
+  private PublicKey[] validators;
+  public PublicKey[] getvalidators() {
     return this.validators;
   }
-  public void setvalidators(Hash[] value) {
+  public void setvalidators(PublicKey[] value) {
     this.validators = value;
   }
   private SCPQuorumSet[] innerSets;
@@ -44,7 +44,7 @@ public class SCPQuorumSet  {
     int validatorssize = encodedSCPQuorumSet.getvalidators().length;
     stream.writeInt(validatorssize);
     for (int i = 0; i < validatorssize; i++) {
-      Hash.encode(stream, encodedSCPQuorumSet.validators[i]);
+      PublicKey.encode(stream, encodedSCPQuorumSet.validators[i]);
     }
     int innerSetssize = encodedSCPQuorumSet.getinnerSets().length;
     stream.writeInt(innerSetssize);
@@ -56,9 +56,9 @@ public class SCPQuorumSet  {
     SCPQuorumSet decodedSCPQuorumSet = new SCPQuorumSet();
     decodedSCPQuorumSet.threshold = Uint32.decode(stream);
     int validatorssize = stream.readInt();
-    decodedSCPQuorumSet.validators = new Hash[validatorssize];
+    decodedSCPQuorumSet.validators = new PublicKey[validatorssize];
     for (int i = 0; i < validatorssize; i++) {
-      decodedSCPQuorumSet.validators[i] = Hash.decode(stream);
+      decodedSCPQuorumSet.validators[i] = PublicKey.decode(stream);
     }
     int innerSetssize = stream.readInt();
     decodedSCPQuorumSet.innerSets = new SCPQuorumSet[innerSetssize];

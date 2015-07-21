@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -14,12 +14,12 @@ import java.io.IOException;
 //      AccountID offerOwner; // Account that owns the offer
 //      uint64 offerID;
 //  
-//      // amount and currency taken from the owner
-//      Currency currencyClaimed;
+//      // amount and asset taken from the owner
+//      Asset assetClaimed;
 //      int64 amountClaimed;
 //  
-//      // amount and currencysent to the owner
-//      Currency currencySend;
+//      // amount and assetsent to the owner
+//      Asset assetSend;
 //      int64 amountSend;
 //  };
 
@@ -40,12 +40,12 @@ public class ClaimOfferAtom  {
   public void setofferID(Uint64 value) {
     this.offerID = value;
   }
-  private Currency currencyClaimed;
-  public Currency getcurrencyClaimed() {
-    return this.currencyClaimed;
+  private Asset assetClaimed;
+  public Asset getassetClaimed() {
+    return this.assetClaimed;
   }
-  public void setcurrencyClaimed(Currency value) {
-    this.currencyClaimed = value;
+  public void setassetClaimed(Asset value) {
+    this.assetClaimed = value;
   }
   private Int64 amountClaimed;
   public Int64 getamountClaimed() {
@@ -54,12 +54,12 @@ public class ClaimOfferAtom  {
   public void setamountClaimed(Int64 value) {
     this.amountClaimed = value;
   }
-  private Currency currencySend;
-  public Currency getcurrencySend() {
-    return this.currencySend;
+  private Asset assetSend;
+  public Asset getassetSend() {
+    return this.assetSend;
   }
-  public void setcurrencySend(Currency value) {
-    this.currencySend = value;
+  public void setassetSend(Asset value) {
+    this.assetSend = value;
   }
   private Int64 amountSend;
   public Int64 getamountSend() {
@@ -71,18 +71,18 @@ public class ClaimOfferAtom  {
   public static void encode(XdrDataOutputStream stream, ClaimOfferAtom encodedClaimOfferAtom) throws IOException{
     AccountID.encode(stream, encodedClaimOfferAtom.offerOwner);
     Uint64.encode(stream, encodedClaimOfferAtom.offerID);
-    Currency.encode(stream, encodedClaimOfferAtom.currencyClaimed);
+    Asset.encode(stream, encodedClaimOfferAtom.assetClaimed);
     Int64.encode(stream, encodedClaimOfferAtom.amountClaimed);
-    Currency.encode(stream, encodedClaimOfferAtom.currencySend);
+    Asset.encode(stream, encodedClaimOfferAtom.assetSend);
     Int64.encode(stream, encodedClaimOfferAtom.amountSend);
   }
   public static ClaimOfferAtom decode(XdrDataInputStream stream) throws IOException {
     ClaimOfferAtom decodedClaimOfferAtom = new ClaimOfferAtom();
     decodedClaimOfferAtom.offerOwner = AccountID.decode(stream);
     decodedClaimOfferAtom.offerID = Uint64.decode(stream);
-    decodedClaimOfferAtom.currencyClaimed = Currency.decode(stream);
+    decodedClaimOfferAtom.assetClaimed = Asset.decode(stream);
     decodedClaimOfferAtom.amountClaimed = Int64.decode(stream);
-    decodedClaimOfferAtom.currencySend = Currency.decode(stream);
+    decodedClaimOfferAtom.assetSend = Asset.decode(stream);
     decodedClaimOfferAtom.amountSend = Int64.decode(stream);
     return decodedClaimOfferAtom;
   }

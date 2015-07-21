@@ -8,12 +8,12 @@ import org.stellar.base.xdr.PaymentOp;
 public class PaymentOperation extends Operation {
 
   private final StellarKeypair mDestination;
-  private final Currency mCurrency;
+  private final Asset mAsset;
   private final long mAmount;
 
-  private PaymentOperation(StellarKeypair destination, Currency currency, long amount) {
+  private PaymentOperation(StellarKeypair destination, Asset asset, long amount) {
     mDestination = destination;
-    mCurrency = currency;
+    mAsset = asset;
     mAmount = amount;
   }
 
@@ -21,8 +21,8 @@ public class PaymentOperation extends Operation {
     return mDestination;
   }
 
-  public Currency getCurrency() {
-    return mCurrency;
+  public Asset getCurrency() {
+    return mAsset;
   }
 
   public long getAmount() {
@@ -33,9 +33,9 @@ public class PaymentOperation extends Operation {
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     PaymentOp op = new PaymentOp();
     AccountID destination = new AccountID();
-    destination.setAccountID(mDestination.getPublicKey());
+    destination.setAccountID(mDestination.getXdrPublicKey());
     op.setdestination(destination);
-    op.setcurrency(mCurrency.toXdr());
+    op.setasset(mAsset.toXdr());
     Int64 amount = new Int64();
     amount.setint64(mAmount);
     op.setamount(amount);
@@ -48,7 +48,7 @@ public class PaymentOperation extends Operation {
 
   static class Builder {
     private final StellarKeypair mDestination;
-    private final Currency mCurrency;
+    private final Asset mAsset;
     private final long mAmount;
 
     private StellarKeypair mSourceAccount;
@@ -58,21 +58,21 @@ public class PaymentOperation extends Operation {
      * @param op {@link PaymentOp}
      */
     Builder(PaymentOp op) {
-      mDestination = StellarKeypair.fromPublicKey(op.getdestination().getAccountID());
-      mCurrency = Currency.fromXdr(op.getcurrency());
+      mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
+      mAsset = Asset.fromXdr(op.getasset());
       mAmount = op.getamount().getint64().longValue();
     }
 
     /**
      * Creates a new PaymentOperation builder.
      * @param destination The destination keypair (uses only the public key).
-     * @param currency The currency to send.
+     * @param asset The currency to send.
      * @param amount The amount to send.
      * @param
      */
-    public Builder(StellarKeypair destination, Currency currency, long amount) {
+    public Builder(StellarKeypair destination, Asset asset, long amount) {
       mDestination = destination;
-      mCurrency = currency;
+      mAsset = asset;
       mAmount = amount;
     }
 
@@ -87,7 +87,7 @@ public class PaymentOperation extends Operation {
     }
 
     public PaymentOperation build() {
-      PaymentOperation operation = new PaymentOperation(mDestination, mCurrency, mAmount);
+      PaymentOperation operation = new PaymentOperation(mDestination, mAsset, mAmount);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

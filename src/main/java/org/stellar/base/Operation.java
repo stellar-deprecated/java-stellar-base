@@ -10,7 +10,7 @@ abstract class Operation {
     org.stellar.base.xdr.Operation xdr = new org.stellar.base.xdr.Operation();
     if (getSourceAccount() != null) {
       AccountID sourceAccount = new AccountID();
-      sourceAccount.setAccountID(getSourceAccount().getPublicKey());
+      sourceAccount.setAccountID(getSourceAccount().getXdrPublicKey());
       xdr.setsourceAccount(sourceAccount);
     }
     xdr.setbody(toOperationBody());
@@ -43,7 +43,7 @@ abstract class Operation {
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }
     if (xdr.getsourceAccount() != null) {
-      operation.setSourceAccount(StellarKeypair.fromPublicKey(xdr.getsourceAccount().getAccountID()));
+      operation.setSourceAccount(StellarKeypair.fromXdrPublicKey(xdr.getsourceAccount().getAccountID()));
     }
     return operation;
   }

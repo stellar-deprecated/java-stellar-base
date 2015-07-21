@@ -6,16 +6,16 @@ import org.stellar.base.xdr.OperationType;
 
 public class ChangeTrustOperation extends Operation {
 
-  private final Currency mLine;
+  private final Asset mAsset;
   private final long mLimit;
 
-  private ChangeTrustOperation(Currency line, long limit) {
-    mLine = line;
+  private ChangeTrustOperation(Asset asset, long limit) {
+    mAsset = asset;
     mLimit = limit;
   }
 
-  public Currency getLine() {
-    return mLine;
+  public Asset getAsset() {
+    return mAsset;
   }
 
   public long getLimit() {
@@ -25,7 +25,7 @@ public class ChangeTrustOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     ChangeTrustOp op = new ChangeTrustOp();
-    op.setline(mLine.toXdr());
+    op.setline(mAsset.toXdr());
     Int64 limit = new Int64();
     limit.setint64(mLimit);
     op.setlimit(limit);
@@ -37,18 +37,18 @@ public class ChangeTrustOperation extends Operation {
   }
 
   public static class Builder {
-    private final Currency mLine;
+    private final Asset mAsset;
     private final long mLimit;
 
     private StellarKeypair mSourceAccount;
 
     Builder(ChangeTrustOp op) {
-      mLine = Currency.fromXdr(op.getline());
+      mAsset = Asset.fromXdr(op.getline());
       mLimit = op.getlimit().getint64();
     }
 
-    public Builder(Currency line, long limit) {
-      mLine = line;
+    public Builder(Asset line, long limit) {
+      mAsset = line;
       mLimit = limit;
     }
 
@@ -58,7 +58,7 @@ public class ChangeTrustOperation extends Operation {
     }
 
     public ChangeTrustOperation build() {
-      ChangeTrustOperation operation = new ChangeTrustOperation(mLine, mLimit);
+      ChangeTrustOperation operation = new ChangeTrustOperation(mAsset, mLimit);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

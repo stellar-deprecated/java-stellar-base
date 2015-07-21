@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,10 +10,10 @@ import java.io.IOException;
 
 //  struct OfferEntry
 //  {
-//      AccountID accountID;
+//      AccountID sellerID;
 //      uint64 offerID;
-//      Currency takerGets; // A
-//      Currency takerPays; // B
+//      Asset selling; // A
+//      Asset buying; // B
 //      int64 amount;       // amount of A
 //  
 //      /* price for this offer:
@@ -23,17 +23,25 @@ import java.io.IOException;
 //      */
 //      Price price;
 //      uint32 flags; // see OfferEntryFlags
+//  
+//      // reserved for future use
+//      union switch (int v)
+//      {
+//      case 0:
+//          void;
+//      }
+//      ext;
 //  };
 
 //  ===========================================================================
 public class OfferEntry  {
   public OfferEntry () {}
-  private AccountID accountID;
-  public AccountID getaccountID() {
-    return this.accountID;
+  private AccountID sellerID;
+  public AccountID getsellerID() {
+    return this.sellerID;
   }
-  public void setaccountID(AccountID value) {
-    this.accountID = value;
+  public void setsellerID(AccountID value) {
+    this.sellerID = value;
   }
   private Uint64 offerID;
   public Uint64 getofferID() {
@@ -42,19 +50,19 @@ public class OfferEntry  {
   public void setofferID(Uint64 value) {
     this.offerID = value;
   }
-  private Currency takerGets;
-  public Currency gettakerGets() {
-    return this.takerGets;
+  private Asset selling;
+  public Asset getselling() {
+    return this.selling;
   }
-  public void settakerGets(Currency value) {
-    this.takerGets = value;
+  public void setselling(Asset value) {
+    this.selling = value;
   }
-  private Currency takerPays;
-  public Currency gettakerPays() {
-    return this.takerPays;
+  private Asset buying;
+  public Asset getbuying() {
+    return this.buying;
   }
-  public void settakerPays(Currency value) {
-    this.takerPays = value;
+  public void setbuying(Asset value) {
+    this.buying = value;
   }
   private Int64 amount;
   public Int64 getamount() {
@@ -77,24 +85,60 @@ public class OfferEntry  {
   public void setflags(Uint32 value) {
     this.flags = value;
   }
+  private OfferEntryExt ext;
+  public OfferEntryExt getext() {
+    return this.ext;
+  }
+  public void setext(OfferEntryExt value) {
+    this.ext = value;
+  }
   public static void encode(XdrDataOutputStream stream, OfferEntry encodedOfferEntry) throws IOException{
-    AccountID.encode(stream, encodedOfferEntry.accountID);
+    AccountID.encode(stream, encodedOfferEntry.sellerID);
     Uint64.encode(stream, encodedOfferEntry.offerID);
-    Currency.encode(stream, encodedOfferEntry.takerGets);
-    Currency.encode(stream, encodedOfferEntry.takerPays);
+    Asset.encode(stream, encodedOfferEntry.selling);
+    Asset.encode(stream, encodedOfferEntry.buying);
     Int64.encode(stream, encodedOfferEntry.amount);
     Price.encode(stream, encodedOfferEntry.price);
     Uint32.encode(stream, encodedOfferEntry.flags);
+    OfferEntryExt.encode(stream, encodedOfferEntry.ext);
   }
   public static OfferEntry decode(XdrDataInputStream stream) throws IOException {
     OfferEntry decodedOfferEntry = new OfferEntry();
-    decodedOfferEntry.accountID = AccountID.decode(stream);
+    decodedOfferEntry.sellerID = AccountID.decode(stream);
     decodedOfferEntry.offerID = Uint64.decode(stream);
-    decodedOfferEntry.takerGets = Currency.decode(stream);
-    decodedOfferEntry.takerPays = Currency.decode(stream);
+    decodedOfferEntry.selling = Asset.decode(stream);
+    decodedOfferEntry.buying = Asset.decode(stream);
     decodedOfferEntry.amount = Int64.decode(stream);
     decodedOfferEntry.price = Price.decode(stream);
     decodedOfferEntry.flags = Uint32.decode(stream);
+    decodedOfferEntry.ext = OfferEntryExt.decode(stream);
     return decodedOfferEntry;
+  }
+
+  public static class OfferEntryExt {
+    public OfferEntryExt () {}
+    Integer v;
+    public Integer getDiscriminant() {
+      return this.v;
+    }
+    public void setDiscriminant(Integer value) {
+      this.v = value;
+    }
+    public static void encode(XdrDataOutputStream stream, OfferEntryExt encodedOfferEntryExt) throws IOException {
+    stream.writeInt(encodedOfferEntryExt.getDiscriminant().intValue());
+    switch (encodedOfferEntryExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+    }
+    public static OfferEntryExt decode(XdrDataInputStream stream) throws IOException {
+      OfferEntryExt decodedOfferEntryExt = new OfferEntryExt();
+      switch (decodedOfferEntryExt.getDiscriminant()) {
+    case 0:
+    break;
+    }
+      return decodedOfferEntryExt;
+    }
+
   }
 }

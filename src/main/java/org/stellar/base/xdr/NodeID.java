@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -8,26 +8,23 @@ import java.io.IOException;
 
 // === xdr source ============================================================
 
-//  typedef opaque NodeID[32];
+//  typedef PublicKey NodeID;
 
 //  ===========================================================================
 public class NodeID  {
-  private byte[] NodeID;
-  public byte[] getNodeID() {
+  private PublicKey NodeID;
+  public PublicKey getNodeID() {
     return this.NodeID;
   }
-  public void setNodeID(byte[] value) {
+  public void setNodeID(PublicKey value) {
     this.NodeID = value;
   }
   public static void encode(XdrDataOutputStream stream, NodeID  encodedNodeID) throws IOException {
-  int NodeIDsize = encodedNodeID.NodeID.length;
-  stream.write(encodedNodeID.getNodeID(), 0, NodeIDsize);
+  PublicKey.encode(stream, encodedNodeID.NodeID);
   }
   public static NodeID decode(XdrDataInputStream stream) throws IOException {
     NodeID decodedNodeID = new NodeID();
-  int NodeIDsize = 32;
-  decodedNodeID.NodeID = new byte[NodeIDsize];
-  stream.read(decodedNodeID.NodeID, 0, NodeIDsize);
+  decodedNodeID.NodeID = PublicKey.decode(stream);
     return decodedNodeID;
   }
 }

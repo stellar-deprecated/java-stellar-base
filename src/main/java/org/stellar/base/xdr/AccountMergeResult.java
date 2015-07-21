@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -27,8 +27,8 @@ public class AccountMergeResult  {
     this.code = value;
   }
   public static void encode(XdrDataOutputStream stream, AccountMergeResult encodedAccountMergeResult) throws IOException {
-    stream.writeInt(encodedAccountMergeResult.getDiscriminant().getValue());
-    switch (encodedAccountMergeResult.getDiscriminant()) {
+  stream.writeInt(encodedAccountMergeResult.getDiscriminant().getValue());
+  switch (encodedAccountMergeResult.getDiscriminant()) {
   case ACCOUNT_MERGE_SUCCESS:
   break;
   default:

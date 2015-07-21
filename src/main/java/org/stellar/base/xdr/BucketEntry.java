@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:49-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -42,8 +42,8 @@ public class BucketEntry  {
     this.deadEntry = value;
   }
   public static void encode(XdrDataOutputStream stream, BucketEntry encodedBucketEntry) throws IOException {
-    stream.writeInt(encodedBucketEntry.getDiscriminant().getValue());
-    switch (encodedBucketEntry.getDiscriminant()) {
+  stream.writeInt(encodedBucketEntry.getDiscriminant().getValue());
+  switch (encodedBucketEntry.getDiscriminant()) {
   case LIVEENTRY:
   LedgerEntry.encode(stream, encodedBucketEntry.liveEntry);
   break;

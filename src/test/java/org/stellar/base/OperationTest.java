@@ -24,10 +24,10 @@ public class OperationTest extends TestCase {
 
   public void testPaymentOperation() {
     StellarKeypair destination = StellarKeypair.random();
-    Currency currency = new NativeCurrency();
+    Asset asset = new AssetTypeNative();
     long amount = 1000;
 
-    PaymentOperation operation = new PaymentOperation.Builder(destination, currency, amount)
+    PaymentOperation operation = new PaymentOperation.Builder(destination, asset, amount)
         .setSourceAccount(destination)
         .build();
 
@@ -35,56 +35,56 @@ public class OperationTest extends TestCase {
     PaymentOperation parsedOperation = (PaymentOperation) Operation.fromXdr(xdr);
 
     Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
-    Assert.assertTrue(parsedOperation.getCurrency() instanceof NativeCurrency);
+    Assert.assertTrue(parsedOperation.getCurrency() instanceof AssetTypeNative);
     Assert.assertEquals(amount, parsedOperation.getAmount());
   }
 
   public void testPathPaymentOperation() {
-    Currency sendCurrency = new NativeCurrency();
+    Asset sendAsset = new AssetTypeNative();
     long sendMax = 1000;
     StellarKeypair destination = StellarKeypair.random();
-    Currency destCurrency = new NativeCurrency();
+    Asset destAsset = new AssetTypeNative();
     long destAmount = 1000;
-    Currency[] path = {new NativeCurrency(), new NativeCurrency()};
+    Asset[] path = {new AssetTypeNative(), new AssetTypeNative()};
 
     PathPaymentOperation operation = new PathPaymentOperation.Builder(
-        sendCurrency, sendMax, destination, destCurrency, destAmount, path)
+        sendAsset, sendMax, destination, destAsset, destAmount, path)
         .setSourceAccount(destination)
         .build();
 
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     PathPaymentOperation parsedOperation = (PathPaymentOperation) Operation.fromXdr(xdr);
 
-    Assert.assertTrue(parsedOperation.getSendCurrency() instanceof NativeCurrency);
+    Assert.assertTrue(parsedOperation.getSendCurrency() instanceof AssetTypeNative);
     Assert.assertEquals(sendMax, parsedOperation.getSendMax());
     Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
-    Assert.assertTrue(parsedOperation.getDestCurrency() instanceof NativeCurrency);
+    Assert.assertTrue(parsedOperation.getDestCurrency() instanceof AssetTypeNative);
     Assert.assertEquals(destAmount, parsedOperation.getDestAmount());
     Assert.assertEquals(path.length, parsedOperation.getPath().length);
   }
 
   public void testChangeTrustOperation() {
-    Currency line = new NativeCurrency();
+    Asset asset = new AssetTypeNative();
     long limit = Long.MAX_VALUE;
     StellarKeypair source = StellarKeypair.random();
 
-    ChangeTrustOperation operation = new ChangeTrustOperation.Builder(line, limit)
+    ChangeTrustOperation operation = new ChangeTrustOperation.Builder(asset, limit)
         .setSourceAccount(source)
         .build();
 
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     ChangeTrustOperation parsedOperation = (ChangeTrustOperation) Operation.fromXdr(xdr);
 
-    Assert.assertTrue(parsedOperation.getLine() instanceof NativeCurrency);
+    Assert.assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
     Assert.assertEquals(limit, parsedOperation.getLimit());
   }
 
   public void testAllowTrustOperation() {
     StellarKeypair trustor = StellarKeypair.random();
-    String currencyCode = "USD";
+    String assetCode = "USDA";
     boolean authorize = true;
 
-    AllowTrustOperation operation = new AllowTrustOperation.Builder(trustor, currencyCode, authorize)
+    AllowTrustOperation operation = new AllowTrustOperation.Builder(trustor, assetCode, authorize)
         .setSourceAccount(trustor)
         .build();
 
@@ -92,7 +92,7 @@ public class OperationTest extends TestCase {
     AllowTrustOperation parsedOperation = (AllowTrustOperation) Operation.fromXdr(xdr);
 
     Assert.assertEquals(trustor.getAddress(), parsedOperation.getTrustor().getAddress());
-    Assert.assertEquals(currencyCode, parsedOperation.getCurrencyCode());
+    Assert.assertEquals(assetCode, parsedOperation.getAssetCode());
     Assert.assertEquals(authorize, parsedOperation.getAuthorize());
   }
 
@@ -112,7 +112,10 @@ public class OperationTest extends TestCase {
         .setInflationDestination(inflationDestination)
         .setClearFlags(clearFlags)
         .setSetFlags(setFlags)
-        .setThresholds(masterKeyWeight, lowThreshold, mediumThreshold, highThreshold)
+        .setMasterKeyWeight(masterKeyWeight)
+        .setLowThreshold(lowThreshold)
+        .setMediumThreshold(mediumThreshold)
+        .setHighThreshold(highThreshold)
         .setHomeDomain(homeDomain)
         .setSigner(signer, signerWeight)
         .build();
@@ -125,7 +128,10 @@ public class OperationTest extends TestCase {
     Assert.assertEquals(setFlags, parsedOperation.getSetFlags());
     byte[] thresholds = {(byte) (masterKeyWeight & 0xFF), (byte) (lowThreshold & 0xFF),
         (byte) (mediumThreshold & 0xFF), (byte) (highThreshold & 0xFF)};
-    Assert.assertArrayEquals(thresholds, operation.getThresholds());
+    Assert.assertEquals(masterKeyWeight, operation.getMasterKeyWeight());
+    Assert.assertEquals(lowThreshold, operation.getLowThreshold());
+    Assert.assertEquals(mediumThreshold, operation.getMediumThreshold());
+    Assert.assertEquals(highThreshold, operation.getHighThreshold());
     Assert.assertEquals(homeDomain, operation.getHomeDomain());
     Assert.assertEquals(signer.getAddress(), operation.getSigner().getAddress());
     Assert.assertEquals(signerWeight, operation.getSignerWeight());

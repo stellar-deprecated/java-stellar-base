@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -10,27 +10,27 @@ import java.io.IOException;
 
 //  struct PathPaymentOp
 //  {
-//      Currency sendCurrency; // currency we pay with
-//      int64 sendMax;         // the maximum amount of sendCurrency to
+//      Asset sendAsset; // asset we pay with
+//      int64 sendMax;         // the maximum amount of sendAsset to
 //                             // send (excluding fees).
 //                             // The operation will fail if can't be met
 //  
 //      AccountID destination; // recipient of the payment
-//      Currency destCurrency; // what they end up with
+//      Asset destAsset; // what they end up with
 //      int64 destAmount;      // amount they end up with
 //  
-//      Currency path<5>; // additional hops it must go through to get there
+//      Asset path<5>; // additional hops it must go through to get there
 //  };
 
 //  ===========================================================================
 public class PathPaymentOp  {
   public PathPaymentOp () {}
-  private Currency sendCurrency;
-  public Currency getsendCurrency() {
-    return this.sendCurrency;
+  private Asset sendAsset;
+  public Asset getsendAsset() {
+    return this.sendAsset;
   }
-  public void setsendCurrency(Currency value) {
-    this.sendCurrency = value;
+  public void setsendAsset(Asset value) {
+    this.sendAsset = value;
   }
   private Int64 sendMax;
   public Int64 getsendMax() {
@@ -46,12 +46,12 @@ public class PathPaymentOp  {
   public void setdestination(AccountID value) {
     this.destination = value;
   }
-  private Currency destCurrency;
-  public Currency getdestCurrency() {
-    return this.destCurrency;
+  private Asset destAsset;
+  public Asset getdestAsset() {
+    return this.destAsset;
   }
-  public void setdestCurrency(Currency value) {
-    this.destCurrency = value;
+  public void setdestAsset(Asset value) {
+    this.destAsset = value;
   }
   private Int64 destAmount;
   public Int64 getdestAmount() {
@@ -60,36 +60,36 @@ public class PathPaymentOp  {
   public void setdestAmount(Int64 value) {
     this.destAmount = value;
   }
-  private Currency[] path;
-  public Currency[] getpath() {
+  private Asset[] path;
+  public Asset[] getpath() {
     return this.path;
   }
-  public void setpath(Currency[] value) {
+  public void setpath(Asset[] value) {
     this.path = value;
   }
   public static void encode(XdrDataOutputStream stream, PathPaymentOp encodedPathPaymentOp) throws IOException{
-    Currency.encode(stream, encodedPathPaymentOp.sendCurrency);
+    Asset.encode(stream, encodedPathPaymentOp.sendAsset);
     Int64.encode(stream, encodedPathPaymentOp.sendMax);
     AccountID.encode(stream, encodedPathPaymentOp.destination);
-    Currency.encode(stream, encodedPathPaymentOp.destCurrency);
+    Asset.encode(stream, encodedPathPaymentOp.destAsset);
     Int64.encode(stream, encodedPathPaymentOp.destAmount);
     int pathsize = encodedPathPaymentOp.getpath().length;
     stream.writeInt(pathsize);
     for (int i = 0; i < pathsize; i++) {
-      Currency.encode(stream, encodedPathPaymentOp.path[i]);
+      Asset.encode(stream, encodedPathPaymentOp.path[i]);
     }
   }
   public static PathPaymentOp decode(XdrDataInputStream stream) throws IOException {
     PathPaymentOp decodedPathPaymentOp = new PathPaymentOp();
-    decodedPathPaymentOp.sendCurrency = Currency.decode(stream);
+    decodedPathPaymentOp.sendAsset = Asset.decode(stream);
     decodedPathPaymentOp.sendMax = Int64.decode(stream);
     decodedPathPaymentOp.destination = AccountID.decode(stream);
-    decodedPathPaymentOp.destCurrency = Currency.decode(stream);
+    decodedPathPaymentOp.destAsset = Asset.decode(stream);
     decodedPathPaymentOp.destAmount = Int64.decode(stream);
     int pathsize = stream.readInt();
-    decodedPathPaymentOp.path = new Currency[pathsize];
+    decodedPathPaymentOp.path = new Asset[pathsize];
     for (int i = 0; i < pathsize; i++) {
-      decodedPathPaymentOp.path[i] = Currency.decode(stream);
+      decodedPathPaymentOp.path[i] = Asset.decode(stream);
     }
     return decodedPathPaymentOp;
   }

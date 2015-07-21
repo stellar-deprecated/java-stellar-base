@@ -1,4 +1,4 @@
-// Automatically generated on 2015-06-24T13:46:48-07:00
+// Automatically generated on 2015-07-21T12:54:50-07:00
 // DO NOT EDIT or your changes may be overwritten
 
 package org.stellar.base.xdr;
@@ -57,8 +57,8 @@ public class OperationResult  {
     this.tr = value;
   }
   public static void encode(XdrDataOutputStream stream, OperationResult encodedOperationResult) throws IOException {
-    stream.writeInt(encodedOperationResult.getDiscriminant().getValue());
-    switch (encodedOperationResult.getDiscriminant()) {
+  stream.writeInt(encodedOperationResult.getDiscriminant().getValue());
+  switch (encodedOperationResult.getDiscriminant()) {
   case opINNER:
   OperationResultTr.encode(stream, encodedOperationResult.tr);
   break;
@@ -158,8 +158,8 @@ public class OperationResult  {
       this.inflationResult = value;
     }
     public static void encode(XdrDataOutputStream stream, OperationResultTr encodedOperationResultTr) throws IOException {
-      stream.writeInt(encodedOperationResultTr.getDiscriminant().getValue());
-      switch (encodedOperationResultTr.getDiscriminant()) {
+    stream.writeInt(encodedOperationResultTr.getDiscriminant().getValue());
+    switch (encodedOperationResultTr.getDiscriminant()) {
     case CREATE_ACCOUNT:
     CreateAccountResult.encode(stream, encodedOperationResultTr.createAccountResult);
     break;

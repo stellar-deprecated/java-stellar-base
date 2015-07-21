@@ -14,17 +14,24 @@ public class SetOptionsOperation extends Operation {
   private final StellarKeypair mInflationDestination;
   private final int mClearFlags;
   private final int mSetFlags;
-  private final byte[] mThresholds;
+  private int mMasterKeyWeight = -1;
+  private int mLowThreshold = -1;
+  private int mMediumThreshold = -1;
+  private int mHighThreshold = -1;
   private final String mHomeDomain;
   private final StellarKeypair mSigner;
   private final byte mSignerWeight;
 
   private SetOptionsOperation(StellarKeypair inflationDestination, int clearFlags, int setFlags,
-      byte[] thresholds, String homeDomain, StellarKeypair signer, byte signerWeight) {
+      int masterKeyWeight, int lowThreshold, int mediumThreshold, int highThreshold,
+      String homeDomain, StellarKeypair signer, byte signerWeight) {
     mInflationDestination = inflationDestination;
     mClearFlags = clearFlags;
     mSetFlags = setFlags;
-    mThresholds = thresholds;
+    mMasterKeyWeight = masterKeyWeight;
+    mLowThreshold = lowThreshold;
+    mMediumThreshold = mediumThreshold;
+    mHighThreshold = highThreshold;
     mHomeDomain = homeDomain;
     mSigner = signer;
     mSignerWeight = signerWeight;
@@ -42,8 +49,20 @@ public class SetOptionsOperation extends Operation {
     return mSetFlags;
   }
 
-  public byte[] getThresholds() {
-    return mThresholds;
+  public int getMasterKeyWeight() {
+    return mMasterKeyWeight;
+  }
+
+  public int getLowThreshold() {
+    return mLowThreshold;
+  }
+
+  public int getMediumThreshold() {
+    return mMediumThreshold;
+  }
+
+  public int getHighThreshold() {
+    return mHighThreshold;
   }
 
   public String getHomeDomain() {
@@ -63,7 +82,7 @@ public class SetOptionsOperation extends Operation {
     SetOptionsOp op = new SetOptionsOp();
     if (mInflationDestination != null) {
       AccountID inflationDestination = new AccountID();
-      inflationDestination.setAccountID(mInflationDestination.getPublicKey());
+      inflationDestination.setAccountID(mInflationDestination.getXdrPublicKey());
       op.setinflationDest(inflationDestination);
     }
     if (mClearFlags != 0) {
@@ -76,10 +95,25 @@ public class SetOptionsOperation extends Operation {
       setFlags.setuint32(mSetFlags);
       op.setsetFlags(setFlags);
     }
-    if (mThresholds != null) {
-      Thresholds thresholds = new Thresholds();
-      thresholds.setThresholds(mThresholds);
-      op.setthresholds(thresholds);
+    if (mMasterKeyWeight != -1) {
+      Uint32 uint32 = new Uint32();
+      uint32.setuint32(mMasterKeyWeight);
+      op.setmasterWeight(uint32);
+    }
+    if (mLowThreshold != -1) {
+      Uint32 uint32 = new Uint32();
+      uint32.setuint32(mLowThreshold);
+      op.setlowThreshold(uint32);
+    }
+    if (mMediumThreshold != -1) {
+      Uint32 uint32 = new Uint32();
+      uint32.setuint32(mMediumThreshold);
+      op.setmedThreshold(uint32);
+    }
+    if (mHighThreshold != -1) {
+      Uint32 uint32 = new Uint32();
+      uint32.setuint32(mHighThreshold);
+      op.sethighThreshold(uint32);
     }
     if (mHomeDomain != null) {
       String32 homeDomain = new String32();
@@ -88,11 +122,11 @@ public class SetOptionsOperation extends Operation {
     }
     if (mSigner != null) {
       Signer signer = new Signer();
-      Uint256 pubKey = new Uint256();
-      pubKey.setuint256(mSigner.getPublicKey());
       Uint32 weight = new Uint32();
       weight.setuint32((int) mSignerWeight & 0xFF);
-      signer.setpubKey(pubKey);
+      AccountID accountID = new AccountID();
+      accountID.setAccountID(mSigner.getXdrPublicKey());
+      signer.setpubKey(accountID);
       signer.setweight(weight);
       op.setsigner(signer);
     }
@@ -108,6 +142,10 @@ public class SetOptionsOperation extends Operation {
     private int mClearFlags;
     private int mSetFlags;
     private byte[] mThresholds = null;
+    private int mMasterKeyWeight = -1;
+    private int mLowThreshold = -1;
+    private int mMediumThreshold = -1;
+    private int mHighThreshold = -1;
     private String mHomeDomain;
     private StellarKeypair mSigner;
     private byte mSignerWeight;
@@ -115,7 +153,8 @@ public class SetOptionsOperation extends Operation {
 
     Builder(SetOptionsOp op) {
       if (op.getinflationDest() != null) {
-        mInflationDestination = StellarKeypair.fromPublicKey(op.getinflationDest().getAccountID());
+        mInflationDestination = StellarKeypair.fromXdrPublicKey(
+            op.getinflationDest().getAccountID());
       }
       if (op.getclearFlags() != null) {
         mClearFlags = op.getclearFlags().getuint32();
@@ -123,14 +162,23 @@ public class SetOptionsOperation extends Operation {
       if (op.getsetFlags() != null) {
         mSetFlags = op.getsetFlags().getuint32();
       }
-      if (op.getthresholds() != null) {
-        mThresholds = op.getthresholds().getThresholds();
+      if (op.getmasterWeight() != null) {
+        mMasterKeyWeight = op.getmasterWeight().getuint32().intValue();
+      }
+      if (op.getlowThreshold() != null) {
+        mLowThreshold = op.getlowThreshold().getuint32().intValue();
+      }
+      if (op.getmedThreshold() != null) {
+        mMediumThreshold = op.getmedThreshold().getuint32().intValue();
+      }
+      if (op.gethighThreshold() != null) {
+        mHighThreshold = op.gethighThreshold().getuint32().intValue();
       }
       if (op.gethomeDomain() != null) {
         mHomeDomain = op.gethomeDomain().getstring32();
       }
       if (op.getsigner() != null) {
-        mSigner = StellarKeypair.fromPublicKey(op.getsigner().getpubKey().getuint256());
+        mSigner = StellarKeypair.fromXdrPublicKey(op.getsigner().getpubKey().getAccountID());
         mSignerWeight = (byte) (op.getsigner().getweight().getuint32().intValue() & 0xFF);
       }
     }
@@ -166,21 +214,23 @@ public class SetOptionsOperation extends Operation {
       return this;
     }
 
-    /**
-     * Sets the master key weight and each threshold for the account.
-     * @param masterKeyWeight uint8
-     * @param lowThreshold uint8
-     * @param mediumThreshold uint8
-     * @param highThreshold uint8
-     * @return
-     */
-    public Builder setThresholds(int masterKeyWeight, int lowThreshold, int mediumThreshold,
-        int highThreshold) {
-      mThresholds = new byte[4];
-      mThresholds[0] = (byte) (masterKeyWeight & 0xFF);
-      mThresholds[1] = (byte) (lowThreshold & 0xFF);
-      mThresholds[2] = (byte) (mediumThreshold & 0xFF);
-      mThresholds[3] = (byte) (highThreshold & 0xFF);
+    public Builder setMasterKeyWeight(int masterKeyWeight) {
+      mMasterKeyWeight = masterKeyWeight;
+      return this;
+    }
+
+    public Builder setLowThreshold(int lowThreshold) {
+      mLowThreshold = lowThreshold;
+      return this;
+    }
+
+    public Builder setMediumThreshold(int mediumThreshold) {
+      mMediumThreshold = mediumThreshold;
+      return this;
+    }
+
+    public Builder setHighThreshold(int highThreshold) {
+      mHighThreshold = highThreshold;
       return this;
     }
 
@@ -215,7 +265,8 @@ public class SetOptionsOperation extends Operation {
 
     public SetOptionsOperation build() {
       SetOptionsOperation operation = new SetOptionsOperation(mInflationDestination, mClearFlags,
-          mSetFlags, mThresholds, mHomeDomain, mSigner, mSignerWeight);
+          mSetFlags, mMasterKeyWeight, mLowThreshold, mMediumThreshold, mHighThreshold,
+          mHomeDomain, mSigner, mSignerWeight);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }
