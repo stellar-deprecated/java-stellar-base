@@ -1,7 +1,9 @@
 apply plugin: 'java'
+apply plugin: 'ivy-publish'
 
 sourceCompatibility = 1.6
-version = '1.0'
+version = '1.0.0'
+group = 'stellar'
 
 jar {
     manifest {
@@ -10,11 +12,16 @@ jar {
     }
 }
 
-uploadArchives {
+publishing {
+    publications {
+        ivy(IvyPublication) {
+            from components.java
+        }
+    }
     repositories {
-       flatDir {
-           dirs 'repos'
-       }
+        ivy {
+            url "$projectDir/repos"
+        }
     }
 }
 
