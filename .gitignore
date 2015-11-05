@@ -6,6 +6,7 @@
 *.ipr
 *.iws
 .idea/
+/local.properties
 
 # Gradle
 .gradle
