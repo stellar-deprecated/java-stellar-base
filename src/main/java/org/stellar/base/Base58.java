@@ -2,7 +2,6 @@ package org.stellar.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -64,7 +63,7 @@ public class Base58 {
    * @param data The stellar address.
    * @return The public key bytes.
    */
-  public static byte[] decodeStellarAddress(String data) throws AddressFormatException {
+  public static byte[] decodeStellarAddress(String data) throws FormatException {
     return decodeVersionedChecked(ADDRESS_VERSION_BYTE, data);
   }
 
@@ -73,12 +72,12 @@ public class Base58 {
    * @param data The Stellar secret seed.
    * @return The private key seed bytes.
    */
-  public static byte[] decodeStellarSecretSeed(String data) throws AddressFormatException {
+  public static byte[] decodeStellarSecretSeed(String data) throws FormatException {
     return decodeVersionedChecked(SECRET_VERSION_BYTE, data);
   }
 
   public static byte[] decodeVersionedChecked(byte version, String data)
-      throws AddressFormatException {
+      throws FormatException {
     byte[] decoded = decode(data);
     checkArgument(decoded[0] == version, "Given version does not match expected version");
     byte[] payload = new byte[decoded.length - 5];
@@ -124,7 +123,7 @@ public class Base58 {
   }
 
   // ported from https://github.com/bitcoin/bitcoin/blob/master/src/base58.cpp
-  public static byte[] decode(String data) throws AddressFormatException {
+  public static byte[] decode(String data) throws FormatException {
     data = data.trim();
     char[] letters = data.toCharArray();
     int zeros = 0;
@@ -142,7 +141,7 @@ public class Base58 {
         carry = INDEXES[ch];
       }
       if (carry < 0) {
-        throw new AddressFormatException("Illegal character " + ch + " at " + index);
+        throw new FormatException("Illegal character " + ch + " at " + index);
       }
       for (int j = b256.length - 1; j >= 0; j--) {
         carry += 58 * (b256[j] & 0xFF);

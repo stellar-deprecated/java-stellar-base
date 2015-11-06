@@ -4,12 +4,12 @@ package org.stellar.base;
  * Created by andrewrogers on 6/17/15.
  */
 @SuppressWarnings("serial")
-public class AddressFormatException extends Exception {
-  public AddressFormatException() {
+public class FormatException extends Exception {
+  public FormatException() {
     super();
   }
 
-  public AddressFormatException(String message) {
+  public FormatException(String message) {
     super(message);
   }
 }

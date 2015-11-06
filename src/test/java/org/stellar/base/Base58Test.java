@@ -48,7 +48,7 @@ public class Base58Test extends TestCase {
   }
 
   @Test
-  public void testDecode() throws AddressFormatException {
+  public void testDecode() throws FormatException {
     String testString1 = "z";
     byte[] expected1 = {0x39};
     Assert.assertArrayEquals(expected1, Base58.decode(testString1));
@@ -63,13 +63,13 @@ public class Base58Test extends TestCase {
   }
 
   @Test
-  public void testDecodeAddress() throws AddressFormatException {
+  public void testDecodeAddress() throws FormatException {
     Assert.assertArrayEquals(MASTER_KEY_PUBLIC_KEY,
         Base58.decodeStellarAddress(MASTER_KEY_ADDRRESS));
   }
 
   @Test
-  public void testDecodeSecretSeed() throws AddressFormatException {
+  public void testDecodeSecretSeed() throws FormatException {
     Assert.assertArrayEquals(MASTER_KEY_PRIVATE_KEY,
         Base58.decodeStellarSecretSeed(MASTER_KEY_SEED));
   }
