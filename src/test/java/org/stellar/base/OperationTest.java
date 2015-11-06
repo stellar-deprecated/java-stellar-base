@@ -159,4 +159,18 @@ public class OperationTest extends TestCase {
     Assert.assertEquals(price, parsedOperation.getPrice(), 0);
     Assert.assertEquals(offerId, parsedOperation.getOfferId());
   }
+
+  public void testAccountMergeOperation() {
+    StellarKeypair destination = StellarKeypair.random();
+
+    AccountMergeOperation operation = new AccountMergeOperation.Builder(destination)
+      .setSourceAccount(destination)
+      .build();
+
+    org.stellar.base.xdr.Operation xdr = operation.toXdr();
+
+    AccountMergeOperation parsedOperation = (AccountMergeOperation) Operation.fromXdr(xdr);
+
+    Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+  }
 }
