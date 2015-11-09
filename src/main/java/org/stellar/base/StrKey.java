@@ -77,18 +77,25 @@ public class StrKey {
 
     protected static byte[] calculateChecksum(byte[] bytes) {
         // This code calculates CRC16-XModem checksum
-        // http://introcs.cs.princeton.edu/51data/CRC16CCITT.java.html
+        // Ported from https://github.com/alexgorbatchev/node-crc
         int crc = 0x0000;
-        int polynomial = 0x1021;
-        for (byte b : bytes) {
-            for (int i = 0; i < 8; i++) {
-                boolean bit = ((b   >> (7-i) & 1) == 1);
-                boolean c15 = ((crc >> 15    & 1) == 1);
-                crc <<= 1;
-                if (c15 ^ bit) crc ^= polynomial;
-            }
+        int count = bytes.length;
+        int i = 0;
+        int code;
+
+        while (count > 0) {
+            code = crc >>> 8 & 0xFF;
+            code ^= bytes[i++] & 0xFF;
+            code ^= code >>> 4;
+            crc = crc << 8 & 0xFFFF;
+            crc ^= code;
+            code = code << 5 & 0xFFFF;
+            crc ^= code;
+            code = code << 7 & 0xFFFF;
+            crc ^= code;
+            count--;
         }
-        crc &= 0xffff;
+
         // little-endian
         return new byte[] {
             (byte)crc,
