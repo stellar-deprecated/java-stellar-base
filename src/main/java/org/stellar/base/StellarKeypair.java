@@ -53,10 +53,10 @@ public class StellarKeypair {
    * Creates a new Stellar Keypair from a base 58 encoded Stellar secret seed.
    * @param seed The base 58 encoded Stellar secret seed.
    * @return {@link StellarKeypair}
-   * @throws AddressFormatException
+   * @throws FormatException
    */
-  public static StellarKeypair fromSecretSeed(String seed) throws AddressFormatException {
-    byte[] decoded = Base58.decodeStellarSecretSeed(seed);
+  public static StellarKeypair fromSecretSeed(String seed) throws FormatException {
+    byte[] decoded = StrKey.decodeStellarSecretSeed(seed);
     return fromSecretSeed(decoded);
   }
 
@@ -75,10 +75,10 @@ public class StellarKeypair {
    * Creates a new Stellar Keypair from a base 58 encoded Stellar address.
    * @param address The base 58 encoded Stellar address.
    * @return {@link StellarKeypair}
-   * @throws AddressFormatException
+   * @throws FormatException
    */
-  public static StellarKeypair fromAddress(String address) throws AddressFormatException {
-    byte[] decoded = Base58.decodeStellarAddress(address);
+  public static StellarKeypair fromAddress(String address) throws FormatException {
+    byte[] decoded = StrKey.decodeStellarAddress(address);
     return fromPublicKey(decoded);
   }
 
@@ -104,14 +104,14 @@ public class StellarKeypair {
    * @return the human readable address encoded in base 58.
    */
   public String getAddress() {
-    return Base58.encodeStellarAddress(mPublicKey.getAbyte());
+    return StrKey.encodeStellarAddress(mPublicKey.getAbyte());
   }
 
   /**
    * @return the human readable secret seed encoded in base 58.
    */
   public String getSecretSeed() {
-    return Base58.encodeStellarSecretSeed(mPrivateKey.getSeed());
+    return StrKey.encodeStellarSecretSeed(mPrivateKey.getSeed());
   }
 
   public byte[] getPublicKey() {
