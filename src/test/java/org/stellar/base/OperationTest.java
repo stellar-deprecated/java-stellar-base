@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.stellar.base.xdr.CreatePassiveOfferOp;
 
 import java.io.IOException;
 
@@ -231,6 +232,38 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAMAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZABRYZcAX14QAAAAAAAAAAE=",
+            operation.toBase64());
+  }
+
+  public void testCreatePassiveOfferOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+    // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
+    StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
+    // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
+    StellarKeypair issuer = StellarKeypair.fromSecretSeed("SA64U7C5C7BS5IHWEPA7YWFN3Z6FE5L6KAMYUIT4AQ7KVTVLD23C6HEZ");
+
+    Asset selling = new AssetTypeNative();
+    Asset buying = Asset.createNonNativeAsset("USD", issuer);
+    long amount = 100;
+    double price = 2.93850088; // n=36731261 d=12500000
+    Price priceObj = Price.rationalApproximation(price);
+
+      CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation.Builder(selling, buying, amount, price)
+            .setSourceAccount(source)
+            .build();
+
+    org.stellar.base.xdr.Operation xdr = operation.toXdr();
+    CreatePassiveOfferOperation parsedOperation = (CreatePassiveOfferOperation) CreatePassiveOfferOperation.fromXdr(xdr);
+
+    Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
+    Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
+    Assert.assertTrue(parsedOperation.getBuying().equals(buying));
+    Assert.assertEquals(amount, parsedOperation.getAmount());
+    Assert.assertEquals(price, parsedOperation.getPrice(), 0);
+    Assert.assertEquals(priceObj.getNumerator(), 36731261);
+    Assert.assertEquals(priceObj.getDenominator(), 12500000);
+
+    assertEquals(
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAQAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZAIweX0Avrwg",
             operation.toBase64());
   }
 

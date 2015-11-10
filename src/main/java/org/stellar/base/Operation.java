@@ -44,17 +44,20 @@ abstract class Operation {
       case PATH_PAYMENT:
         operation = new PathPaymentOperation.Builder(body.getpathPaymentOp()).build();
         break;
+      case MANAGE_OFFER:
+        operation = new ManagerOfferOperation.Builder(body.getmanageOfferOp()).build();
+        break;
+      case CREATE_PASSIVE_OFFER:
+        operation = new CreatePassiveOfferOperation.Builder(body.getcreatePassiveOfferOp()).build();
+        break;
+      case SET_OPTIONS:
+        operation = new SetOptionsOperation.Builder(body.getsetOptionsOp()).build();
+        break;
       case CHANGE_TRUST:
         operation = new ChangeTrustOperation.Builder(body.getchangeTrustOp()).build();
         break;
       case ALLOW_TRUST:
         operation = new AllowTrustOperation.Builder(body.getallowTrustOp()).build();
-        break;
-      case SET_OPTIONS:
-        operation = new SetOptionsOperation.Builder(body.getsetOptionsOp()).build();
-        break;
-      case MANAGE_OFFER:
-        operation = new ManagerOfferOperation.Builder(body.getmanageOfferOp()).build();
         break;
       case ACCOUNT_MERGE:
         operation = new AccountMergeOperation.Builder(body).build();

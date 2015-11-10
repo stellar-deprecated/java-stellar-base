@@ -2,17 +2,63 @@ package org.stellar.base;
 
 import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.CreatePassiveOfferOp;
+import org.stellar.base.xdr.Int64;
+import org.stellar.base.xdr.ManageOfferOp;
+import org.stellar.base.xdr.OperationType;
 
-/**
- * Created by andrewrogers on 7/21/15.
- */
 public class CreatePassiveOfferOperation extends Operation {
+  private final Asset mSelling;
+  private final Asset mBuying;
+  private final long mAmount;
+  private final double mPrice;
+
+  private CreatePassiveOfferOperation(Asset selling, Asset buying, long amount, double price) {
+    mSelling = selling;
+    mBuying = buying;
+    mAmount = amount;
+    mPrice = price;
+  }
+
+  public Asset getSelling() {
+    return mSelling;
+  }
+
+  public Asset getBuying() {
+    return mBuying;
+  }
+
+  public long getAmount() {
+    return mAmount;
+  }
+
+  public double getPrice() {
+    return mPrice;
+  }
+
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
-    return null;
+    CreatePassiveOfferOp op = new CreatePassiveOfferOp();
+    op.setselling(mSelling.toXdr());
+    op.setbuying(mBuying.toXdr());
+    Int64 amount = new Int64();
+    amount.setint64(Long.valueOf(mAmount));
+    op.setamount(amount);
+    Price price = Price.rationalApproximation(mPrice);
+    op.setprice(price.toXdr());
+
+    org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
+    body.setDiscriminant(OperationType.CREATE_PASSIVE_OFFER);
+    body.setcreatePassiveOfferOp(op);
+
+    return body;
   }
 
   static class Builder {
+
+    private final Asset mSelling;
+    private final Asset mBuying;
+    private final long mAmount;
+    private final double mPrice;
 
     private StellarKeypair mSourceAccount;
 
@@ -20,10 +66,20 @@ public class CreatePassiveOfferOperation extends Operation {
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
-    Builder(CreatePassiveOfferOp op) {
+    Builder(CreatePassiveOfferOp op) throws AssetCodeLengthInvalidException {
+      mSelling = Asset.fromXdr(op.getselling());
+      mBuying = Asset.fromXdr(op.getbuying());
+      mAmount = op.getamount().getint64().longValue();
+      int n = op.getprice().getn().getint32().intValue();
+      int d = op.getprice().getd().getint32().intValue();
+      mPrice = (double) n / d;
     }
 
-    public Builder() {
+    public Builder(Asset selling, Asset buying, long amount, double price) {
+      mSelling = selling;
+      mBuying = buying;
+      mAmount = amount;
+      mPrice = price;
     }
 
     /**
@@ -37,7 +93,7 @@ public class CreatePassiveOfferOperation extends Operation {
     }
 
     public CreatePassiveOfferOperation build() {
-      CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation();
+      CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation(mSelling, mBuying, mAmount, mPrice);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }
