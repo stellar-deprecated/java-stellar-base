@@ -54,13 +54,13 @@ public class AllowTrustOp  {
   public static void encode(XdrDataOutputStream stream, AllowTrustOp encodedAllowTrustOp) throws IOException{
     AccountID.encode(stream, encodedAllowTrustOp.trustor);
     AllowTrustOpAsset.encode(stream, encodedAllowTrustOp.asset);
-    stream.writeBoolean(encodedAllowTrustOp.authorize);
+    stream.writeInt(encodedAllowTrustOp.authorize ? 1 : 0);
   }
   public static AllowTrustOp decode(XdrDataInputStream stream) throws IOException {
     AllowTrustOp decodedAllowTrustOp = new AllowTrustOp();
     decodedAllowTrustOp.trustor = AccountID.decode(stream);
     decodedAllowTrustOp.asset = AllowTrustOpAsset.decode(stream);
-    decodedAllowTrustOp.authorize = stream.readBoolean();
+    decodedAllowTrustOp.authorize = stream.readInt() == 1 ? true : false;
     return decodedAllowTrustOp;
   }
 

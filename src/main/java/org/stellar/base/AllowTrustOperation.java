@@ -32,19 +32,24 @@ public class AllowTrustOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     AllowTrustOp op = new AllowTrustOp();
+
+    // trustor
     AccountID trustor = new AccountID();
     trustor.setAccountID(mTrustor.getXdrPublicKey());
     op.settrustor(trustor);
+    // asset
     AllowTrustOp.AllowTrustOpAsset asset = new AllowTrustOp.AllowTrustOpAsset();
     if (mAssetCode.length() <= 4) {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
-      asset.setassetCode4(mAssetCode.getBytes());
+      asset.setassetCode4(Asset.filledByteArray(mAssetCode, 4));
     } else {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM12);
-      asset.setassetCode12(mAssetCode.getBytes());
+      asset.setassetCode12(Asset.filledByteArray(mAssetCode, 12));
     }
     op.setasset(asset);
+    // authorize
     op.setauthorize(mAuthorize);
+
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.ALLOW_TRUST);
     body.setallowTrustOp(op);

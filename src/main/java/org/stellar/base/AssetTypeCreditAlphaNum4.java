@@ -8,12 +8,20 @@ public class AssetTypeCreditAlphaNum4 extends Asset {
   public final String mAssetCode;
   public final StellarKeypair mIssuer;
 
-  public AssetTypeCreditAlphaNum4(String currencyCode, StellarKeypair issuer) {
-    mAssetCode = currencyCode;
+  public AssetTypeCreditAlphaNum4(String assetCode, StellarKeypair issuer) throws AssetCodeLengthInvalidException {
+    if (assetCode.length() < 1 || assetCode.length() > 4) {
+      throw new AssetCodeLengthInvalidException();
+    }
+    mAssetCode = assetCode;
     mIssuer = issuer;
   }
 
-  public String getCurrencyCode() {
+  public String getAssetCode() {
+    return mAssetCode;
+  }
+
+  @Override
+  public String getCode() {
     return mAssetCode;
   }
 
@@ -26,7 +34,7 @@ public class AssetTypeCreditAlphaNum4 extends Asset {
     org.stellar.base.xdr.Asset xdr = new org.stellar.base.xdr.Asset();
     xdr.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
     org.stellar.base.xdr.Asset.AssetAlphaNum4 credit = new org.stellar.base.xdr.Asset.AssetAlphaNum4();
-    credit.setassetCode(mAssetCode.getBytes());
+    credit.setassetCode(Asset.filledByteArray(mAssetCode, 4));
     AccountID accountID = new AccountID();
     accountID.setAccountID(mIssuer.getXdrPublicKey());
     credit.setissuer(accountID);

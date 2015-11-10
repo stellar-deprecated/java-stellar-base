@@ -86,7 +86,7 @@ public class ManagerOfferOperation extends Operation {
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
-    Builder(ManageOfferOp op) {
+    Builder(ManageOfferOp op) throws AssetCodeLengthInvalidException {
       mSelling = Asset.fromXdr(op.getselling());
       mBuying = Asset.fromXdr(op.getbuying());
       mAmount = op.getamount().getint64().longValue();

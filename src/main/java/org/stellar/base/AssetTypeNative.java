@@ -7,6 +7,16 @@ public class AssetTypeNative extends Asset {
   public AssetTypeNative() {}
 
   @Override
+  public String getCode() {
+    return null;
+  }
+
+  @Override
+  public StellarKeypair getIssuer() {
+    return null;
+  }
+
+  @Override
   public org.stellar.base.xdr.Asset toXdr() {
     org.stellar.base.xdr.Asset xdr = new org.stellar.base.xdr.Asset();
     xdr.setDiscriminant(AssetType.ASSET_TYPE_NATIVE);

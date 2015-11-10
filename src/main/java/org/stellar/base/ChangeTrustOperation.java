@@ -42,7 +42,7 @@ public class ChangeTrustOperation extends Operation {
 
     private StellarKeypair mSourceAccount;
 
-    Builder(ChangeTrustOp op) {
+    Builder(ChangeTrustOp op) throws AssetCodeLengthInvalidException {
       mAsset = Asset.fromXdr(op.getline());
       mLimit = op.getlimit().getint64();
     }

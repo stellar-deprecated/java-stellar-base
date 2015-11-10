@@ -24,7 +24,7 @@ public class PathPaymentOperation extends Operation {
     mPath = path;
   }
 
-  public Asset getSendCurrency() {
+  public Asset getSendAsset() {
     return mSendAsset;
   }
 
@@ -36,7 +36,7 @@ public class PathPaymentOperation extends Operation {
     return mDestination;
   }
 
-  public Asset getDestCurrency() {
+  public Asset getDestAsset() {
     return mDestAsset;
   }
 
@@ -51,17 +51,24 @@ public class PathPaymentOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     PathPaymentOp op = new PathPaymentOp();
+
+    // sendAsset
     op.setsendAsset(mSendAsset.toXdr());
+    // sendMax
     Int64 sendMax = new Int64();
     sendMax.setint64(mSendMax);
     op.setsendMax(sendMax);
+    // destination
     AccountID destination = new AccountID();
     destination.setAccountID(mDestination.getXdrPublicKey());
     op.setdestination(destination);
+    // destAsset
     op.setdestAsset(mDestAsset.toXdr());
+    // destAmount
     Int64 destAmount = new Int64();
     destAmount.setint64(mDestAmount);
     op.setdestAmount(destAmount);
+    // path
     org.stellar.base.xdr.Asset[] path = new org.stellar.base.xdr.Asset[mPath.length];
     for (int i = 0; i < mPath.length; i++) {
       path[i] = mPath[i].toXdr();
@@ -84,7 +91,7 @@ public class PathPaymentOperation extends Operation {
 
     private StellarKeypair mSourceAccount;
 
-    Builder(PathPaymentOp op) {
+    Builder(PathPaymentOp op) throws AssetCodeLengthInvalidException {
       mSendAsset = Asset.fromXdr(op.getsendAsset());
       mSendMax = op.getsendMax().getint64();
       mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());

@@ -1,6 +1,11 @@
 package org.stellar.base;
 
+import org.apache.commons.codec.binary.Base64;
 import org.stellar.base.xdr.AccountID;
+import org.stellar.base.xdr.XdrDataOutputStream;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 abstract class Operation {
 
@@ -17,7 +22,16 @@ abstract class Operation {
     return xdr;
   }
 
-  public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
+  public String toBase64() throws IOException {
+    org.stellar.base.xdr.Operation operation = this.toXdr();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
+    org.stellar.base.xdr.Operation.encode(xdrOutputStream, operation);
+    Base64 base64Codec = new Base64();
+    return base64Codec.encodeAsString(outputStream.toByteArray());
+  }
+
+  public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) throws AssetCodeLengthInvalidException {
     org.stellar.base.xdr.Operation.OperationBody body = xdr.getbody();
     Operation operation = null;
     switch (body.getDiscriminant()) {

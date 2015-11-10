@@ -60,7 +60,6 @@ public class CreateAccountOperation extends Operation {
      * Creates a new CreateAccount builder.
      * @param destination The destination keypair (uses only the public key).
      * @param startingBalance The initial balance to start with.
-     * @param
      */
     public Builder(StellarKeypair destination, long startingBalance) {
       mDestination = destination;

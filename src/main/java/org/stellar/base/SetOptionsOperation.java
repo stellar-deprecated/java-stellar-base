@@ -9,6 +9,8 @@ import org.stellar.base.xdr.Thresholds;
 import org.stellar.base.xdr.Uint256;
 import org.stellar.base.xdr.Uint32;
 
+import java.util.Arrays;
+
 public class SetOptionsOperation extends Operation {
 
   private final StellarKeypair mInflationDestination;
@@ -116,6 +118,10 @@ public class SetOptionsOperation extends Operation {
       op.sethighThreshold(uint32);
     }
     if (mHomeDomain != null) {
+      byte[] homeDomainBytes = new byte[32];
+      Arrays.fill(homeDomainBytes, (byte) 0);
+      System.arraycopy(mHomeDomain.getBytes(), 0, homeDomainBytes, 0, mHomeDomain.length());
+
       String32 homeDomain = new String32();
       homeDomain.setstring32(mHomeDomain);
       op.sethomeDomain(homeDomain);
