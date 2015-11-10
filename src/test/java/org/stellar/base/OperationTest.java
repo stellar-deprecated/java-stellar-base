@@ -207,9 +207,10 @@ public class OperationTest extends TestCase {
 
     Asset selling = new AssetTypeNative();
     Asset buying = Asset.createNonNativeAsset("USD", issuer);
-    long amount = 1L;
-    float price = 1.2F;
-    long offerId = 1L;
+    long amount = 100;
+    double price = 0.85334384; // n=5333399 d=6250000
+    Price priceObj = Price.rationalApproximation(price);
+    long offerId = 1;
 
     ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying,
         amount, price, offerId)
@@ -224,10 +225,12 @@ public class OperationTest extends TestCase {
     Assert.assertTrue(parsedOperation.getBuying().equals(buying));
     Assert.assertEquals(amount, parsedOperation.getAmount());
     Assert.assertEquals(price, parsedOperation.getPrice(), 0);
+    Assert.assertEquals(priceObj.getNumerator(), 5333399);
+    Assert.assertEquals(priceObj.getDenominator(), 6250000);
     Assert.assertEquals(offerId, parsedOperation.getOfferId());
 
     assertEquals(
-            "TODO",
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAMAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZABRYZcAX14QAAAAAAAAAAE=",
             operation.toBase64());
   }
 
