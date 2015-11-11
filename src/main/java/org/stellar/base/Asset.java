@@ -32,13 +32,13 @@ public abstract class Asset {
       case ASSET_TYPE_NATIVE:
         return new AssetTypeNative();
       case ASSET_TYPE_CREDIT_ALPHANUM4:
-        String assetCode4 = Asset.paddedByteArrayToString(xdr.getalphaNum4().getassetCode());
+        String assetCode4 = Asset.paddedByteArrayToString(xdr.getAlphaNum4().getAssetCode());
         StellarKeypair issuer4 = StellarKeypair.fromXdrPublicKey(
-            xdr.getalphaNum4().getissuer().getAccountID());
+            xdr.getAlphaNum4().getIssuer().getAccountID());
         return new AssetTypeCreditAlphaNum4(assetCode4, issuer4);
       case ASSET_TYPE_CREDIT_ALPHANUM12:
-        String assetCode12 = Asset.paddedByteArrayToString(xdr.getalphaNum12().getassetCode());
-        StellarKeypair issuer12 = StellarKeypair.fromXdrPublicKey(xdr.getalphaNum12().getissuer().getAccountID());
+        String assetCode12 = Asset.paddedByteArrayToString(xdr.getAlphaNum12().getAssetCode());
+        StellarKeypair issuer12 = StellarKeypair.fromXdrPublicKey(xdr.getAlphaNum12().getIssuer().getAccountID());
         return new AssetTypeCreditAlphaNum12(assetCode12, issuer12);
       default:
         throw new IllegalArgumentException("Unknown asset type " + xdr.getDiscriminant());

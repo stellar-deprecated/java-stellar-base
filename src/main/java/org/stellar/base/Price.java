@@ -59,10 +59,10 @@ public class Price {
         org.stellar.base.xdr.Price xdr = new org.stellar.base.xdr.Price();
         Int32 n = new Int32();
         Int32 d = new Int32();
-        n.setint32(this.n);
-        d.setint32(this.d);
-        xdr.setn(n);
-        xdr.setd(d);
+        n.setInt32(this.n);
+        d.setInt32(this.d);
+        xdr.setN(n);
+        xdr.setD(d);
         return xdr;
     }
 

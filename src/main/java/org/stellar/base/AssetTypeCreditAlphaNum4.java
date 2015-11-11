@@ -17,11 +17,11 @@ public class AssetTypeCreditAlphaNum4 extends AssetTypeCreditAlphaNum {
     org.stellar.base.xdr.Asset xdr = new org.stellar.base.xdr.Asset();
     xdr.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
     org.stellar.base.xdr.Asset.AssetAlphaNum4 credit = new org.stellar.base.xdr.Asset.AssetAlphaNum4();
-    credit.setassetCode(Asset.filledByteArray(mCode, 4));
+    credit.setAssetCode(Asset.filledByteArray(mCode, 4));
     AccountID accountID = new AccountID();
     accountID.setAccountID(mIssuer.getXdrPublicKey());
-    credit.setissuer(accountID);
-    xdr.setalphaNum4(credit);
+    credit.setIssuer(accountID);
+    xdr.setAlphaNum4(credit);
     return xdr;
   }
 }

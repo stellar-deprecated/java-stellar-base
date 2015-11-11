@@ -36,23 +36,23 @@ public class AllowTrustOperation extends Operation {
     // trustor
     AccountID trustor = new AccountID();
     trustor.setAccountID(mTrustor.getXdrPublicKey());
-    op.settrustor(trustor);
+    op.setTrustor(trustor);
     // asset
     AllowTrustOp.AllowTrustOpAsset asset = new AllowTrustOp.AllowTrustOpAsset();
     if (mAssetCode.length() <= 4) {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
-      asset.setassetCode4(Asset.filledByteArray(mAssetCode, 4));
+      asset.setAssetCode4(Asset.filledByteArray(mAssetCode, 4));
     } else {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM12);
-      asset.setassetCode12(Asset.filledByteArray(mAssetCode, 12));
+      asset.setAssetCode12(Asset.filledByteArray(mAssetCode, 12));
     }
-    op.setasset(asset);
+    op.setAsset(asset);
     // authorize
-    op.setauthorize(mAuthorize);
+    op.setAuthorize(mAuthorize);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.ALLOW_TRUST);
-    body.setallowTrustOp(op);
+    body.setAllowTrustOp(op);
     return body;
   }
 
@@ -64,18 +64,18 @@ public class AllowTrustOperation extends Operation {
     private StellarKeypair mSourceAccount;
 
     Builder(AllowTrustOp op) {
-      mTrustor = StellarKeypair.fromXdrPublicKey(op.gettrustor().getAccountID());
-      switch (op.getasset().getDiscriminant()) {
+      mTrustor = StellarKeypair.fromXdrPublicKey(op.getTrustor().getAccountID());
+      switch (op.getAsset().getDiscriminant()) {
         case ASSET_TYPE_CREDIT_ALPHANUM4:
-          mAssetCode = new String(op.getasset().getassetCode4());
+          mAssetCode = new String(op.getAsset().getAssetCode4());
           break;
         case ASSET_TYPE_CREDIT_ALPHANUM12:
-          mAssetCode = new String(op.getasset().getassetCode12().toString());
+          mAssetCode = new String(op.getAsset().getAssetCode12().toString());
           break;
         default:
           throw new RuntimeException("Unknown asset code");
       }
-      mAuthorize = op.getauthorize();
+      mAuthorize = op.getAuthorize();
     }
 
     public Builder(StellarKeypair trustor, String assetCode, boolean authorize) {

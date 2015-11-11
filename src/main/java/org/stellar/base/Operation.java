@@ -16,9 +16,9 @@ abstract class Operation {
     if (getSourceAccount() != null) {
       AccountID sourceAccount = new AccountID();
       sourceAccount.setAccountID(getSourceAccount().getXdrPublicKey());
-      xdr.setsourceAccount(sourceAccount);
+      xdr.setSourceAccount(sourceAccount);
     }
-    xdr.setbody(toOperationBody());
+    xdr.setBody(toOperationBody());
     return xdr;
   }
 
@@ -32,32 +32,32 @@ abstract class Operation {
   }
 
   public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
-    org.stellar.base.xdr.Operation.OperationBody body = xdr.getbody();
+    org.stellar.base.xdr.Operation.OperationBody body = xdr.getBody();
     Operation operation = null;
     switch (body.getDiscriminant()) {
       case CREATE_ACCOUNT:
-        operation = new CreateAccountOperation.Builder(body.getcreateAccountOp()).build();
+        operation = new CreateAccountOperation.Builder(body.getCreateAccountOp()).build();
         break;
       case PAYMENT:
-        operation = new PaymentOperation.Builder(body.getpaymentOp()).build();
+        operation = new PaymentOperation.Builder(body.getPaymentOp()).build();
         break;
       case PATH_PAYMENT:
-        operation = new PathPaymentOperation.Builder(body.getpathPaymentOp()).build();
+        operation = new PathPaymentOperation.Builder(body.getPathPaymentOp()).build();
         break;
       case MANAGE_OFFER:
-        operation = new ManagerOfferOperation.Builder(body.getmanageOfferOp()).build();
+        operation = new ManagerOfferOperation.Builder(body.getManageOfferOp()).build();
         break;
       case CREATE_PASSIVE_OFFER:
-        operation = new CreatePassiveOfferOperation.Builder(body.getcreatePassiveOfferOp()).build();
+        operation = new CreatePassiveOfferOperation.Builder(body.getCreatePassiveOfferOp()).build();
         break;
       case SET_OPTIONS:
-        operation = new SetOptionsOperation.Builder(body.getsetOptionsOp()).build();
+        operation = new SetOptionsOperation.Builder(body.getSetOptionsOp()).build();
         break;
       case CHANGE_TRUST:
-        operation = new ChangeTrustOperation.Builder(body.getchangeTrustOp()).build();
+        operation = new ChangeTrustOperation.Builder(body.getChangeTrustOp()).build();
         break;
       case ALLOW_TRUST:
-        operation = new AllowTrustOperation.Builder(body.getallowTrustOp()).build();
+        operation = new AllowTrustOperation.Builder(body.getAllowTrustOp()).build();
         break;
       case ACCOUNT_MERGE:
         operation = new AccountMergeOperation.Builder(body).build();
@@ -65,8 +65,8 @@ abstract class Operation {
       default:
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }
-    if (xdr.getsourceAccount() != null) {
-      operation.setSourceAccount(StellarKeypair.fromXdrPublicKey(xdr.getsourceAccount().getAccountID()));
+    if (xdr.getSourceAccount() != null) {
+      operation.setSourceAccount(StellarKeypair.fromXdrPublicKey(xdr.getSourceAccount().getAccountID()));
     }
     return operation;
   }

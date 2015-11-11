@@ -39,17 +39,17 @@ public class CreatePassiveOfferOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     CreatePassiveOfferOp op = new CreatePassiveOfferOp();
-    op.setselling(mSelling.toXdr());
-    op.setbuying(mBuying.toXdr());
+    op.setSelling(mSelling.toXdr());
+    op.setBuying(mBuying.toXdr());
     Int64 amount = new Int64();
-    amount.setint64(Long.valueOf(mAmount));
-    op.setamount(amount);
+    amount.setInt64(Long.valueOf(mAmount));
+    op.setAmount(amount);
     Price price = Price.fromString(mPrice);
-    op.setprice(price.toXdr());
+    op.setPrice(price.toXdr());
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.CREATE_PASSIVE_OFFER);
-    body.setcreatePassiveOfferOp(op);
+    body.setCreatePassiveOfferOp(op);
 
     return body;
   }
@@ -68,11 +68,11 @@ public class CreatePassiveOfferOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(CreatePassiveOfferOp op) {
-      mSelling = Asset.fromXdr(op.getselling());
-      mBuying = Asset.fromXdr(op.getbuying());
-      mAmount = op.getamount().getint64().longValue();
-      int n = op.getprice().getn().getint32().intValue();
-      int d = op.getprice().getd().getint32().intValue();
+      mSelling = Asset.fromXdr(op.getSelling());
+      mBuying = Asset.fromXdr(op.getBuying());
+      mAmount = op.getAmount().getInt64().longValue();
+      int n = op.getPrice().getN().getInt32().intValue();
+      int d = op.getPrice().getD().getInt32().intValue();
       mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
     }
 
