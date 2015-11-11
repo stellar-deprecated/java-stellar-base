@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Base Asset class.
  */
 public abstract class Asset {
-  static Asset createNonNativeAsset(String assetCode, StellarKeypair issuer) throws AssetCodeLengthInvalidException {
+  static Asset createNonNativeAsset(String assetCode, StellarKeypair issuer) {
     if (assetCode.length() >= 1 && assetCode.length() <= 4) {
       return new AssetTypeCreditAlphaNum4(assetCode, issuer);
     } else if (assetCode.length() >= 5 && assetCode.length() <= 12) {
@@ -30,7 +30,7 @@ public abstract class Asset {
     return assetCodeBytes;
   }
 
-  static Asset fromXdr(org.stellar.base.xdr.Asset xdr) throws AssetCodeLengthInvalidException {
+  static Asset fromXdr(org.stellar.base.xdr.Asset xdr) {
     switch (xdr.getDiscriminant()) {
       case ASSET_TYPE_NATIVE:
         return new AssetTypeNative();

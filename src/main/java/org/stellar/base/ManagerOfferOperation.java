@@ -6,15 +6,17 @@ import org.stellar.base.xdr.ManageOfferOp;
 import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.Uint64;
 
+import java.math.BigDecimal;
+
 public class ManagerOfferOperation extends Operation {
 
   private final Asset mSelling;
   private final Asset mBuying;
   private final long mAmount;
-  private final double mPrice;
+  private final String mPrice;
   private final long mOfferId;
 
-  private ManagerOfferOperation(Asset selling, Asset buying, long amount, double price, long offerId) {
+  private ManagerOfferOperation(Asset selling, Asset buying, long amount, String price, long offerId) {
     mSelling = selling;
     mBuying = buying;
     mAmount = amount;
@@ -34,7 +36,7 @@ public class ManagerOfferOperation extends Operation {
     return mAmount;
   }
 
-  public double getPrice() {
+  public String getPrice() {
     return mPrice;
   }
 
@@ -50,7 +52,7 @@ public class ManagerOfferOperation extends Operation {
     Int64 amount = new Int64();
     amount.setint64(Long.valueOf(mAmount));
     op.setamount(amount);
-    Price price = Price.rationalApproximation(mPrice);
+    Price price = Price.fromString(mPrice);
     op.setprice(price.toXdr());
     Uint64 offerId = new Uint64();
     offerId.setuint64(Long.valueOf(mOfferId));
@@ -68,7 +70,7 @@ public class ManagerOfferOperation extends Operation {
     private final Asset mSelling;
     private final Asset mBuying;
     private final long mAmount;
-    private final double mPrice;
+    private final String mPrice;
     private final long mOfferId;
 
     private StellarKeypair mSourceAccount;
@@ -77,17 +79,17 @@ public class ManagerOfferOperation extends Operation {
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
-    Builder(ManageOfferOp op) throws AssetCodeLengthInvalidException {
+    Builder(ManageOfferOp op) {
       mSelling = Asset.fromXdr(op.getselling());
       mBuying = Asset.fromXdr(op.getbuying());
       mAmount = op.getamount().getint64().longValue();
       int n = op.getprice().getn().getint32().intValue();
       int d = op.getprice().getd().getint32().intValue();
-      mPrice = (double) n / d;
+      mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
       mOfferId = op.getofferID().getuint64().longValue();
     }
 
-    public Builder(Asset selling, Asset buying, long amount, double price, long id) {
+    public Builder(Asset selling, Asset buying, long amount, String price, long id) {
       mSelling = selling;
       mBuying = buying;
       mAmount = amount;

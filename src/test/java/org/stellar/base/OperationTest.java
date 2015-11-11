@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.stellar.base.xdr.CreatePassiveOfferOp;
 
 import java.io.IOException;
 
@@ -100,7 +99,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testChangeTrustOperation() throws AssetCodeLengthInvalidException, FormatException, IOException {
+  public void testChangeTrustOperation() throws FormatException, IOException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
 
@@ -123,7 +122,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testAllowTrustOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+  public void testAllowTrustOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR
@@ -149,7 +148,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testSetOptionsOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+  public void testSetOptionsOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR
@@ -200,7 +199,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testManagerOfferOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+  public void testManagerOfferOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
@@ -209,8 +208,8 @@ public class OperationTest extends TestCase {
     Asset selling = new AssetTypeNative();
     Asset buying = Asset.createNonNativeAsset("USD", issuer);
     long amount = 100;
-    double price = 0.85334384; // n=5333399 d=6250000
-    Price priceObj = Price.rationalApproximation(price);
+    String price = "0.85334384"; // n=5333399 d=6250000
+    Price priceObj = Price.fromString(price);
     long offerId = 1;
 
     ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying,
@@ -225,7 +224,7 @@ public class OperationTest extends TestCase {
     Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
     Assert.assertTrue(parsedOperation.getBuying().equals(buying));
     Assert.assertEquals(amount, parsedOperation.getAmount());
-    Assert.assertEquals(price, parsedOperation.getPrice(), 0);
+    Assert.assertEquals(price, parsedOperation.getPrice());
     Assert.assertEquals(priceObj.getNumerator(), 5333399);
     Assert.assertEquals(priceObj.getDenominator(), 6250000);
     Assert.assertEquals(offerId, parsedOperation.getOfferId());
@@ -235,7 +234,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testCreatePassiveOfferOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+  public void testCreatePassiveOfferOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
@@ -244,8 +243,8 @@ public class OperationTest extends TestCase {
     Asset selling = new AssetTypeNative();
     Asset buying = Asset.createNonNativeAsset("USD", issuer);
     long amount = 100;
-    double price = 2.93850088; // n=36731261 d=12500000
-    Price priceObj = Price.rationalApproximation(price);
+    String price = "2.93850088"; // n=36731261 d=12500000
+    Price priceObj = Price.fromString(price);
 
       CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation.Builder(selling, buying, amount, price)
             .setSourceAccount(source)
@@ -258,7 +257,7 @@ public class OperationTest extends TestCase {
     Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
     Assert.assertTrue(parsedOperation.getBuying().equals(buying));
     Assert.assertEquals(amount, parsedOperation.getAmount());
-    Assert.assertEquals(price, parsedOperation.getPrice(), 0);
+    Assert.assertEquals(price, parsedOperation.getPrice());
     Assert.assertEquals(priceObj.getNumerator(), 36731261);
     Assert.assertEquals(priceObj.getDenominator(), 12500000);
 
@@ -267,7 +266,7 @@ public class OperationTest extends TestCase {
             operation.toBase64());
   }
 
-  public void testAccountMergeOperation() throws AssetCodeLengthInvalidException, IOException, FormatException {
+  public void testAccountMergeOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     StellarKeypair source = StellarKeypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR

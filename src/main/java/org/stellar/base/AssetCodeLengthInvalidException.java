@@ -1,9 +1,6 @@
 package org.stellar.base;
 
-/**
- * Created by bartek on 09.11.15.
- */
-public class AssetCodeLengthInvalidException extends Exception {
+public class AssetCodeLengthInvalidException extends RuntimeException {
     public AssetCodeLengthInvalidException() {
         super();
     }

@@ -31,7 +31,7 @@ abstract class Operation {
     return base64Codec.encodeAsString(outputStream.toByteArray());
   }
 
-  public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) throws AssetCodeLengthInvalidException {
+  public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
     org.stellar.base.xdr.Operation.OperationBody body = xdr.getbody();
     Operation operation = null;
     switch (body.getDiscriminant()) {

@@ -8,16 +8,12 @@ public class AssetTypeCreditAlphaNum4 extends Asset {
   public final String mAssetCode;
   public final StellarKeypair mIssuer;
 
-  public AssetTypeCreditAlphaNum4(String assetCode, StellarKeypair issuer) throws AssetCodeLengthInvalidException {
+  public AssetTypeCreditAlphaNum4(String assetCode, StellarKeypair issuer) {
     if (assetCode.length() < 1 || assetCode.length() > 4) {
       throw new AssetCodeLengthInvalidException();
     }
     mAssetCode = assetCode;
     mIssuer = issuer;
-  }
-
-  public String getAssetCode() {
-    return mAssetCode;
   }
 
   @Override

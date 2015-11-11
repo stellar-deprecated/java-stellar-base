@@ -61,7 +61,7 @@ public class PaymentOperation extends Operation {
      * Construct a new PaymentOperation builder from a PaymentOp XDR.
      * @param op {@link PaymentOp}
      */
-    Builder(PaymentOp op) throws AssetCodeLengthInvalidException {
+    Builder(PaymentOp op) {
       mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
       mAsset = Asset.fromXdr(op.getasset());
       mAmount = op.getamount().getint64().longValue();

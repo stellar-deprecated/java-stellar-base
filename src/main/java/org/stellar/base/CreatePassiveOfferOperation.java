@@ -3,16 +3,17 @@ package org.stellar.base;
 import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.CreatePassiveOfferOp;
 import org.stellar.base.xdr.Int64;
-import org.stellar.base.xdr.ManageOfferOp;
 import org.stellar.base.xdr.OperationType;
+
+import java.math.BigDecimal;
 
 public class CreatePassiveOfferOperation extends Operation {
   private final Asset mSelling;
   private final Asset mBuying;
   private final long mAmount;
-  private final double mPrice;
+  private final String mPrice;
 
-  private CreatePassiveOfferOperation(Asset selling, Asset buying, long amount, double price) {
+  private CreatePassiveOfferOperation(Asset selling, Asset buying, long amount, String price) {
     mSelling = selling;
     mBuying = buying;
     mAmount = amount;
@@ -31,7 +32,7 @@ public class CreatePassiveOfferOperation extends Operation {
     return mAmount;
   }
 
-  public double getPrice() {
+  public String getPrice() {
     return mPrice;
   }
 
@@ -43,7 +44,7 @@ public class CreatePassiveOfferOperation extends Operation {
     Int64 amount = new Int64();
     amount.setint64(Long.valueOf(mAmount));
     op.setamount(amount);
-    Price price = Price.rationalApproximation(mPrice);
+    Price price = Price.fromString(mPrice);
     op.setprice(price.toXdr());
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -58,7 +59,7 @@ public class CreatePassiveOfferOperation extends Operation {
     private final Asset mSelling;
     private final Asset mBuying;
     private final long mAmount;
-    private final double mPrice;
+    private final String mPrice;
 
     private StellarKeypair mSourceAccount;
 
@@ -66,16 +67,16 @@ public class CreatePassiveOfferOperation extends Operation {
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
-    Builder(CreatePassiveOfferOp op) throws AssetCodeLengthInvalidException {
+    Builder(CreatePassiveOfferOp op) {
       mSelling = Asset.fromXdr(op.getselling());
       mBuying = Asset.fromXdr(op.getbuying());
       mAmount = op.getamount().getint64().longValue();
       int n = op.getprice().getn().getint32().intValue();
       int d = op.getprice().getd().getint32().intValue();
-      mPrice = (double) n / d;
+      mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
     }
 
-    public Builder(Asset selling, Asset buying, long amount, double price) {
+    public Builder(Asset selling, Asset buying, long amount, String price) {
       mSelling = selling;
       mBuying = buying;
       mAmount = amount;

@@ -91,7 +91,7 @@ public class PathPaymentOperation extends Operation {
 
     private StellarKeypair mSourceAccount;
 
-    Builder(PathPaymentOp op) throws AssetCodeLengthInvalidException {
+    Builder(PathPaymentOp op) {
       mSendAsset = Asset.fromXdr(op.getsendAsset());
       mSendMax = op.getsendMax().getint64();
       mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
