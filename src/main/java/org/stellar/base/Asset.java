@@ -16,9 +16,6 @@ public abstract class Asset {
     }
   }
 
-  public abstract String getCode();
-  public abstract StellarKeypair getIssuer();
-
   static String paddedByteArrayToString(byte[] bytes) {
     return new String(bytes).split("\0")[0];
   }
@@ -49,26 +46,6 @@ public abstract class Asset {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (!(object instanceof Asset)) {
-      return false;
-    }
-
-    Asset asset = (Asset) object;
-
-    if (!this.getCode().equals(asset.getCode())) {
-      return false;
-    }
-
-    if (this.getIssuer() != null && asset.getIssuer() != null) {
-      return this.getIssuer().getAddress().equals(asset.getIssuer().getAddress());
-    } else if (this.getIssuer() == null && asset.getIssuer() == null) {
-      // Both native
-      return true;
-    } else {
-      return false;
-    }
-  }
-
+  public abstract boolean equals(Object object);
   abstract org.stellar.base.xdr.Asset toXdr();
 }

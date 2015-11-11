@@ -7,13 +7,8 @@ public class AssetTypeNative extends Asset {
   public AssetTypeNative() {}
 
   @Override
-  public String getCode() {
-    return null;
-  }
-
-  @Override
-  public StellarKeypair getIssuer() {
-    return null;
+  public boolean equals(Object object) {
+    return this.getClass().equals(object.getClass());
   }
 
   @Override

@@ -1,10 +1,8 @@
 package org.stellar.base;
 
-import org.apache.commons.math3.fraction.Fraction;
 import org.stellar.base.xdr.Int32;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

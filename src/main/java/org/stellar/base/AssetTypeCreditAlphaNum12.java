@@ -3,26 +3,13 @@ package org.stellar.base;
 import org.stellar.base.xdr.AccountID;
 import org.stellar.base.xdr.AssetType;
 
-public class AssetTypeCreditAlphaNum12 extends Asset {
+public class AssetTypeCreditAlphaNum12 extends AssetTypeCreditAlphaNum {
 
-  public final String mAssetCode;
-  public final StellarKeypair mIssuer;
-
-  public AssetTypeCreditAlphaNum12(String assetCode, StellarKeypair issuer) {
-    if (assetCode.length() < 5 || assetCode.length() > 12) {
+  public AssetTypeCreditAlphaNum12(String code, StellarKeypair issuer) {
+    super(code, issuer);
+    if (code.length() < 5 || code.length() > 12) {
       throw new AssetCodeLengthInvalidException();
     }
-    mAssetCode = assetCode;
-    mIssuer = issuer;
-  }
-
-  @Override
-  public String getCode() {
-    return mAssetCode;
-  }
-
-  public StellarKeypair getIssuer() {
-    return mIssuer;
   }
 
   @Override
@@ -30,7 +17,7 @@ public class AssetTypeCreditAlphaNum12 extends Asset {
     org.stellar.base.xdr.Asset xdr = new org.stellar.base.xdr.Asset();
     xdr.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM12);
     org.stellar.base.xdr.Asset.AssetAlphaNum12 credit = new org.stellar.base.xdr.Asset.AssetAlphaNum12();
-    credit.setassetCode(Asset.filledByteArray(mAssetCode, 12));
+    credit.setassetCode(Asset.filledByteArray(mCode, 12));
     AccountID accountID = new AccountID();
     accountID.setAccountID(mIssuer.getXdrPublicKey());
     credit.setissuer(accountID);
