@@ -49,19 +49,6 @@ public class Util {
     return Util.paddedByteArray(string.getBytes(), length);
   }
 
-  static byte[] paddedByteArrayBlock(byte[] bytes, int blockSize) {
-    int pad = 0;
-    int mod = bytes.length % blockSize;
-    if (mod > 0) {
-      pad = blockSize-mod;
-    }
-    return Util.paddedByteArray(bytes, bytes.length+pad);
-  }
-
-  static byte[] paddedByteArrayBlock(String string, int blockSize) {
-    return Util.paddedByteArrayBlock(string.getBytes(), blockSize);
-  }
-
   static String paddedByteArrayToString(byte[] bytes) {
     return new String(bytes).split("\0")[0];
   }
