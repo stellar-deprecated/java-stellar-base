@@ -21,7 +21,7 @@ public class PaymentOperation extends Operation {
     return mDestination;
   }
 
-  public Asset getCurrency() {
+  public Asset getAsset() {
     return mAsset;
   }
 
@@ -32,17 +32,21 @@ public class PaymentOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     PaymentOp op = new PaymentOp();
+
+    // destination
     AccountID destination = new AccountID();
     destination.setAccountID(mDestination.getXdrPublicKey());
-    op.setdestination(destination);
-    op.setasset(mAsset.toXdr());
+    op.setDestination(destination);
+    // asset
+    op.setAsset(mAsset.toXdr());
+    // amount
     Int64 amount = new Int64();
-    amount.setint64(mAmount);
-    op.setamount(amount);
+    amount.setInt64(mAmount);
+    op.setAmount(amount);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.PAYMENT);
-    body.setpaymentOp(op);
+    body.setPaymentOp(op);
     return body;
   }
 
@@ -58,15 +62,15 @@ public class PaymentOperation extends Operation {
      * @param op {@link PaymentOp}
      */
     Builder(PaymentOp op) {
-      mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
-      mAsset = Asset.fromXdr(op.getasset());
-      mAmount = op.getamount().getint64().longValue();
+      mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      mAsset = Asset.fromXdr(op.getAsset());
+      mAmount = op.getAmount().getInt64().longValue();
     }
 
     /**
      * Creates a new PaymentOperation builder.
      * @param destination The destination keypair (uses only the public key).
-     * @param asset The currency to send.
+     * @param asset The asset to send.
      * @param amount The amount to send.
      * @param
      */

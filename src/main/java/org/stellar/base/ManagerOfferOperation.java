@@ -1,22 +1,22 @@
 package org.stellar.base;
 
 import org.stellar.base.xdr.CreateAccountOp;
-import org.stellar.base.xdr.Int32;
 import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.ManageOfferOp;
 import org.stellar.base.xdr.OperationType;
-import org.stellar.base.xdr.Price;
 import org.stellar.base.xdr.Uint64;
+
+import java.math.BigDecimal;
 
 public class ManagerOfferOperation extends Operation {
 
   private final Asset mSelling;
   private final Asset mBuying;
   private final long mAmount;
-  private final double mPrice;
+  private final String mPrice;
   private final long mOfferId;
 
-  private ManagerOfferOperation(Asset selling, Asset buying, long amount, double price, long offerId) {
+  private ManagerOfferOperation(Asset selling, Asset buying, long amount, String price, long offerId) {
     mSelling = selling;
     mBuying = buying;
     mAmount = amount;
@@ -36,7 +36,7 @@ public class ManagerOfferOperation extends Operation {
     return mAmount;
   }
 
-  public double getPrice() {
+  public String getPrice() {
     return mPrice;
   }
 
@@ -47,27 +47,20 @@ public class ManagerOfferOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     ManageOfferOp op = new ManageOfferOp();
-    op.setselling(mSelling.toXdr());
-    op.setbuying(mBuying.toXdr());
+    op.setSelling(mSelling.toXdr());
+    op.setBuying(mBuying.toXdr());
     Int64 amount = new Int64();
-    amount.setint64(Long.valueOf(mAmount));
-    op.setamount(amount);
-    RationalApproximation rationalApproximation = toRationalApproximation(mPrice);
-    Price price = new Price();
-    Int32 n = new Int32();
-    n.setint32((int) rationalApproximation.a);
-    Int32 d = new Int32();
-    d.setint32((int) rationalApproximation.b);
-    price.setn(n);
-    price.setd(d);
-    op.setprice(price);
+    amount.setInt64(Long.valueOf(mAmount));
+    op.setAmount(amount);
+    Price price = Price.fromString(mPrice);
+    op.setPrice(price.toXdr());
     Uint64 offerId = new Uint64();
-    offerId.setuint64(Long.valueOf(mOfferId));
-    op.setofferID(offerId);
+    offerId.setUint64(Long.valueOf(mOfferId));
+    op.setOfferID(offerId);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.MANAGE_OFFER);
-    body.setmanageOfferOp(op);
+    body.setManageOfferOp(op);
 
     return body;
   }
@@ -77,7 +70,7 @@ public class ManagerOfferOperation extends Operation {
     private final Asset mSelling;
     private final Asset mBuying;
     private final long mAmount;
-    private final float mPrice;
+    private final String mPrice;
     private final long mOfferId;
 
     private StellarKeypair mSourceAccount;
@@ -87,16 +80,16 @@ public class ManagerOfferOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(ManageOfferOp op) {
-      mSelling = Asset.fromXdr(op.getselling());
-      mBuying = Asset.fromXdr(op.getbuying());
-      mAmount = op.getamount().getint64().longValue();
-      float n = op.getprice().getn().getint32().floatValue();
-      float d = op.getprice().getd().getint32().floatValue();
-      mPrice = (long) n / d;
-      mOfferId = op.getofferID().getuint64().longValue();
+      mSelling = Asset.fromXdr(op.getSelling());
+      mBuying = Asset.fromXdr(op.getBuying());
+      mAmount = op.getAmount().getInt64().longValue();
+      int n = op.getPrice().getN().getInt32().intValue();
+      int d = op.getPrice().getD().getInt32().intValue();
+      mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
+      mOfferId = op.getOfferID().getUint64().longValue();
     }
 
-    public Builder(Asset selling, Asset buying, long amount, float price, long id) {
+    public Builder(Asset selling, Asset buying, long amount, String price, long id) {
       mSelling = selling;
       mBuying = buying;
       mAmount = amount;
@@ -121,47 +114,6 @@ public class ManagerOfferOperation extends Operation {
         operation.setSourceAccount(mSourceAccount);
       }
       return operation;
-    }
-  }
-
-  // from http://stackoverflow.com/questions/13222664/convert-floating-point-number-into-a-rational-number-in-java
-  static RationalApproximation toRationalApproximation(double price) {
-    long bits = Double.doubleToLongBits(price);
-
-    long sign = bits >>> 63;
-    long exponent = ((bits >>> 52) ^ (sign << 11)) - 1023;
-    long fraction = bits << 12; // bits are "reversed" but that's not a problem
-
-    long a = 1L;
-    long b = 1L;
-
-    for (int i = 63; i >= 12; i--) {
-      long tempA = a * 2 + ((fraction >>> i) & 1);
-      if (tempA >= Integer.MAX_VALUE) {
-        break;
-      }
-      a = tempA;
-      b *= 2;
-    }
-
-    if (exponent > 0)
-      a *= 1 << exponent;
-    else
-      b *= 1 << -exponent;
-
-    if (sign == 1)
-      a *= -1;
-
-    return new RationalApproximation(a, b);
-  }
-
-  static class RationalApproximation {
-    private final long a;
-    private final long b;
-
-    RationalApproximation(long a, long b) {
-      this.a = a;
-      this.b = b;
     }
   }
 }

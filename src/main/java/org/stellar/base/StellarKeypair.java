@@ -122,13 +122,13 @@ public class StellarKeypair {
     PublicKey publicKey = new PublicKey();
     publicKey.setDiscriminant(CryptoKeyType.KEY_TYPE_ED25519);
     Uint256 uint256 = new Uint256();
-    uint256.setuint256(getPublicKey());
-    publicKey.seted25519(uint256);
+    uint256.setUint256(getPublicKey());
+    publicKey.setEd25519(uint256);
     return publicKey;
   }
 
   public static StellarKeypair fromXdrPublicKey(PublicKey key) {
-    return StellarKeypair.fromPublicKey(key.geted25519().getuint256());
+    return StellarKeypair.fromPublicKey(key.getEd25519().getUint256());
   }
 
   /**

@@ -21,7 +21,7 @@ public class AccountMergeOperation extends Operation {
         OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
         AccountID destination = new AccountID();
         destination.setAccountID(mDestination.getXdrPublicKey());
-        body.setdestination(destination);
+        body.setDestination(destination);
         body.setDiscriminant(OperationType.ACCOUNT_MERGE);
         return body;
     }
@@ -32,7 +32,7 @@ public class AccountMergeOperation extends Operation {
         private StellarKeypair mSourceAccount;
 
         Builder(OperationBody op) {
-            mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
+            mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
         }
 
         public Builder(StellarKeypair destination) {

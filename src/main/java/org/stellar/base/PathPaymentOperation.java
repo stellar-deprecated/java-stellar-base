@@ -24,7 +24,7 @@ public class PathPaymentOperation extends Operation {
     mPath = path;
   }
 
-  public Asset getSendCurrency() {
+  public Asset getSendAsset() {
     return mSendAsset;
   }
 
@@ -36,7 +36,7 @@ public class PathPaymentOperation extends Operation {
     return mDestination;
   }
 
-  public Asset getDestCurrency() {
+  public Asset getDestAsset() {
     return mDestAsset;
   }
 
@@ -51,26 +51,33 @@ public class PathPaymentOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     PathPaymentOp op = new PathPaymentOp();
-    op.setsendAsset(mSendAsset.toXdr());
+
+    // sendAsset
+    op.setSendAsset(mSendAsset.toXdr());
+    // sendMax
     Int64 sendMax = new Int64();
-    sendMax.setint64(mSendMax);
-    op.setsendMax(sendMax);
+    sendMax.setInt64(mSendMax);
+    op.setSendMax(sendMax);
+    // destination
     AccountID destination = new AccountID();
     destination.setAccountID(mDestination.getXdrPublicKey());
-    op.setdestination(destination);
-    op.setdestAsset(mDestAsset.toXdr());
+    op.setDestination(destination);
+    // destAsset
+    op.setDestAsset(mDestAsset.toXdr());
+    // destAmount
     Int64 destAmount = new Int64();
-    destAmount.setint64(mDestAmount);
-    op.setdestAmount(destAmount);
+    destAmount.setInt64(mDestAmount);
+    op.setDestAmount(destAmount);
+    // path
     org.stellar.base.xdr.Asset[] path = new org.stellar.base.xdr.Asset[mPath.length];
     for (int i = 0; i < mPath.length; i++) {
       path[i] = mPath[i].toXdr();
     }
-    op.setpath(path);
+    op.setPath(path);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.PATH_PAYMENT);
-    body.setpathPaymentOp(op);
+    body.setPathPaymentOp(op);
     return body;
   }
 
@@ -85,14 +92,14 @@ public class PathPaymentOperation extends Operation {
     private StellarKeypair mSourceAccount;
 
     Builder(PathPaymentOp op) {
-      mSendAsset = Asset.fromXdr(op.getsendAsset());
-      mSendMax = op.getsendMax().getint64();
-      mDestination = StellarKeypair.fromXdrPublicKey(op.getdestination().getAccountID());
-      mDestAsset = Asset.fromXdr(op.getdestAsset());
-      mDestAmount = op.getdestAmount().getint64();
-      mPath = new Asset[op.getpath().length];
-      for (int i = 0; i < op.getpath().length; i++) {
-        mPath[i] = Asset.fromXdr(op.getpath()[i]);
+      mSendAsset = Asset.fromXdr(op.getSendAsset());
+      mSendMax = op.getSendMax().getInt64();
+      mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      mDestAsset = Asset.fromXdr(op.getDestAsset());
+      mDestAmount = op.getDestAmount().getInt64();
+      mPath = new Asset[op.getPath().length];
+      for (int i = 0; i < op.getPath().length; i++) {
+        mPath[i] = Asset.fromXdr(op.getPath()[i]);
       }
     }
 

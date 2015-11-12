@@ -25,14 +25,14 @@ public class ChangeTrustOperation extends Operation {
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     ChangeTrustOp op = new ChangeTrustOp();
-    op.setline(mAsset.toXdr());
+    op.setLine(mAsset.toXdr());
     Int64 limit = new Int64();
-    limit.setint64(mLimit);
-    op.setlimit(limit);
+    limit.setInt64(mLimit);
+    op.setLimit(limit);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.CHANGE_TRUST);
-    body.setchangeTrustOp(op);
+    body.setChangeTrustOp(op);
     return body;
   }
 
@@ -43,8 +43,8 @@ public class ChangeTrustOperation extends Operation {
     private StellarKeypair mSourceAccount;
 
     Builder(ChangeTrustOp op) {
-      mAsset = Asset.fromXdr(op.getline());
-      mLimit = op.getlimit().getint64();
+      mAsset = Asset.fromXdr(op.getLine());
+      mLimit = op.getLimit().getInt64();
     }
 
     public Builder(Asset line, long limit) {

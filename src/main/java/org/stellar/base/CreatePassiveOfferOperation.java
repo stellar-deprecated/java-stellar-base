@@ -2,17 +2,64 @@ package org.stellar.base;
 
 import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.CreatePassiveOfferOp;
+import org.stellar.base.xdr.Int64;
+import org.stellar.base.xdr.OperationType;
 
-/**
- * Created by andrewrogers on 7/21/15.
- */
+import java.math.BigDecimal;
+
 public class CreatePassiveOfferOperation extends Operation {
+  private final Asset mSelling;
+  private final Asset mBuying;
+  private final long mAmount;
+  private final String mPrice;
+
+  private CreatePassiveOfferOperation(Asset selling, Asset buying, long amount, String price) {
+    mSelling = selling;
+    mBuying = buying;
+    mAmount = amount;
+    mPrice = price;
+  }
+
+  public Asset getSelling() {
+    return mSelling;
+  }
+
+  public Asset getBuying() {
+    return mBuying;
+  }
+
+  public long getAmount() {
+    return mAmount;
+  }
+
+  public String getPrice() {
+    return mPrice;
+  }
+
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
-    return null;
+    CreatePassiveOfferOp op = new CreatePassiveOfferOp();
+    op.setSelling(mSelling.toXdr());
+    op.setBuying(mBuying.toXdr());
+    Int64 amount = new Int64();
+    amount.setInt64(Long.valueOf(mAmount));
+    op.setAmount(amount);
+    Price price = Price.fromString(mPrice);
+    op.setPrice(price.toXdr());
+
+    org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
+    body.setDiscriminant(OperationType.CREATE_PASSIVE_OFFER);
+    body.setCreatePassiveOfferOp(op);
+
+    return body;
   }
 
   static class Builder {
+
+    private final Asset mSelling;
+    private final Asset mBuying;
+    private final long mAmount;
+    private final String mPrice;
 
     private StellarKeypair mSourceAccount;
 
@@ -21,9 +68,19 @@ public class CreatePassiveOfferOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(CreatePassiveOfferOp op) {
+      mSelling = Asset.fromXdr(op.getSelling());
+      mBuying = Asset.fromXdr(op.getBuying());
+      mAmount = op.getAmount().getInt64().longValue();
+      int n = op.getPrice().getN().getInt32().intValue();
+      int d = op.getPrice().getD().getInt32().intValue();
+      mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
     }
 
-    public Builder() {
+    public Builder(Asset selling, Asset buying, long amount, String price) {
+      mSelling = selling;
+      mBuying = buying;
+      mAmount = amount;
+      mPrice = price;
     }
 
     /**
@@ -37,7 +94,7 @@ public class CreatePassiveOfferOperation extends Operation {
     }
 
     public CreatePassiveOfferOperation build() {
-      CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation();
+      CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation(mSelling, mBuying, mAmount, mPrice);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

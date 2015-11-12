@@ -9,6 +9,8 @@ import org.stellar.base.xdr.Thresholds;
 import org.stellar.base.xdr.Uint256;
 import org.stellar.base.xdr.Uint32;
 
+import java.util.Arrays;
+
 public class SetOptionsOperation extends Operation {
 
   private final StellarKeypair mInflationDestination;
@@ -83,57 +85,61 @@ public class SetOptionsOperation extends Operation {
     if (mInflationDestination != null) {
       AccountID inflationDestination = new AccountID();
       inflationDestination.setAccountID(mInflationDestination.getXdrPublicKey());
-      op.setinflationDest(inflationDestination);
+      op.setInflationDest(inflationDestination);
     }
     if (mClearFlags != 0) {
       Uint32 clearFlags = new Uint32();
-      clearFlags.setuint32(mClearFlags);
-      op.setclearFlags(clearFlags);
+      clearFlags.setUint32(mClearFlags);
+      op.setClearFlags(clearFlags);
     }
     if (mSetFlags != 0) {
       Uint32 setFlags = new Uint32();
-      setFlags.setuint32(mSetFlags);
-      op.setsetFlags(setFlags);
+      setFlags.setUint32(mSetFlags);
+      op.setSetFlags(setFlags);
     }
     if (mMasterKeyWeight != -1) {
       Uint32 uint32 = new Uint32();
-      uint32.setuint32(mMasterKeyWeight);
-      op.setmasterWeight(uint32);
+      uint32.setUint32(mMasterKeyWeight);
+      op.setMasterWeight(uint32);
     }
     if (mLowThreshold != -1) {
       Uint32 uint32 = new Uint32();
-      uint32.setuint32(mLowThreshold);
-      op.setlowThreshold(uint32);
+      uint32.setUint32(mLowThreshold);
+      op.setLowThreshold(uint32);
     }
     if (mMediumThreshold != -1) {
       Uint32 uint32 = new Uint32();
-      uint32.setuint32(mMediumThreshold);
-      op.setmedThreshold(uint32);
+      uint32.setUint32(mMediumThreshold);
+      op.setMedThreshold(uint32);
     }
     if (mHighThreshold != -1) {
       Uint32 uint32 = new Uint32();
-      uint32.setuint32(mHighThreshold);
-      op.sethighThreshold(uint32);
+      uint32.setUint32(mHighThreshold);
+      op.setHighThreshold(uint32);
     }
     if (mHomeDomain != null) {
+      byte[] homeDomainBytes = new byte[32];
+      Arrays.fill(homeDomainBytes, (byte) 0);
+      System.arraycopy(mHomeDomain.getBytes(), 0, homeDomainBytes, 0, mHomeDomain.length());
+
       String32 homeDomain = new String32();
-      homeDomain.setstring32(mHomeDomain);
-      op.sethomeDomain(homeDomain);
+      homeDomain.setString32(mHomeDomain);
+      op.setHomeDomain(homeDomain);
     }
     if (mSigner != null) {
       Signer signer = new Signer();
       Uint32 weight = new Uint32();
-      weight.setuint32((int) mSignerWeight & 0xFF);
+      weight.setUint32((int) mSignerWeight & 0xFF);
       AccountID accountID = new AccountID();
       accountID.setAccountID(mSigner.getXdrPublicKey());
-      signer.setpubKey(accountID);
-      signer.setweight(weight);
-      op.setsigner(signer);
+      signer.setPubKey(accountID);
+      signer.setWeight(weight);
+      op.setSigner(signer);
     }
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
     body.setDiscriminant(OperationType.SET_OPTIONS);
-    body.setsetOptionsOp(op);
+    body.setSetOptionsOp(op);
     return body;
   }
 
@@ -152,34 +158,34 @@ public class SetOptionsOperation extends Operation {
     private StellarKeypair mSourceAccount;
 
     Builder(SetOptionsOp op) {
-      if (op.getinflationDest() != null) {
+      if (op.getInflationDest() != null) {
         mInflationDestination = StellarKeypair.fromXdrPublicKey(
-            op.getinflationDest().getAccountID());
+            op.getInflationDest().getAccountID());
       }
-      if (op.getclearFlags() != null) {
-        mClearFlags = op.getclearFlags().getuint32();
+      if (op.getClearFlags() != null) {
+        mClearFlags = op.getClearFlags().getUint32();
       }
-      if (op.getsetFlags() != null) {
-        mSetFlags = op.getsetFlags().getuint32();
+      if (op.getSetFlags() != null) {
+        mSetFlags = op.getSetFlags().getUint32();
       }
-      if (op.getmasterWeight() != null) {
-        mMasterKeyWeight = op.getmasterWeight().getuint32().intValue();
+      if (op.getMasterWeight() != null) {
+        mMasterKeyWeight = op.getMasterWeight().getUint32().intValue();
       }
-      if (op.getlowThreshold() != null) {
-        mLowThreshold = op.getlowThreshold().getuint32().intValue();
+      if (op.getLowThreshold() != null) {
+        mLowThreshold = op.getLowThreshold().getUint32().intValue();
       }
-      if (op.getmedThreshold() != null) {
-        mMediumThreshold = op.getmedThreshold().getuint32().intValue();
+      if (op.getMedThreshold() != null) {
+        mMediumThreshold = op.getMedThreshold().getUint32().intValue();
       }
-      if (op.gethighThreshold() != null) {
-        mHighThreshold = op.gethighThreshold().getuint32().intValue();
+      if (op.getHighThreshold() != null) {
+        mHighThreshold = op.getHighThreshold().getUint32().intValue();
       }
-      if (op.gethomeDomain() != null) {
-        mHomeDomain = op.gethomeDomain().getstring32();
+      if (op.getHomeDomain() != null) {
+        mHomeDomain = op.getHomeDomain().getString32();
       }
-      if (op.getsigner() != null) {
-        mSigner = StellarKeypair.fromXdrPublicKey(op.getsigner().getpubKey().getAccountID());
-        mSignerWeight = (byte) (op.getsigner().getweight().getuint32().intValue() & 0xFF);
+      if (op.getSigner() != null) {
+        mSigner = StellarKeypair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
+        mSignerWeight = (byte) (op.getSigner().getWeight().getUint32().intValue() & 0xFF);
       }
     }
 
