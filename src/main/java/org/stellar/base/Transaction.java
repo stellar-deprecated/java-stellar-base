@@ -22,9 +22,10 @@ public class Transaction {
   private final Account mSourceAccount;
   private final long mSequenceNumber;
   private final Operation[] mOperations;
+  private final org.stellar.base.xdr.Memo mMemo;
   private List<DecoratedSignature> mSignatures;
 
-  Transaction(Account sourceAccount, long sequenceNumber, Operation[] operations) {
+  Transaction(Account sourceAccount, long sequenceNumber, Operation[] operations, org.stellar.base.xdr.Memo memo) {
     if (operations.length == 0) {
       throw new RuntimeException("At least one operation required.");
     }
@@ -34,6 +35,7 @@ public class Transaction {
     mOperations = operations;
     mFee = operations.length * BASE_FEE;
     mSignatures = new ArrayList<DecoratedSignature>();
+    mMemo = memo != null ? memo : Memo.none();
   }
 
   public void sign(StellarKeypair signer) throws IOException {
@@ -108,7 +110,7 @@ public class Transaction {
     transaction.setSeqNum(sequenceNumber);
     transaction.setSourceAccount(sourceAccount);
     transaction.setOperations(operations);
-    transaction.setMemo(Memo.none());
+    transaction.setMemo(mMemo);
     transaction.setExt(ext);
     return transaction;
   }
@@ -142,6 +144,7 @@ public class Transaction {
    */
   static class Builder {
     private final Account mSourceAccount;
+    private org.stellar.base.xdr.Memo mMemo;
     List<Operation> mOperations;
 
     /**
@@ -160,11 +163,19 @@ public class Transaction {
       return this;
     }
 
+    public Builder addMemo(org.stellar.base.xdr.Memo memo) {
+      if (mMemo != null) {
+        throw new RuntimeException("Memo has been already added.");
+      }
+      mMemo = memo;
+      return this;
+    }
+
     public Transaction build() {
       mSourceAccount.incrementSequenceNumber();
       Operation[] operations = new Operation[mOperations.size()];
       operations = mOperations.toArray(operations);
-      return new Transaction(mSourceAccount, mSourceAccount.getSequenceNumber(), operations);
+      return new Transaction(mSourceAccount, mSourceAccount.getSequenceNumber(), operations, mMemo);
     }
   }
 }

@@ -184,18 +184,16 @@ public class OperationTest extends TestCase {
     Assert.assertEquals(inflationDestination.getAddress(), parsedOperation.getInflationDestination().getAddress());
     Assert.assertEquals(clearFlags, parsedOperation.getClearFlags());
     Assert.assertEquals(setFlags, parsedOperation.getSetFlags());
-    byte[] thresholds = {(byte) (masterKeyWeight & 0xFF), (byte) (lowThreshold & 0xFF),
-        (byte) (mediumThreshold & 0xFF), (byte) (highThreshold & 0xFF)};
-    Assert.assertEquals(masterKeyWeight, operation.getMasterKeyWeight());
-    Assert.assertEquals(lowThreshold, operation.getLowThreshold());
-    Assert.assertEquals(mediumThreshold, operation.getMediumThreshold());
-    Assert.assertEquals(highThreshold, operation.getHighThreshold());
-    Assert.assertEquals(homeDomain, operation.getHomeDomain());
-    Assert.assertEquals(signer.getAddress(), operation.getSigner().getAddress());
-    Assert.assertEquals(signerWeight, operation.getSignerWeight());
+    Assert.assertEquals(masterKeyWeight, parsedOperation.getMasterKeyWeight());
+    Assert.assertEquals(lowThreshold, parsedOperation.getLowThreshold());
+    Assert.assertEquals(mediumThreshold, parsedOperation.getMediumThreshold());
+    Assert.assertEquals(highThreshold, parsedOperation.getHighThreshold());
+    Assert.assertEquals(homeDomain, parsedOperation.getHomeDomain());
+    Assert.assertEquals(signer.getAddress(), parsedOperation.getSigner().getAddress());
+    Assert.assertEquals(signerWeight, parsedOperation.getSignerWeight());
 
     assertEquals(
-            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAAAAAEAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAB",
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAABAAAAAET+21WXwEtXRyxb/GBe1tc5V/WUzIOW4yJp+XQgNUUiAAAAAQ==",
             operation.toBase64());
   }
 

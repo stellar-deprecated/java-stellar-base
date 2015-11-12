@@ -2,6 +2,7 @@ package org.stellar.base;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class Util {
 
@@ -35,5 +36,33 @@ public class Util {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("SHA-256 not implemented");
     }
+  }
+
+  static byte[] paddedByteArray(byte[] bytes, int length) {
+    byte[] finalBytes = new byte[length];
+    Arrays.fill(finalBytes, (byte) 0);
+    System.arraycopy(bytes, 0, finalBytes, 0, bytes.length);
+    return finalBytes;
+  }
+
+  static byte[] paddedByteArray(String string, int length) {
+    return Util.paddedByteArray(string.getBytes(), length);
+  }
+
+  static byte[] paddedByteArrayBlock(byte[] bytes, int blockSize) {
+    int pad = 0;
+    int mod = bytes.length % blockSize;
+    if (mod > 0) {
+      pad = blockSize-mod;
+    }
+    return Util.paddedByteArray(bytes, bytes.length+pad);
+  }
+
+  static byte[] paddedByteArrayBlock(String string, int blockSize) {
+    return Util.paddedByteArrayBlock(string.getBytes(), blockSize);
+  }
+
+  static String paddedByteArrayToString(byte[] bytes) {
+    return new String(bytes).split("\0")[0];
   }
 }

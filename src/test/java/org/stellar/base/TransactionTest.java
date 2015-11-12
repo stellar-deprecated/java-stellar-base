@@ -31,6 +31,25 @@ public class TransactionTest extends TestCase {
     }
 
     @Test
+    public void testBuilderMemoText() throws FormatException, IOException {
+        // GBPMKIRA2OQW2XZZQUCQILI5TMVZ6JNRKM423BSAISDM7ZFWQ6KWEBC4
+        StellarKeypair source = StellarKeypair.fromSecretSeed("SCH27VUZZ6UAKB67BDNF6FA42YMBMQCBKXWGMFD5TZ6S5ZZCZFLRXKHS");
+        StellarKeypair destination = StellarKeypair.fromAddress("GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR");
+
+        Account account = new Account(source, 2908908335136768L);
+        Transaction transaction = new Transaction.Builder(account)
+                .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                .addMemo(Memo.text("Hello world!"))
+                .build();
+
+        transaction.sign(source);
+
+        assertEquals(
+                "AAAAAF7FIiDToW1fOYUFBC0dmyufJbFTOa2GQESGz+S2h5ViAAAAZAAKVaMAAAABAAAAAAAAAAEAAAAMSGVsbG8gd29ybGQhAAAAAQAAAAAAAAAAAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAABKgXyAAAAAAAAAAAAbaHlWIAAABAxzofBhoayuUnz8t0T1UNWrTgmJ+lCh9KaeOGu2ppNOz9UGw0abGLhv+9oWQsstaHx6YjwWxL+8GBvwBUVWRlBQ==",
+                transaction.toBase64EnvelopeXdr());
+    }
+
+    @Test
     public void testBuilderSuccessPublic() throws FormatException, IOException {
         Network.usePublicNetwork();
 
@@ -80,6 +99,24 @@ public class TransactionTest extends TestCase {
             fail();
         } catch (RuntimeException exception) {
             assertTrue(exception.getMessage().contains("At least one operation required."));
+        }
+    }
+
+    @Test
+    public void testTryingToAddMemoTwice() throws FormatException, IOException {
+        // GBPMKIRA2OQW2XZZQUCQILI5TMVZ6JNRKM423BSAISDM7ZFWQ6KWEBC4
+        StellarKeypair source = StellarKeypair.fromSecretSeed("SCH27VUZZ6UAKB67BDNF6FA42YMBMQCBKXWGMFD5TZ6S5ZZCZFLRXKHS");
+        StellarKeypair destination = StellarKeypair.fromAddress("GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR");
+
+        try {
+            Account account = new Account(source, 2908908335136768L);
+            new Transaction.Builder(account)
+                    .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                    .addMemo(Memo.none())
+                    .addMemo(Memo.none());
+            fail();
+        } catch (RuntimeException exception) {
+            assertTrue(exception.getMessage().contains("Memo has been already added."));
         }
     }
 }
