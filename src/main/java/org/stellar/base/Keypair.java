@@ -28,7 +28,7 @@ import java.util.Arrays;
 /**
  * Holds a Stellar keypair.
  */
-public class StellarKeypair {
+public class Keypair {
 
   private static final EdDSANamedCurveSpec ed25519 = EdDSANamedCurveTable.getByName("ed25519-sha-512");
 
@@ -36,20 +36,20 @@ public class StellarKeypair {
   private final EdDSAPrivateKey mPrivateKey;
 
   /**
-   * Creates a new StellarKeypair without a private key. Useful to simply verify a signature from a
+   * Creates a new Keypair without a private key. Useful to simply verify a signature from a
    * given public address.
    * @param publicKey
    */
-  public StellarKeypair(EdDSAPublicKey publicKey) {
+  public Keypair(EdDSAPublicKey publicKey) {
     this(publicKey, null);
   }
 
   /**
-   * Creates a new StellarKeypair from the given public and private keys.
+   * Creates a new Keypair from the given public and private keys.
    * @param publicKey
    * @param privateKey
    */
-  public StellarKeypair(EdDSAPublicKey publicKey, EdDSAPrivateKey privateKey) {
+  public Keypair(EdDSAPublicKey publicKey, EdDSAPrivateKey privateKey) {
     if (publicKey == null) {
       throw new IllegalArgumentException("Public key cannot be null");
     }
@@ -60,9 +60,9 @@ public class StellarKeypair {
   /**
    * Creates a new Stellar Keypair from a strkey encoded Stellar secret seed.
    * @param seed The strkey encoded Stellar secret seed.
-   * @return {@link StellarKeypair}
+   * @return {@link Keypair}
    */
-  public static StellarKeypair fromSecretSeed(String seed) {
+  public static Keypair fromSecretSeed(String seed) {
     byte[] decoded = StrKey.decodeStellarSecretSeed(seed);
     return fromSecretSeed(decoded);
   }
@@ -70,20 +70,20 @@ public class StellarKeypair {
   /**
    * Creates a new Stellar keypair from a 32 byte secret seed.
    * @param seed The 32 byte secret seed.
-   * @return {@link StellarKeypair}
+   * @return {@link Keypair}
    */
-  public static StellarKeypair fromSecretSeed(byte[] seed) {
+  public static Keypair fromSecretSeed(byte[] seed) {
     EdDSAPrivateKeySpec privKeySpec = new EdDSAPrivateKeySpec(seed, ed25519);
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(privKeySpec.getA().toByteArray(), ed25519);
-    return new StellarKeypair(new EdDSAPublicKey(publicKeySpec), new EdDSAPrivateKey(privKeySpec));
+    return new Keypair(new EdDSAPublicKey(publicKeySpec), new EdDSAPrivateKey(privKeySpec));
   }
 
   /**
    * Creates a new Stellar Keypair from a strkey encoded Stellar address.
    * @param address The strkey encoded Stellar address.
-   * @return {@link StellarKeypair}
+   * @return {@link Keypair}
    */
-  public static StellarKeypair fromAddress(String address) {
+  public static Keypair fromAddress(String address) {
     byte[] decoded = StrKey.decodeStellarAddress(address);
     return fromPublicKey(decoded);
   }
@@ -91,20 +91,20 @@ public class StellarKeypair {
   /**
    * Creates a new Stellar keypair from a 32 byte address.
    * @param address The 32 byte address.
-   * @return {@link StellarKeypair}
+   * @return {@link Keypair}
    */
-  public static StellarKeypair fromPublicKey(byte[] address) {
+  public static Keypair fromPublicKey(byte[] address) {
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(address, ed25519);
-    return new StellarKeypair(new EdDSAPublicKey(publicKeySpec));
+    return new Keypair(new EdDSAPublicKey(publicKeySpec));
   }
 
   /**
    * Generates a random Stellar keypair.
    * @return a random Stellar keypair.
    */
-  public static StellarKeypair random() {
+  public static Keypair random() {
     KeyPair keypair = new KeyPairGenerator().generateKeyPair();
-    return new StellarKeypair((EdDSAPublicKey) keypair.getPublic(), (EdDSAPrivateKey) keypair.getPrivate());
+    return new Keypair((EdDSAPublicKey) keypair.getPublic(), (EdDSAPrivateKey) keypair.getPrivate());
   }
 
   /**
@@ -148,8 +148,8 @@ public class StellarKeypair {
     return publicKey;
   }
 
-  public static StellarKeypair fromXdrPublicKey(PublicKey key) {
-    return StellarKeypair.fromPublicKey(key.getEd25519().getUint256());
+  public static Keypair fromXdrPublicKey(PublicKey key) {
+    return Keypair.fromPublicKey(key.getEd25519().getUint256());
   }
 
   /**

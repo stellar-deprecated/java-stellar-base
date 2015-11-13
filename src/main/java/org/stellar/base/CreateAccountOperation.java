@@ -11,10 +11,10 @@ import org.stellar.base.xdr.OperationType;
  */
 public class CreateAccountOperation extends Operation {
 
-  private final StellarKeypair mDestination;
+  private final Keypair mDestination;
   private final long mStartingBalance;
 
-  private CreateAccountOperation(StellarKeypair destination, long startingBalance) {
+  private CreateAccountOperation(Keypair destination, long startingBalance) {
     mDestination = destination;
     mStartingBalance = startingBalance;
   }
@@ -31,7 +31,7 @@ public class CreateAccountOperation extends Operation {
    * Account that is created and funded.
    * @return
    */
-  public StellarKeypair getDestination() {
+  public Keypair getDestination() {
     return mDestination;
   }
 
@@ -56,17 +56,17 @@ public class CreateAccountOperation extends Operation {
    * @see CreateAccountOperation
    */
   public static class Builder {
-    private final StellarKeypair mDestination;
+    private final Keypair mDestination;
     private final long mStartingBalance;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     /**
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
     Builder(CreateAccountOp op) {
-      mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
       mStartingBalance = op.getStartingBalance().getInt64().longValue();
     }
 
@@ -75,7 +75,7 @@ public class CreateAccountOperation extends Operation {
      * @param destination The destination keypair (uses only the public key).
      * @param startingBalance The initial balance to start with.
      */
-    public Builder(StellarKeypair destination, long startingBalance) {
+    public Builder(Keypair destination, long startingBalance) {
       mDestination = destination;
       mStartingBalance = startingBalance;
     }
@@ -85,7 +85,7 @@ public class CreateAccountOperation extends Operation {
      * @param account The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair account) {
+    public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
       return this;
     }

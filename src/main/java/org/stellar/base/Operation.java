@@ -9,7 +9,7 @@ import java.io.IOException;
 
 abstract class Operation {
 
-  private StellarKeypair mSourceAccount;
+  private Keypair mSourceAccount;
 
   /**
    * Generates Operation XDR object.
@@ -80,7 +80,7 @@ abstract class Operation {
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }
     if (xdr.getSourceAccount() != null) {
-      operation.setSourceAccount(StellarKeypair.fromXdrPublicKey(xdr.getSourceAccount().getAccountID()));
+      operation.setSourceAccount(Keypair.fromXdrPublicKey(xdr.getSourceAccount().getAccountID()));
     }
     return operation;
   }
@@ -89,7 +89,7 @@ abstract class Operation {
    * Returns operation source account.
    * @return
    */
-  public StellarKeypair getSourceAccount() {
+  public Keypair getSourceAccount() {
     return mSourceAccount;
   }
 
@@ -97,7 +97,7 @@ abstract class Operation {
    * Sets operation source account.
    * @param keypair
    */
-  void setSourceAccount(StellarKeypair keypair) {
+  void setSourceAccount(Keypair keypair) {
     mSourceAccount = keypair;
   }
 

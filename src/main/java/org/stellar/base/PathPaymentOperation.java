@@ -13,12 +13,12 @@ public class PathPaymentOperation extends Operation {
 
   private final Asset mSendAsset;
   private final long mSendMax;
-  private final StellarKeypair mDestination;
+  private final Keypair mDestination;
   private final Asset mDestAsset;
   private final long mDestAmount;
   private final Asset[] mPath;
 
-  private PathPaymentOperation(Asset sendAsset, long sendMax, StellarKeypair destination,
+  private PathPaymentOperation(Asset sendAsset, long sendMax, Keypair destination,
       Asset destAsset, long destAmount, Asset[] path) {
     mSendAsset = sendAsset;
     mSendMax = sendMax;
@@ -48,7 +48,7 @@ public class PathPaymentOperation extends Operation {
    * Account that receives the payment.
    * @return
    */
-  public StellarKeypair getDestination() {
+  public Keypair getDestination() {
     return mDestination;
   }
 
@@ -116,17 +116,17 @@ public class PathPaymentOperation extends Operation {
   public static class Builder {
     private final Asset mSendAsset;
     private final long mSendMax;
-    private final StellarKeypair mDestination;
+    private final Keypair mDestination;
     private final Asset mDestAsset;
     private final long mDestAmount;
     private final Asset[] mPath;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     Builder(PathPaymentOp op) {
       mSendAsset = Asset.fromXdr(op.getSendAsset());
       mSendMax = op.getSendMax().getInt64();
-      mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
       mDestAsset = Asset.fromXdr(op.getDestAsset());
       mDestAmount = op.getDestAmount().getInt64();
       mPath = new Asset[op.getPath().length];
@@ -144,7 +144,7 @@ public class PathPaymentOperation extends Operation {
      * @param destAmount The amount of destination asset the destination account receives.
      * @param path The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path field would contain XLM and BTC.
      */
-    public Builder(Asset sendAsset, long sendMax, StellarKeypair destination,
+    public Builder(Asset sendAsset, long sendMax, Keypair destination,
         Asset destAsset, long destAmount, Asset[] path) {
       mSendAsset = sendAsset;
       mSendMax = sendMax;
@@ -159,7 +159,7 @@ public class PathPaymentOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+    public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }

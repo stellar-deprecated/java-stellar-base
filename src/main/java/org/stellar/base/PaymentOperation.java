@@ -11,11 +11,11 @@ import org.stellar.base.xdr.PaymentOp;
  */
 public class PaymentOperation extends Operation {
 
-  private final StellarKeypair mDestination;
+  private final Keypair mDestination;
   private final Asset mAsset;
   private final long mAmount;
 
-  private PaymentOperation(StellarKeypair destination, Asset asset, long amount) {
+  private PaymentOperation(Keypair destination, Asset asset, long amount) {
     mDestination = destination;
     mAsset = asset;
     mAmount = amount;
@@ -25,7 +25,7 @@ public class PaymentOperation extends Operation {
    * Account that receives the payment.
    * @return
    */
-  public StellarKeypair getDestination() {
+  public Keypair getDestination() {
     return mDestination;
   }
 
@@ -71,18 +71,18 @@ public class PaymentOperation extends Operation {
    * @see PathPaymentOperation
    */
   public static class Builder {
-    private final StellarKeypair mDestination;
+    private final Keypair mDestination;
     private final Asset mAsset;
     private final long mAmount;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     /**
      * Construct a new PaymentOperation builder from a PaymentOp XDR.
      * @param op {@link PaymentOp}
      */
     Builder(PaymentOp op) {
-      mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
       mAsset = Asset.fromXdr(op.getAsset());
       mAmount = op.getAmount().getInt64().longValue();
     }
@@ -93,7 +93,7 @@ public class PaymentOperation extends Operation {
      * @param asset The asset to send.
      * @param amount The amount to send.
      */
-    public Builder(StellarKeypair destination, Asset asset, long amount) {
+    public Builder(Keypair destination, Asset asset, long amount) {
       mDestination = destination;
       mAsset = asset;
       mAmount = amount;
@@ -104,7 +104,7 @@ public class PaymentOperation extends Operation {
      * @param account The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair account) {
+    public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
       return this;
     }

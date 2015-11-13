@@ -1,6 +1,5 @@
 package org.stellar.base;
 
-import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.CreatePassiveOfferOp;
 import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
@@ -85,7 +84,7 @@ public class CreatePassiveOfferOperation extends Operation {
     private final long mAmount;
     private final String mPrice;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     /**
      * Construct a new CreatePassiveOffer builder from a CreatePassiveOfferOp XDR.
@@ -119,7 +118,7 @@ public class CreatePassiveOfferOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+    public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }

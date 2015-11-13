@@ -42,7 +42,7 @@ public class Transaction {
    * @param signer
    * @throws IOException
    */
-  public void sign(StellarKeypair signer) throws IOException {
+  public void sign(Keypair signer) throws IOException {
     byte[] txHash = this.hash();
     mSignatures.add(signer.signDecorated(txHash));
   }

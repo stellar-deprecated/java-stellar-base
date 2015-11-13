@@ -10,9 +10,9 @@ import org.stellar.base.xdr.OperationType;
  */
 public class AccountMergeOperation extends Operation {
 
-    private final StellarKeypair mDestination;
+    private final Keypair mDestination;
 
-    private AccountMergeOperation(StellarKeypair destination) {
+    private AccountMergeOperation(Keypair destination) {
         mDestination = destination;
     }
 
@@ -20,7 +20,7 @@ public class AccountMergeOperation extends Operation {
      * The account that receives the remaining XLM balance of the source account.
      * @return
      */
-    public StellarKeypair getDestination() {
+    public Keypair getDestination() {
         return mDestination;
     }
 
@@ -39,19 +39,19 @@ public class AccountMergeOperation extends Operation {
      * @see AccountMergeOperation
      */
     public static class Builder {
-        private final StellarKeypair mDestination;
+        private final Keypair mDestination;
 
-        private StellarKeypair mSourceAccount;
+        private Keypair mSourceAccount;
 
         Builder(OperationBody op) {
-            mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
+            mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
         }
 
         /**
          * Creates a new AccountMerge builder.
          * @param destination The account that receives the remaining XLM balance of the source account.
          */
-        public Builder(StellarKeypair destination) {
+        public Builder(Keypair destination) {
             mDestination = destination;
         }
 
@@ -60,7 +60,7 @@ public class AccountMergeOperation extends Operation {
          * @param sourceAccount Source account
          * @return Builder object so you can chain methods.
          */
-        public Builder setSourceAccount(StellarKeypair sourceAccount) {
+        public Builder setSourceAccount(Keypair sourceAccount) {
             mSourceAccount = sourceAccount;
             return this;
         }

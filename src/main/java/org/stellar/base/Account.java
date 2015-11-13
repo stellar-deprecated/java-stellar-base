@@ -6,7 +6,7 @@ package org.stellar.base;
  * @see org.stellar.base.Transaction.Builder
  */
 public class Account {
-  private final StellarKeypair mKeypair;
+  private final Keypair mKeypair;
   private long mSequenceNumber;
 
   /**
@@ -14,7 +14,7 @@ public class Account {
    * @param keypair
    * @param sequenceNumber Current sequence number of the account
    */
-  public Account(StellarKeypair keypair, long sequenceNumber) {
+  public Account(Keypair keypair, long sequenceNumber) {
     mKeypair = keypair;
     mSequenceNumber = sequenceNumber;
   }
@@ -22,7 +22,7 @@ public class Account {
   /**
    * @return Keypair associated with this Account
    */
-  public StellarKeypair getKeypair() {
+  public Keypair getKeypair() {
     return mKeypair;
   }
 

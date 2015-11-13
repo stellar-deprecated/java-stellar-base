@@ -20,7 +20,7 @@ public class AssetTest extends TestCase {
   @Test
   public void testAssetTypeCreditAlphaNum4() {
     String code = "USDA";
-    StellarKeypair issuer = StellarKeypair.random();
+    Keypair issuer = Keypair.random();
     AssetTypeCreditAlphaNum4 asset = new AssetTypeCreditAlphaNum4(code, issuer);
     org.stellar.base.xdr.Asset xdr = asset.toXdr();
     AssetTypeCreditAlphaNum4 parsedAsset = (AssetTypeCreditAlphaNum4) Asset.fromXdr(xdr);
@@ -31,7 +31,7 @@ public class AssetTest extends TestCase {
   @Test
   public void testAssetTypeCreditAlphaNum12() {
     String code = "TESTTEST";
-    StellarKeypair issuer = StellarKeypair.random();
+    Keypair issuer = Keypair.random();
     AssetTypeCreditAlphaNum12 asset = new AssetTypeCreditAlphaNum12(code, issuer);
     org.stellar.base.xdr.Asset xdr = asset.toXdr();
     AssetTypeCreditAlphaNum12 parsedAsset = (AssetTypeCreditAlphaNum12) Asset.fromXdr(xdr);
@@ -41,8 +41,8 @@ public class AssetTest extends TestCase {
 
   @Test
   public void testAssetEquals() {
-    StellarKeypair issuer1 = StellarKeypair.random();
-    StellarKeypair issuer2 = StellarKeypair.random();
+    Keypair issuer1 = Keypair.random();
+    Keypair issuer2 = Keypair.random();
 
     assertTrue(new AssetTypeNative().equals(new AssetTypeNative()));
     assertTrue(new AssetTypeCreditAlphaNum4("USD", issuer1).equals(new AssetTypeCreditAlphaNum4("USD", issuer1)));

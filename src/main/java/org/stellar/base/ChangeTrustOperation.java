@@ -56,7 +56,7 @@ public class ChangeTrustOperation extends Operation {
     private final Asset mAsset;
     private final long mLimit;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     Builder(ChangeTrustOp op) {
       mAsset = Asset.fromXdr(op.getLine());
@@ -78,7 +78,7 @@ public class ChangeTrustOperation extends Operation {
      * @param sourceAccount Source account
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+    public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }

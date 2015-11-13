@@ -10,7 +10,7 @@ public abstract class Asset {
    * @param issuer
    * @return
    */
-  static Asset createNonNativeAsset(String assetCode, StellarKeypair issuer) {
+  static Asset createNonNativeAsset(String assetCode, Keypair issuer) {
     if (assetCode.length() >= 1 && assetCode.length() <= 4) {
       return new AssetTypeCreditAlphaNum4(assetCode, issuer);
     } else if (assetCode.length() >= 5 && assetCode.length() <= 12) {
@@ -31,12 +31,12 @@ public abstract class Asset {
         return new AssetTypeNative();
       case ASSET_TYPE_CREDIT_ALPHANUM4:
         String assetCode4 = Util.paddedByteArrayToString(xdr.getAlphaNum4().getAssetCode());
-        StellarKeypair issuer4 = StellarKeypair.fromXdrPublicKey(
-            xdr.getAlphaNum4().getIssuer().getAccountID());
+        Keypair issuer4 = Keypair.fromXdrPublicKey(
+                xdr.getAlphaNum4().getIssuer().getAccountID());
         return new AssetTypeCreditAlphaNum4(assetCode4, issuer4);
       case ASSET_TYPE_CREDIT_ALPHANUM12:
         String assetCode12 = Util.paddedByteArrayToString(xdr.getAlphaNum12().getAssetCode());
-        StellarKeypair issuer12 = StellarKeypair.fromXdrPublicKey(xdr.getAlphaNum12().getIssuer().getAccountID());
+        Keypair issuer12 = Keypair.fromXdrPublicKey(xdr.getAlphaNum12().getIssuer().getAccountID());
         return new AssetTypeCreditAlphaNum12(assetCode12, issuer12);
       default:
         throw new IllegalArgumentException("Unknown asset type " + xdr.getDiscriminant());

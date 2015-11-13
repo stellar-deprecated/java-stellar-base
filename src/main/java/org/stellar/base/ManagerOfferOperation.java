@@ -101,7 +101,7 @@ public class ManagerOfferOperation extends Operation {
     private final String mPrice;
     private long mOfferId = 0;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     /**
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
@@ -145,7 +145,7 @@ public class ManagerOfferOperation extends Operation {
      * @param account The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair account) {
+    public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
       return this;
     }

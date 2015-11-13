@@ -11,11 +11,11 @@ import org.stellar.base.xdr.OperationType;
  */
 public class AllowTrustOperation extends Operation {
 
-  private final StellarKeypair mTrustor;
+  private final Keypair mTrustor;
   private final String mAssetCode;
   private final boolean mAuthorize;
 
-  private AllowTrustOperation(StellarKeypair trustor, String assetCode, boolean authorize) {
+  private AllowTrustOperation(Keypair trustor, String assetCode, boolean authorize) {
     mTrustor = trustor;
     mAssetCode = assetCode;
     mAuthorize = authorize;
@@ -25,7 +25,7 @@ public class AllowTrustOperation extends Operation {
    * The account of the recipient of the trustline.
    * @return
    */
-  public StellarKeypair getTrustor() {
+  public Keypair getTrustor() {
     return mTrustor;
   }
 
@@ -77,14 +77,14 @@ public class AllowTrustOperation extends Operation {
    * @see AllowTrustOperation
    */
   public static class Builder {
-    private final StellarKeypair mTrustor;
+    private final Keypair mTrustor;
     private final String mAssetCode;
     private final boolean mAuthorize;
 
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     Builder(AllowTrustOp op) {
-      mTrustor = StellarKeypair.fromXdrPublicKey(op.getTrustor().getAccountID());
+      mTrustor = Keypair.fromXdrPublicKey(op.getTrustor().getAccountID());
       switch (op.getAsset().getDiscriminant()) {
         case ASSET_TYPE_CREDIT_ALPHANUM4:
           mAssetCode = new String(op.getAsset().getAssetCode4());
@@ -104,7 +104,7 @@ public class AllowTrustOperation extends Operation {
      * @param assetCode The asset of the trustline the source account is authorizing. For example, if a gateway wants to allow another account to hold its USD credit, the type is USD.
      * @param authorize Flag indicating whether the trustline is authorized.
      */
-    public Builder(StellarKeypair trustor, String assetCode, boolean authorize) {
+    public Builder(Keypair trustor, String assetCode, boolean authorize) {
       mTrustor = trustor;
       mAssetCode = assetCode;
       mAuthorize = authorize;
@@ -115,7 +115,7 @@ public class AllowTrustOperation extends Operation {
      * @param sourceAccount Source account
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+    public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }

@@ -5,9 +5,9 @@ package org.stellar.base;
  */
 public abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final String mCode;
-    protected final StellarKeypair mIssuer;
+    protected final Keypair mIssuer;
 
-    public AssetTypeCreditAlphaNum(String code, StellarKeypair issuer) {
+    public AssetTypeCreditAlphaNum(String code, Keypair issuer) {
         mCode = code;
         mIssuer = issuer;
     }
@@ -24,7 +24,7 @@ public abstract class AssetTypeCreditAlphaNum extends Asset {
      * Returns asset issuer
      * @return
      */
-    public StellarKeypair getIssuer() {
+    public Keypair getIssuer() {
         return mIssuer;
     }
 

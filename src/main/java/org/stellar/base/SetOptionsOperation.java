@@ -13,7 +13,7 @@ import org.stellar.base.xdr.Uint32;
  */
 public class SetOptionsOperation extends Operation {
 
-  private final StellarKeypair mInflationDestination;
+  private final Keypair mInflationDestination;
   private final int mClearFlags;
   private final int mSetFlags;
   private int mMasterKeyWeight = -1;
@@ -21,12 +21,12 @@ public class SetOptionsOperation extends Operation {
   private int mMediumThreshold = -1;
   private int mHighThreshold = -1;
   private final String mHomeDomain;
-  private final StellarKeypair mSigner;
+  private final Keypair mSigner;
   private final byte mSignerWeight;
 
-  private SetOptionsOperation(StellarKeypair inflationDestination, int clearFlags, int setFlags,
+  private SetOptionsOperation(Keypair inflationDestination, int clearFlags, int setFlags,
       int masterKeyWeight, int lowThreshold, int mediumThreshold, int highThreshold,
-      String homeDomain, StellarKeypair signer, byte signerWeight) {
+      String homeDomain, Keypair signer, byte signerWeight) {
     mInflationDestination = inflationDestination;
     mClearFlags = clearFlags;
     mSetFlags = setFlags;
@@ -43,7 +43,7 @@ public class SetOptionsOperation extends Operation {
    * Account of the inflation destination.
    * @return
    */
-  public StellarKeypair getInflationDestination() {
+  public Keypair getInflationDestination() {
     return mInflationDestination;
   }
 
@@ -107,7 +107,7 @@ public class SetOptionsOperation extends Operation {
    * Additional signer added/removed in this operation.
    * @return
    */
-  public StellarKeypair getSigner() {
+  public Keypair getSigner() {
     return mSigner;
   }
 
@@ -184,7 +184,7 @@ public class SetOptionsOperation extends Operation {
    * @see SetOptionsOperation
    */
   public static class Builder {
-    private StellarKeypair mInflationDestination;
+    private Keypair mInflationDestination;
     private int mClearFlags;
     private int mSetFlags;
     private int mMasterKeyWeight = -1;
@@ -192,14 +192,14 @@ public class SetOptionsOperation extends Operation {
     private int mMediumThreshold = -1;
     private int mHighThreshold = -1;
     private String mHomeDomain;
-    private StellarKeypair mSigner;
+    private Keypair mSigner;
     private byte mSignerWeight;
-    private StellarKeypair mSourceAccount;
+    private Keypair mSourceAccount;
 
     Builder(SetOptionsOp op) {
       if (op.getInflationDest() != null) {
-        mInflationDestination = StellarKeypair.fromXdrPublicKey(
-            op.getInflationDest().getAccountID());
+        mInflationDestination = Keypair.fromXdrPublicKey(
+                op.getInflationDest().getAccountID());
       }
       if (op.getClearFlags() != null) {
         mClearFlags = op.getClearFlags().getUint32();
@@ -223,7 +223,7 @@ public class SetOptionsOperation extends Operation {
         mHomeDomain = op.getHomeDomain().getString32();
       }
       if (op.getSigner() != null) {
-        mSigner = StellarKeypair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
+        mSigner = Keypair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
         mSignerWeight = (byte) (op.getSigner().getWeight().getUint32().intValue() & 0xFF);
       }
     }
@@ -237,7 +237,7 @@ public class SetOptionsOperation extends Operation {
      * Sets the inflation destination for the account.
      * @param inflationDestination The inflation destination account.
      */
-    public Builder setInflationDestination(StellarKeypair inflationDestination) {
+    public Builder setInflationDestination(Keypair inflationDestination) {
       mInflationDestination = inflationDestination;
       return this;
     }
@@ -320,7 +320,7 @@ public class SetOptionsOperation extends Operation {
      * @param weight The weight to attach to the signer (0-255)
      * @return Builder
      */
-    public Builder setSigner(StellarKeypair signer, int weight) {
+    public Builder setSigner(Keypair signer, int weight) {
       mSigner = signer;
       mSignerWeight = (byte) (weight & 0xFF);
       return this;
@@ -331,7 +331,7 @@ public class SetOptionsOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+    public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }
