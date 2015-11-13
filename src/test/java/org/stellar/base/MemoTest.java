@@ -2,6 +2,7 @@ package org.stellar.base;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
 import org.stellar.base.xdr.MemoType;
@@ -47,7 +48,7 @@ public class MemoTest extends TestCase {
     }
 
     @Test
-    public void testMemoHashSuccess() {
+    public void testMemoHashSuccess() throws DecoderException {
         org.stellar.base.xdr.Memo memo = Memo.hash("4142434445464748494a4b4c");
         assertEquals(MemoType.MEMO_HASH, memo.getDiscriminant());
         String test = "ABCDEFGHIJKL";
@@ -70,7 +71,7 @@ public class MemoTest extends TestCase {
         try {
             Memo.hash(longer);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (MemoTooLongException exception) {
             assertTrue(exception.getMessage().contains("Memo.hash can contain 32 bytes at max."));
         }
     }
@@ -80,13 +81,13 @@ public class MemoTest extends TestCase {
         try {
             Memo.hash("test");
             fail();
-        } catch (RuntimeException exception) {
-            assertTrue(exception.getMessage().contains("Error decoding a string."));
+        } catch (DecoderException e) {
+
         }
     }
 
     @Test
-    public void testMemoReturnHashSuccess() {
+    public void testMemoReturnHashSuccess() throws DecoderException {
         org.stellar.base.xdr.Memo memo = Memo.returnHash("4142434445464748494a4b4c");
         assertEquals(MemoType.MEMO_RETURN, memo.getDiscriminant());
     }

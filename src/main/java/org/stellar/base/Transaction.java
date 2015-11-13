@@ -40,25 +40,7 @@ public class Transaction {
 
   public void sign(StellarKeypair signer) throws IOException {
     byte[] txHash = this.hash();
-    byte[] signatureBytes = signer.sign(txHash);
-
-    Signature signature = new Signature();
-    signature.setSignature(signatureBytes);
-
-    ByteArrayOutputStream publicKeyBytesStream = new ByteArrayOutputStream();
-    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(publicKeyBytesStream);
-    PublicKey.encode(xdrOutputStream, signer.getXdrPublicKey());
-    byte[] publicKeyBytes = publicKeyBytesStream.toByteArray();
-    byte[] signatureHintBytes = Arrays.copyOfRange(publicKeyBytes, publicKeyBytes.length - 4, publicKeyBytes.length);
-
-    SignatureHint signatureHint = new SignatureHint();
-    signatureHint.setSignatureHint(signatureHintBytes);
-
-    DecoratedSignature decoratedSignature = new DecoratedSignature();
-    decoratedSignature.setHint(signatureHint);
-    decoratedSignature.setSignature(signature);
-
-    mSignatures.add(decoratedSignature);
+    mSignatures.add(signer.signDecorated(txHash));
   }
 
   public byte[] hash() {
@@ -117,7 +99,7 @@ public class Transaction {
 
   public org.stellar.base.xdr.TransactionEnvelope toEnvelopeXdr() {
     if (mSignatures.size() == 0) {
-      throw new RuntimeException("Transaction must be signed by at least one signer. Use transaction.sign().");
+      throw new NotEnoughSignaturesException("Transaction must be signed by at least one signer. Use transaction.sign().");
     }
 
     org.stellar.base.xdr.TransactionEnvelope xdr = new org.stellar.base.xdr.TransactionEnvelope();

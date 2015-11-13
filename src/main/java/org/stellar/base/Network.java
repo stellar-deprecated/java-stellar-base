@@ -1,6 +1,7 @@
 package org.stellar.base;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class Network {
     private final static String PUBLIC = "Public Global Stellar Network ; September 2015";
@@ -18,11 +19,7 @@ public class Network {
     }
 
     public byte[] getNetworkId() {
-        try {
-            return Util.hash(current.getNetworkPassphrase().getBytes("UTF8"));
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
+        return Util.hash(current.getNetworkPassphrase().getBytes(StandardCharsets.UTF_8));
     }
 
     public static Network current() {
