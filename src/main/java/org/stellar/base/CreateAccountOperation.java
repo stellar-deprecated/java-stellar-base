@@ -41,7 +41,7 @@ public class CreateAccountOperation extends Operation {
     return body;
   }
 
-  static class Builder {
+  public static class Builder {
     private final StellarKeypair mDestination;
     private final long mStartingBalance;
 

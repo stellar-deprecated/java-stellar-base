@@ -1,10 +1,14 @@
 package org.stellar.base;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.util.Arrays;
+
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
@@ -14,8 +18,11 @@ import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 import org.stellar.base.xdr.CryptoKeyType;
+import org.stellar.base.xdr.DecoratedSignature;
 import org.stellar.base.xdr.PublicKey;
+import org.stellar.base.xdr.SignatureHint;
 import org.stellar.base.xdr.Uint256;
+import org.stellar.base.xdr.XdrDataOutputStream;
 
 /**
  * Holds a Stellar keypair.
@@ -50,8 +57,8 @@ public class StellarKeypair {
   }
 
   /**
-   * Creates a new Stellar Keypair from a base 58 encoded Stellar secret seed.
-   * @param seed The base 58 encoded Stellar secret seed.
+   * Creates a new Stellar Keypair from a strkey encoded Stellar secret seed.
+   * @param seed The strkey encoded Stellar secret seed.
    * @return {@link StellarKeypair}
    * @throws FormatException
    */
@@ -72,8 +79,8 @@ public class StellarKeypair {
   }
 
   /**
-   * Creates a new Stellar Keypair from a base 58 encoded Stellar address.
-   * @param address The base 58 encoded Stellar address.
+   * Creates a new Stellar Keypair from a strkey encoded Stellar address.
+   * @param address The strkey encoded Stellar address.
    * @return {@link StellarKeypair}
    * @throws FormatException
    */
@@ -101,14 +108,14 @@ public class StellarKeypair {
   }
 
   /**
-   * @return the human readable address encoded in base 58.
+   * @return the human readable address encoded in strkey.
    */
   public String getAddress() {
     return StrKey.encodeStellarAddress(mPublicKey.getAbyte());
   }
 
   /**
-   * @return the human readable secret seed encoded in base 58.
+   * @return the human readable secret seed encoded in strkey.
    */
   public String getSecretSeed() {
     return StrKey.encodeStellarSecretSeed(mPrivateKey.getSeed());
@@ -116,6 +123,18 @@ public class StellarKeypair {
 
   public byte[] getPublicKey() {
     return mPublicKey.getAbyte();
+  }
+
+  public SignatureHint getSignatureHint() throws IOException {
+    ByteArrayOutputStream publicKeyBytesStream = new ByteArrayOutputStream();
+    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(publicKeyBytesStream);
+    PublicKey.encode(xdrOutputStream, this.getXdrPublicKey());
+    byte[] publicKeyBytes = publicKeyBytesStream.toByteArray();
+    byte[] signatureHintBytes = Arrays.copyOfRange(publicKeyBytes, publicKeyBytes.length - 4, publicKeyBytes.length);
+
+    SignatureHint signatureHint = new SignatureHint();
+    signatureHint.setSignatureHint(signatureHintBytes);
+    return signatureHint;
   }
 
   public PublicKey getXdrPublicKey() {
@@ -148,6 +167,18 @@ public class StellarKeypair {
     } catch (GeneralSecurityException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public DecoratedSignature signDecorated(byte[] data) throws IOException {
+    byte[] signatureBytes = this.sign(data);
+
+    org.stellar.base.xdr.Signature signature = new org.stellar.base.xdr.Signature();
+    signature.setSignature(signatureBytes);
+
+    DecoratedSignature decoratedSignature = new DecoratedSignature();
+    decoratedSignature.setHint(this.getSignatureHint());
+    decoratedSignature.setSignature(signature);
+    return decoratedSignature;
   }
 
   /**

@@ -118,10 +118,6 @@ public class SetOptionsOperation extends Operation {
       op.setHighThreshold(uint32);
     }
     if (mHomeDomain != null) {
-      byte[] homeDomainBytes = new byte[32];
-      Arrays.fill(homeDomainBytes, (byte) 0);
-      System.arraycopy(mHomeDomain.getBytes(), 0, homeDomainBytes, 0, mHomeDomain.length());
-
       String32 homeDomain = new String32();
       homeDomain.setString32(mHomeDomain);
       op.setHomeDomain(homeDomain);

@@ -41,10 +41,10 @@ public class AllowTrustOperation extends Operation {
     AllowTrustOp.AllowTrustOpAsset asset = new AllowTrustOp.AllowTrustOpAsset();
     if (mAssetCode.length() <= 4) {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
-      asset.setAssetCode4(Asset.filledByteArray(mAssetCode, 4));
+      asset.setAssetCode4(Util.paddedByteArray(mAssetCode, 4));
     } else {
       asset.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM12);
-      asset.setAssetCode12(Asset.filledByteArray(mAssetCode, 12));
+      asset.setAssetCode12(Util.paddedByteArray(mAssetCode, 12));
     }
     op.setAsset(asset);
     // authorize

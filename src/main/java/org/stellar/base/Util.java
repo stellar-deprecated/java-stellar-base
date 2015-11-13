@@ -1,5 +1,9 @@
 package org.stellar.base;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 public class Util {
 
   public static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
@@ -22,5 +26,30 @@ public class Util {
           + Character.digit(s.charAt(i+1), 16));
     }
     return data;
+  }
+
+  public static byte[] hash(byte[] data) {
+    try {
+      MessageDigest md = MessageDigest.getInstance("SHA-256");
+      md.update(data);
+      return md.digest();
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("SHA-256 not implemented");
+    }
+  }
+
+  static byte[] paddedByteArray(byte[] bytes, int length) {
+    byte[] finalBytes = new byte[length];
+    Arrays.fill(finalBytes, (byte) 0);
+    System.arraycopy(bytes, 0, finalBytes, 0, bytes.length);
+    return finalBytes;
+  }
+
+  static byte[] paddedByteArray(String string, int length) {
+    return Util.paddedByteArray(string.getBytes(), length);
+  }
+
+  static String paddedByteArrayToString(byte[] bytes) {
+    return new String(bytes).split("\0")[0];
   }
 }
