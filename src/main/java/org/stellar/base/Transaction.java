@@ -1,20 +1,19 @@
 package org.stellar.base;
 
 import org.apache.commons.codec.binary.Base64;
-import org.stellar.base.xdr.EnvelopeType;
 import org.stellar.base.xdr.DecoratedSignature;
-import org.stellar.base.xdr.PublicKey;
-import org.stellar.base.xdr.Signature;
-import org.stellar.base.xdr.SignatureHint;
+import org.stellar.base.xdr.EnvelopeType;
 import org.stellar.base.xdr.XdrDataOutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/transactions.html">Transaction</a> in Stellar network.
+ */
 public class Transaction {
   private final int BASE_FEE = 100;
 
@@ -38,15 +37,28 @@ public class Transaction {
     mMemo = memo != null ? memo : Memo.none();
   }
 
+  /**
+   * Adds a new signature to this transaction.
+   * @param signer
+   * @throws IOException
+   */
   public void sign(StellarKeypair signer) throws IOException {
     byte[] txHash = this.hash();
     mSignatures.add(signer.signDecorated(txHash));
   }
 
+  /**
+   * Returns transaction hash.
+   * @return
+   */
   public byte[] hash() {
     return Util.hash(this.signatureBase());
   }
 
+  /**
+   * Returns signature base.
+   * @return
+   */
   public byte[] signatureBase() {
     try {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -66,6 +78,10 @@ public class Transaction {
     }
   }
 
+  /**
+   * Generates Transaction XDR object.
+   * @return
+   */
   public org.stellar.base.xdr.Transaction toXdr() {
     // fee
     org.stellar.base.xdr.Uint32 fee = new org.stellar.base.xdr.Uint32();
@@ -97,6 +113,11 @@ public class Transaction {
     return transaction;
   }
 
+  /**
+   * Generates TransactionEnvelope XDR object. Transaction need to have at least one signature.
+   * @return
+   * @throws IOException
+   */
   public org.stellar.base.xdr.TransactionEnvelope toEnvelopeXdr() {
     if (mSignatures.size() == 0) {
       throw new NotEnoughSignaturesException("Transaction must be signed by at least one signer. Use transaction.sign().");
@@ -112,7 +133,12 @@ public class Transaction {
     return xdr;
   }
 
-  public String toBase64EnvelopeXdr() throws IOException {
+  /**
+   * Returns base64-encoded TransactionEnvelope XDR object. Transaction need to have at least one signature.
+   * @return
+   * @throws IOException
+   */
+  public String toEnvelopeXdrBase64() throws IOException {
     org.stellar.base.xdr.TransactionEnvelope envelope = this.toEnvelopeXdr();
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
@@ -122,7 +148,7 @@ public class Transaction {
   }
 
   /**
-   * Builder pattern to create new transactions.
+   * Builds a new Transaction object.
    */
   public static class Builder {
     private final Account mSourceAccount;
@@ -140,11 +166,23 @@ public class Transaction {
       mOperations = new ArrayList<Operation>();
     }
 
+    /**
+     * Adds a new <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">operation</a> to this transaction.
+     * @param operation
+     * @return
+     * @see Operation
+     */
     public Builder addOperation(Operation operation) {
       mOperations.add(operation);
       return this;
     }
 
+    /**
+     * Adds a <a href="https://www.stellar.org/developers/learn/concepts/transactions.html">memo</a> to this transaction.
+     * @param memo
+     * @return
+     * @see Memo
+     */
     public Builder addMemo(org.stellar.base.xdr.Memo memo) {
       if (mMemo != null) {
         throw new RuntimeException("Memo has been already added.");
@@ -153,6 +191,10 @@ public class Transaction {
       return this;
     }
 
+    /**
+     * Builds a transaction.
+     * @return
+     */
     public Transaction build() {
       mSourceAccount.incrementSequenceNumber();
       Operation[] operations = new Operation[mOperations.size()];

@@ -2,6 +2,9 @@ package org.stellar.base;
 
 import org.stellar.base.xdr.AssetType;
 
+/**
+ * Represents Stellar native asset - lumens (XLM)
+ */
 public class AssetTypeNative extends Asset {
 
   public AssetTypeNative() {}

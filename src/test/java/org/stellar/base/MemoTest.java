@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
-
 import org.stellar.base.xdr.MemoType;
 
 import java.util.Arrays;

@@ -6,23 +6,44 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents Price. Price in Stellar is represented as a fraction.
+ */
 public class Price {
     private final int n;
     private final int d;
 
+    /**
+     * Create a new price. Price in Stellar is represented as a fraction.
+     * @param n numerator
+     * @param d denominator
+     */
     Price(int n, int d) {
         this.n = n;
         this.d = d;
     }
 
+    /**
+     * Returns numerator.
+     * @return
+     */
     int getNumerator() {
         return n;
     }
 
+    /**
+     * Returns denominator
+     * @return
+     */
     int getDenominator() {
         return d;
     }
 
+    /**
+     * Approximates <code>price</code> to a fraction.
+     * @param price Ex. "1.25"
+     * @return
+     */
     static Price fromString(String price) {
         BigDecimal maxInt = new BigDecimal(Integer.MAX_VALUE);
         BigDecimal number = new BigDecimal(price);
@@ -55,6 +76,10 @@ public class Price {
         return new Price(n.intValue(), d.intValue());
     }
 
+    /**
+     * Generates Price XDR object.
+     * @return
+     */
     public org.stellar.base.xdr.Price toXdr() {
         org.stellar.base.xdr.Price xdr = new org.stellar.base.xdr.Price();
         Int32 n = new Int32();

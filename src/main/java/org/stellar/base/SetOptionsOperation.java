@@ -5,12 +5,12 @@ import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.SetOptionsOp;
 import org.stellar.base.xdr.Signer;
 import org.stellar.base.xdr.String32;
-import org.stellar.base.xdr.Thresholds;
-import org.stellar.base.xdr.Uint256;
 import org.stellar.base.xdr.Uint32;
 
-import java.util.Arrays;
-
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#set-options">SetOptions</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class SetOptionsOperation extends Operation {
 
   private final StellarKeypair mInflationDestination;
@@ -39,42 +39,82 @@ public class SetOptionsOperation extends Operation {
     mSignerWeight = signerWeight;
   }
 
+  /**
+   * Account of the inflation destination.
+   * @return
+   */
   public StellarKeypair getInflationDestination() {
     return mInflationDestination;
   }
 
+  /**
+   * Indicates which flags to clear. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+   * @return
+   */
   public int getClearFlags() {
     return mClearFlags;
   }
 
+  /**
+   * Indicates which flags to set. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+   * @return
+   */
   public int getSetFlags() {
     return mSetFlags;
   }
 
+  /**
+   * Weight of the master key.
+   * @return
+   */
   public int getMasterKeyWeight() {
     return mMasterKeyWeight;
   }
 
+  /**
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a low threshold</a>.
+   * @return
+   */
   public int getLowThreshold() {
     return mLowThreshold;
   }
 
+  /**
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a medium threshold</a>.
+   * @return
+   */
   public int getMediumThreshold() {
     return mMediumThreshold;
   }
 
+  /**
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a high threshold</a>.
+   * @return
+   */
   public int getHighThreshold() {
     return mHighThreshold;
   }
 
+  /**
+   * The home domain of an account.
+   * @return
+   */
   public String getHomeDomain() {
     return mHomeDomain;
   }
 
+  /**
+   * Additional signer added/removed in this operation.
+   * @return
+   */
   public StellarKeypair getSigner() {
     return mSigner;
   }
 
+  /**
+   * Additional signer weight. The signer is deleted if the weight is 0.
+   * @return
+   */
   public byte getSignerWeight() {
     return mSignerWeight;
   }
@@ -139,11 +179,14 @@ public class SetOptionsOperation extends Operation {
     return body;
   }
 
+  /**
+   * Builds SetOptions operation.
+   * @see SetOptionsOperation
+   */
   public static class Builder {
     private StellarKeypair mInflationDestination;
     private int mClearFlags;
     private int mSetFlags;
-    private byte[] mThresholds = null;
     private int mMasterKeyWeight = -1;
     private int mLowThreshold = -1;
     private int mMediumThreshold = -1;
@@ -185,6 +228,9 @@ public class SetOptionsOperation extends Operation {
       }
     }
 
+    /**
+     * Creates a new SetOptionsOperation builder.
+     */
     public Builder() {}
 
     /**
@@ -198,7 +244,7 @@ public class SetOptionsOperation extends Operation {
 
     /**
      * Clears the given flags from the account.
-     * @param clearFlags
+     * @param clearFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
      * @return
      */
     public Builder setClearFlags(int clearFlags) {
@@ -208,7 +254,7 @@ public class SetOptionsOperation extends Operation {
 
     /**
      * Sets the given flags on the account.
-     * @param setFlags
+     * @param setFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
      * @return
      */
     public Builder setSetFlags(int setFlags) {
@@ -216,28 +262,48 @@ public class SetOptionsOperation extends Operation {
       return this;
     }
 
+    /**
+     * Weight of the master key.
+     * @param masterKeyWeight Number between 0 and 255
+     * @return
+     */
     public Builder setMasterKeyWeight(int masterKeyWeight) {
       mMasterKeyWeight = masterKeyWeight;
       return this;
     }
 
+    /**
+     * A number from 0-255 representing the threshold this account sets on all operations it performs that have a low threshold.
+     * @param lowThreshold Number between 0 and 255
+     * @return
+     */
     public Builder setLowThreshold(int lowThreshold) {
       mLowThreshold = lowThreshold;
       return this;
     }
 
+    /**
+     * A number from 0-255 representing the threshold this account sets on all operations it performs that have a medium threshold.
+     * @param mediumThreshold Number between 0 and 255
+     * @return
+     */
     public Builder setMediumThreshold(int mediumThreshold) {
       mMediumThreshold = mediumThreshold;
       return this;
     }
 
+    /**
+     * A number from 0-255 representing the threshold this account sets on all operations it performs that have a high threshold.
+     * @param highThreshold Number between 0 and 255
+     * @return
+     */
     public Builder setHighThreshold(int highThreshold) {
       mHighThreshold = highThreshold;
       return this;
     }
 
     /**
-     * Sets the account's home domain address which can be used to lookup the stellar.txt file.
+     * Sets the account's home domain address used in <a href="https://www.stellar.org/developers/learn/concepts/federation.html">Federation</a>.
      * @param homeDomain A string of the address which can be up to 32 characters.
      */
     public Builder setHomeDomain(String homeDomain) {
@@ -251,7 +317,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Add, update, or remove a signer from the account. Signer is deleted if the weight = 0;
      * @param signer The keypair to set as a signer.
-     * @param weight The weight to attach to the signer, uint8 (0-255)
+     * @param weight The weight to attach to the signer (0-255)
      * @return Builder
      */
     public Builder setSigner(StellarKeypair signer, int weight) {
@@ -260,11 +326,20 @@ public class SetOptionsOperation extends Operation {
       return this;
     }
 
-    public Builder setSourceAccount(StellarKeypair account) {
-      mSourceAccount = account;
+    /**
+     * Sets the source account for this operation.
+     * @param sourceAccount The operation's source account.
+     * @return
+     */
+    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+      mSourceAccount = sourceAccount;
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public SetOptionsOperation build() {
       SetOptionsOperation operation = new SetOptionsOperation(mInflationDestination, mClearFlags,
           mSetFlags, mMasterKeyWeight, mLowThreshold, mMediumThreshold, mHighThreshold,

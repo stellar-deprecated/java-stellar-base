@@ -3,8 +3,16 @@ package org.stellar.base;
 import org.stellar.base.xdr.AccountID;
 import org.stellar.base.xdr.AssetType;
 
+/**
+ * Represents all assets with codes 5-12 characters long.
+ */
 public class AssetTypeCreditAlphaNum12 extends AssetTypeCreditAlphaNum {
 
+  /**
+   * Class constructor
+   * @param code
+   * @param issuer
+   */
   public AssetTypeCreditAlphaNum12(String code, StellarKeypair issuer) {
     super(code, issuer);
     if (code.length() < 5 || code.length() > 12) {

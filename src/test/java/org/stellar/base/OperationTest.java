@@ -30,7 +30,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAAAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAD6A==",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testPaymentOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
@@ -56,7 +56,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAEAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAAAAAAA+g=",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testPathPaymentOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
@@ -96,7 +96,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAIAAAAAAAAAAAAAA+gAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEAAAAAACNlYd30HdCuLI54eyYjyX/fDyH9IJWIr/hKDcXKQbq1QAAAAAAAAPoAAAAAgAAAAFVU0QAAAAAACoIKnpnw8rtrfxa276dFZo1C19mDqWXtG4ufhWrLUd1AAAAAlRFU1RURVNUAAAAAAAAAABE/ttVl8BLV0csW/xgXtbXOVf1lMyDluMiafl0IDVFIg==",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testChangeTrustOperation() throws FormatException, IOException {
@@ -119,7 +119,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAYAAAAAf/////////8=",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testAllowTrustOperation() throws IOException, FormatException {
@@ -145,7 +145,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAcAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEQQAAAAE=",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testSetOptionsOperation() throws IOException, FormatException {
@@ -194,7 +194,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAABAAAAAET+21WXwEtXRyxb/GBe1tc5V/WUzIOW4yJp+XQgNUUiAAAAAQ==",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testManagerOfferOperation() throws IOException, FormatException {
@@ -210,8 +210,8 @@ public class OperationTest extends TestCase {
     Price priceObj = Price.fromString(price);
     long offerId = 1;
 
-    ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying,
-        amount, price, offerId)
+    ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying, amount, price)
+        .setOfferId(offerId)
         .setSourceAccount(source)
         .build();
 
@@ -229,7 +229,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAMAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZABRYZcAX14QAAAAAAAAAAE=",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testCreatePassiveOfferOperation() throws IOException, FormatException {
@@ -261,7 +261,7 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAQAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZAIweX0Avrwg",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 
   public void testAccountMergeOperation() throws IOException, FormatException {
@@ -282,6 +282,6 @@ public class OperationTest extends TestCase {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAgAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxA=",
-            operation.toBase64());
+            operation.toXdrBase64());
   }
 }

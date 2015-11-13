@@ -11,6 +11,10 @@ abstract class Operation {
 
   private StellarKeypair mSourceAccount;
 
+  /**
+   * Generates Operation XDR object.
+   * @return
+   */
   public org.stellar.base.xdr.Operation toXdr() {
     org.stellar.base.xdr.Operation xdr = new org.stellar.base.xdr.Operation();
     if (getSourceAccount() != null) {
@@ -22,7 +26,12 @@ abstract class Operation {
     return xdr;
   }
 
-  public String toBase64() throws IOException {
+  /**
+   * Returns base64-encoded Operation XDR object.
+   * @return
+   * @throws IOException
+   */
+  public String toXdrBase64() throws IOException {
     org.stellar.base.xdr.Operation operation = this.toXdr();
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
@@ -31,6 +40,11 @@ abstract class Operation {
     return base64Codec.encodeAsString(outputStream.toByteArray());
   }
 
+  /**
+   * Returns new Operation object from Operation XDR object.
+   * @param xdr
+   * @return
+   */
   public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
     org.stellar.base.xdr.Operation.OperationBody body = xdr.getBody();
     Operation operation = null;
@@ -71,13 +85,25 @@ abstract class Operation {
     return operation;
   }
 
+  /**
+   * Returns operation source account.
+   * @return
+   */
   public StellarKeypair getSourceAccount() {
     return mSourceAccount;
   }
 
+  /**
+   * Sets operation source account.
+   * @param keypair
+   */
   void setSourceAccount(StellarKeypair keypair) {
     mSourceAccount = keypair;
   }
 
+  /**
+   * Generates OperationBody XDR object
+   * @return OperationBody XDR object
+   */
   abstract org.stellar.base.xdr.Operation.OperationBody toOperationBody();
 }

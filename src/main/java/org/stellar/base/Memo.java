@@ -1,20 +1,32 @@
 package org.stellar.base;
 
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.stellar.base.xdr.MemoType;
 import org.stellar.base.xdr.Uint64;
 
-import org.apache.commons.codec.binary.Hex;
-
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Represents Memo.
+ * @see Transaction
+ */
 public class Memo {
+    /**
+     * Creates MEMO_NONE type memo.
+     * @return
+     */
     public static org.stellar.base.xdr.Memo none() {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
         memo.setDiscriminant(MemoType.MEMO_NONE);
         return memo;
     }
 
+    /**
+     * Creates MEMO_TEXT type memo.
+     * @param text
+     * @return
+     */
     public static org.stellar.base.xdr.Memo text(String text) {
         if (text.getBytes(StandardCharsets.UTF_8).length > 28) {
             throw new MemoTooLongException("text must be <= 28 bytes.");
@@ -26,6 +38,11 @@ public class Memo {
         return memo;
     }
 
+    /**
+     * Creates MEMO_ID type memo.
+     * @param id
+     * @return
+     */
     public static org.stellar.base.xdr.Memo id(long id) {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
         memo.setDiscriminant(MemoType.MEMO_ID);
@@ -35,6 +52,11 @@ public class Memo {
         return memo;
     }
 
+    /**
+     * Creates MEMO_HASH type memo from byte array.
+     * @param bytes
+     * @return
+     */
     public static org.stellar.base.xdr.Memo hash(byte[] bytes) {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
         memo.setDiscriminant(MemoType.MEMO_HASH);
@@ -52,18 +74,35 @@ public class Memo {
         return memo;
     }
 
+    /**
+     * Creates MEMO_HASH type memo from hex-encoded string
+     * @param hexString
+     * @return
+     * @throws DecoderException
+     */
     public static org.stellar.base.xdr.Memo hash(String hexString) throws DecoderException {
         Hex hexCodec = new Hex();
         byte[] decoded = hexCodec.decodeHex(hexString.toCharArray());
         return Memo.hash(decoded);
     }
 
+    /**
+     * Creates MEMO_RETURN type memo from byte array.
+     * @param bytes
+     * @return
+     */
     public static org.stellar.base.xdr.Memo returnHash(byte[] bytes) {
         org.stellar.base.xdr.Memo memo = Memo.hash(bytes);
         memo.setDiscriminant(MemoType.MEMO_RETURN);
         return memo;
     }
 
+    /**
+     * Creates MEMO_RETURN type memo from hex-encoded string.
+     * @param hexString
+     * @return
+     * @throws DecoderException
+     */
     public static org.stellar.base.xdr.Memo returnHash(String hexString) throws DecoderException {
         org.stellar.base.xdr.Memo memo = Memo.hash(hexString);
         memo.setDiscriminant(MemoType.MEMO_RETURN);

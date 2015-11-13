@@ -5,6 +5,10 @@ import org.stellar.base.xdr.AllowTrustOp;
 import org.stellar.base.xdr.AssetType;
 import org.stellar.base.xdr.OperationType;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#allow-trust">AllowTrust</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class AllowTrustOperation extends Operation {
 
   private final StellarKeypair mTrustor;
@@ -17,14 +21,26 @@ public class AllowTrustOperation extends Operation {
     mAuthorize = authorize;
   }
 
+  /**
+   * The account of the recipient of the trustline.
+   * @return
+   */
   public StellarKeypair getTrustor() {
     return mTrustor;
   }
 
+  /**
+   * The asset of the trustline the source account is authorizing. For example, if a gateway wants to allow another account to hold its USD credit, the type is USD.
+   * @return
+   */
   public String getAssetCode() {
     return mAssetCode;
   }
 
+  /**
+   * Flag indicating whether the trustline is authorized.
+   * @return
+   */
   public boolean getAuthorize() {
     return mAuthorize;
   }
@@ -56,6 +72,10 @@ public class AllowTrustOperation extends Operation {
     return body;
   }
 
+  /**
+   * Builds AllowTrust operation.
+   * @see AllowTrustOperation
+   */
   public static class Builder {
     private final StellarKeypair mTrustor;
     private final String mAssetCode;
@@ -78,17 +98,32 @@ public class AllowTrustOperation extends Operation {
       mAuthorize = op.getAuthorize();
     }
 
+    /**
+     * Creates a new AllowTrust builder.
+     * @param trustor The account of the recipient of the trustline.
+     * @param assetCode The asset of the trustline the source account is authorizing. For example, if a gateway wants to allow another account to hold its USD credit, the type is USD.
+     * @param authorize Flag indicating whether the trustline is authorized.
+     */
     public Builder(StellarKeypair trustor, String assetCode, boolean authorize) {
       mTrustor = trustor;
       mAssetCode = assetCode;
       mAuthorize = authorize;
     }
 
-    public Builder setSourceAccount(StellarKeypair account) {
-      mSourceAccount = account;
+    /**
+     * Set source account of this operation
+     * @param sourceAccount Source account
+     * @return Builder object so you can chain methods.
+     */
+    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+      mSourceAccount = sourceAccount;
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public AllowTrustOperation build() {
       AllowTrustOperation operation = new AllowTrustOperation(mTrustor, mAssetCode, mAuthorize);
       if (mSourceAccount != null) {

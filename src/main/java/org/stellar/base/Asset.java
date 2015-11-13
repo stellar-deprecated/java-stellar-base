@@ -1,11 +1,15 @@
 package org.stellar.base;
 
-import java.util.Arrays;
-
 /**
  * Base Asset class.
  */
 public abstract class Asset {
+  /**
+   * Creates one of AssetTypeCreditAlphaNum4 or AssetTypeCreditAlphaNum12 object based on a <code>assetCode</code> length
+   * @param assetCode
+   * @param issuer
+   * @return
+   */
   static Asset createNonNativeAsset(String assetCode, StellarKeypair issuer) {
     if (assetCode.length() >= 1 && assetCode.length() <= 4) {
       return new AssetTypeCreditAlphaNum4(assetCode, issuer);
@@ -16,6 +20,11 @@ public abstract class Asset {
     }
   }
 
+  /**
+   * Generates Asset object from a given XDR object
+   * @param xdr
+   * @return
+   */
   static Asset fromXdr(org.stellar.base.xdr.Asset xdr) {
     switch (xdr.getDiscriminant()) {
       case ASSET_TYPE_NATIVE:
@@ -36,5 +45,10 @@ public abstract class Asset {
 
   @Override
   public abstract boolean equals(Object object);
+
+  /**
+   * Generates XDR object from a given Asset object
+   * @return
+   */
   abstract org.stellar.base.xdr.Asset toXdr();
 }

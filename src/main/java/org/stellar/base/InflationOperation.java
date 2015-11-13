@@ -1,7 +1,16 @@
 package org.stellar.base;
 
+import org.stellar.base.xdr.OperationType;
+
 /**
- * Created by andrewrogers on 7/21/15.
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#inflation">Inflation</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
  */
-public class InflationOperation {
+public class InflationOperation extends Operation {
+    @Override
+    org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
+        org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
+        body.setDiscriminant(OperationType.INFLATION);
+        return body;
+    }
 }

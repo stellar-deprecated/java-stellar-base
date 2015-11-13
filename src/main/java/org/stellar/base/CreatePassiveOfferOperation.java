@@ -7,6 +7,10 @@ import org.stellar.base.xdr.OperationType;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-passive-offer">CreatePassiveOffer</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class CreatePassiveOfferOperation extends Operation {
   private final Asset mSelling;
   private final Asset mBuying;
@@ -20,18 +24,34 @@ public class CreatePassiveOfferOperation extends Operation {
     mPrice = price;
   }
 
+  /**
+   * The asset being sold in this operation
+   * @return
+   */
   public Asset getSelling() {
     return mSelling;
   }
 
+  /**
+   * The asset being bought in this operation
+   * @return
+   */
   public Asset getBuying() {
     return mBuying;
   }
 
+  /**
+   * Amount of selling being sold.
+   * @return
+   */
   public long getAmount() {
     return mAmount;
   }
 
+  /**
+   * Price of 1 unit of selling in terms of buying.
+   * @return
+   */
   public String getPrice() {
     return mPrice;
   }
@@ -54,7 +74,11 @@ public class CreatePassiveOfferOperation extends Operation {
     return body;
   }
 
-  static class Builder {
+  /**
+   * Builds CreatePassiveOffer operation.
+   * @see CreatePassiveOfferOperation
+   */
+  public static class Builder {
 
     private final Asset mSelling;
     private final Asset mBuying;
@@ -64,8 +88,8 @@ public class CreatePassiveOfferOperation extends Operation {
     private StellarKeypair mSourceAccount;
 
     /**
-     * Construct a new CreateAccount builder from a CreateAccountOp XDR.
-     * @param op {@link CreateAccountOp}
+     * Construct a new CreatePassiveOffer builder from a CreatePassiveOfferOp XDR.
+     * @param op
      */
     Builder(CreatePassiveOfferOp op) {
       mSelling = Asset.fromXdr(op.getSelling());
@@ -76,6 +100,13 @@ public class CreatePassiveOfferOperation extends Operation {
       mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
     }
 
+    /**
+     * Creates a new CreatePassiveOffer builder.
+     * @param selling The asset being sold in this operation
+     * @param buying The asset being bought in this operation
+     * @param amount Amount of selling being sold.
+     * @param price Price of 1 unit of selling in terms of buying.
+     */
     public Builder(Asset selling, Asset buying, long amount, String price) {
       mSelling = selling;
       mBuying = buying;
@@ -85,14 +116,18 @@ public class CreatePassiveOfferOperation extends Operation {
 
     /**
      * Sets the source account for this operation.
-     * @param account The operation's source account.
+     * @param sourceAccount The operation's source account.
      * @return
      */
-    public Builder setSourceAccount(StellarKeypair account) {
-      mSourceAccount = account;
+    public Builder setSourceAccount(StellarKeypair sourceAccount) {
+      mSourceAccount = sourceAccount;
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public CreatePassiveOfferOperation build() {
       CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation(mSelling, mBuying, mAmount, mPrice);
       if (mSourceAccount != null) {

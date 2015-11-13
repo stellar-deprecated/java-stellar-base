@@ -5,6 +5,10 @@ import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.PaymentOp;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#payment">Payment</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class PaymentOperation extends Operation {
 
   private final StellarKeypair mDestination;
@@ -17,14 +21,26 @@ public class PaymentOperation extends Operation {
     mAmount = amount;
   }
 
+  /**
+   * Account that receives the payment.
+   * @return
+   */
   public StellarKeypair getDestination() {
     return mDestination;
   }
 
+  /**
+   * Asset to send to the destination account.
+   * @return
+   */
   public Asset getAsset() {
     return mAsset;
   }
 
+  /**
+   * Amount of the asset to send.
+   * @return
+   */
   public long getAmount() {
     return mAmount;
   }
@@ -50,6 +66,10 @@ public class PaymentOperation extends Operation {
     return body;
   }
 
+  /**
+   * Builds Payment operation.
+   * @see PathPaymentOperation
+   */
   public static class Builder {
     private final StellarKeypair mDestination;
     private final Asset mAsset;
@@ -72,7 +92,6 @@ public class PaymentOperation extends Operation {
      * @param destination The destination keypair (uses only the public key).
      * @param asset The asset to send.
      * @param amount The amount to send.
-     * @param
      */
     public Builder(StellarKeypair destination, Asset asset, long amount) {
       mDestination = destination;
@@ -90,6 +109,10 @@ public class PaymentOperation extends Operation {
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public PaymentOperation build() {
       PaymentOperation operation = new PaymentOperation(mDestination, mAsset, mAmount);
       if (mSourceAccount != null) {

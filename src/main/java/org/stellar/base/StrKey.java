@@ -1,9 +1,10 @@
 package org.stellar.base;
 
+import org.apache.commons.codec.binary.Base32;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import org.apache.commons.codec.binary.Base32;
 
 public class StrKey {
     public enum VersionByte {
@@ -34,11 +35,11 @@ public class StrKey {
         }
     }
 
-    public static byte[] decodeStellarAddress(String data) throws FormatException {
+    public static byte[] decodeStellarAddress(String data) {
         return decodeCheck(VersionByte.ACCOUNT_ID, data);
     }
 
-    public static byte[] decodeStellarSecretSeed(String data) throws FormatException {
+    public static byte[] decodeStellarSecretSeed(String data) {
         return decodeCheck(VersionByte.SEED, data);
     }
 
@@ -54,7 +55,7 @@ public class StrKey {
         return base32Codec.encodeAsString(unencoded);
     }
 
-    protected static byte[] decodeCheck(VersionByte versionByte, String encoded) throws FormatException {
+    protected static byte[] decodeCheck(VersionByte versionByte, String encoded) {
         Base32 base32Codec = new Base32();
         byte[] decoded = base32Codec.decode(encoded);
         byte decodedVersionByte = decoded[0];

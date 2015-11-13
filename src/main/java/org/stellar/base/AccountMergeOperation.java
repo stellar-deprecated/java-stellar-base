@@ -1,9 +1,13 @@
 package org.stellar.base;
 
 import org.stellar.base.xdr.AccountID;
-import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.Operation.OperationBody;
+import org.stellar.base.xdr.OperationType;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#account-merge">AccountMerge</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class AccountMergeOperation extends Operation {
 
     private final StellarKeypair mDestination;
@@ -12,6 +16,10 @@ public class AccountMergeOperation extends Operation {
         mDestination = destination;
     }
 
+    /**
+     * The account that receives the remaining XLM balance of the source account.
+     * @return
+     */
     public StellarKeypair getDestination() {
         return mDestination;
     }
@@ -26,7 +34,11 @@ public class AccountMergeOperation extends Operation {
         return body;
     }
 
-    static class Builder {
+    /**
+     * Builds AccountMerge operation.
+     * @see AccountMergeOperation
+     */
+    public static class Builder {
         private final StellarKeypair mDestination;
 
         private StellarKeypair mSourceAccount;
@@ -35,15 +47,28 @@ public class AccountMergeOperation extends Operation {
             mDestination = StellarKeypair.fromXdrPublicKey(op.getDestination().getAccountID());
         }
 
+        /**
+         * Creates a new AccountMerge builder.
+         * @param destination The account that receives the remaining XLM balance of the source account.
+         */
         public Builder(StellarKeypair destination) {
             mDestination = destination;
         }
 
-        public Builder setSourceAccount(StellarKeypair account) {
-            mSourceAccount = account;
+        /**
+         * Set source account of this operation
+         * @param sourceAccount Source account
+         * @return Builder object so you can chain methods.
+         */
+        public Builder setSourceAccount(StellarKeypair sourceAccount) {
+            mSourceAccount = sourceAccount;
             return this;
         }
 
+        /**
+         * Builds an operation
+         * @return
+         */
         public AccountMergeOperation build() {
             AccountMergeOperation operation = new AccountMergeOperation(mDestination);
             if (mSourceAccount != null) {

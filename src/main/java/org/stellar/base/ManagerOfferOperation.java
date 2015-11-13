@@ -8,6 +8,10 @@ import org.stellar.base.xdr.Uint64;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#manage-offer">ManageOffer</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class ManagerOfferOperation extends Operation {
 
   private final Asset mSelling;
@@ -24,22 +28,42 @@ public class ManagerOfferOperation extends Operation {
     mOfferId = offerId;
   }
 
+  /**
+   * The asset being sold in this operation
+   * @return
+   */
   public Asset getSelling() {
     return mSelling;
   }
 
+  /**
+   * The asset being bought in this operation
+   * @return
+   */
   public Asset getBuying() {
     return mBuying;
   }
 
+  /**
+   * Amount of selling being sold.
+   * @return
+   */
   public long getAmount() {
     return mAmount;
   }
 
+  /**
+   * Price of 1 unit of selling in terms of buying.
+   * @return
+   */
   public String getPrice() {
     return mPrice;
   }
 
+  /**
+   * The ID of the offer.
+   * @return
+   */
   public long getOfferId() {
     return mOfferId;
   }
@@ -65,13 +89,17 @@ public class ManagerOfferOperation extends Operation {
     return body;
   }
 
+  /**
+   * Builds ManageOffer operation.
+   * @see ManagerOfferOperation
+   */
   public static class Builder {
 
     private final Asset mSelling;
     private final Asset mBuying;
     private final long mAmount;
     private final String mPrice;
-    private final long mOfferId;
+    private long mOfferId = 0;
 
     private StellarKeypair mSourceAccount;
 
@@ -89,12 +117,27 @@ public class ManagerOfferOperation extends Operation {
       mOfferId = op.getOfferID().getUint64().longValue();
     }
 
-    public Builder(Asset selling, Asset buying, long amount, String price, long id) {
+    /**
+     * Creates a new ManageOffer builder.
+     * @param selling The asset being sold in this operation
+     * @param buying The asset being bought in this operation
+     * @param amount Amount of selling being sold.
+     * @param price Price of 1 unit of selling in terms of buying.
+     */
+    public Builder(Asset selling, Asset buying, long amount, String price) {
       mSelling = selling;
       mBuying = buying;
       mAmount = amount;
       mPrice = price;
-      mOfferId = id;
+    }
+
+    /**
+     * Sets offer ID. <code>0</code> creates a new offer. Set to existing offer ID to change it.
+     * @param offerId
+     */
+    public Builder setOfferId(long offerId) {
+      mOfferId = offerId;
+      return this;
     }
 
     /**
@@ -107,9 +150,12 @@ public class ManagerOfferOperation extends Operation {
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public ManagerOfferOperation build() {
-      ManagerOfferOperation operation = new ManagerOfferOperation(mSelling, mBuying, mAmount, mPrice,
-          mOfferId);
+      ManagerOfferOperation operation = new ManagerOfferOperation(mSelling, mBuying, mAmount, mPrice, mOfferId);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

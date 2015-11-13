@@ -1,6 +1,7 @@
 package org.stellar.base;
 
 import junit.framework.TestCase;
+
 import org.junit.Test;
 
 /**

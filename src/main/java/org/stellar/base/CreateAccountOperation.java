@@ -5,22 +5,32 @@ import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 
+/**
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-account">CreateAccount</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ */
 public class CreateAccountOperation extends Operation {
 
   private final StellarKeypair mDestination;
   private final long mStartingBalance;
-
-  private StellarKeypair mSourceAccount;
 
   private CreateAccountOperation(StellarKeypair destination, long startingBalance) {
     mDestination = destination;
     mStartingBalance = startingBalance;
   }
 
+  /**
+   * Amount of XLM to send to the newly created account.
+   * @return
+   */
   public long getStartingBalance() {
     return mStartingBalance;
   }
 
+  /**
+   * Account that is created and funded.
+   * @return
+   */
   public StellarKeypair getDestination() {
     return mDestination;
   }
@@ -41,6 +51,10 @@ public class CreateAccountOperation extends Operation {
     return body;
   }
 
+  /**
+   * Builds CreateAccount operation.
+   * @see CreateAccountOperation
+   */
   public static class Builder {
     private final StellarKeypair mDestination;
     private final long mStartingBalance;
@@ -76,6 +90,10 @@ public class CreateAccountOperation extends Operation {
       return this;
     }
 
+    /**
+     * Builds an operation
+     * @return
+     */
     public CreateAccountOperation build() {
       CreateAccountOperation operation = new CreateAccountOperation(mDestination, mStartingBalance);
       if (mSourceAccount != null) {
