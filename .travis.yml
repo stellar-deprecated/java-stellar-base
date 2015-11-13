@@ -1,0 +1,11 @@
+language: java
+before_deploy: ./gradlew jar
+deploy:
+  provider: releases
+  api_key:
+    secure: X/zVdLoi+hl2P36dcQfGKw5iESmBsNzKtmqj6bXYPD8UWDDan8KAU1WBPdrd7NFI8BCOqG4bHbSGsPVHo8mN4EjqJBTe3mAQEcET82IqI2zBxDytJBwxM2qXmeMJsJLeOAhAOgt/GFlXROerVC7M7NjIqLacknu/hQIGPd1PLFTYxYJgjdUw2qafFssB4i3lYRm/j/bdBBMWRSize8HcxeZzbLoi/TSoCcgS6kaVOpaDgJ9idl3/U/eqyevFieC7rEzCZdswNv/sjK29H+nkwpuWpUdkaeVYszWoOXPhEH3dFx0fWXGH4heLb7nLs45lNde8rQXT0edPjUMg5HNYeLBlAVTeo1XjmpVh/qwFxo+hBy4QGbxRY0TGt/LZalU2ywKjQLG18h/E6TbKUXTT7rR1wNDAxLw4X5l1Z5dnLmG36MgR7orQejmfc+NcHVhzLrq3aFmNXmcmgK3akNzPrlyNwM7pmtGNeGBL0yRITAmMC2m2j4pNp5SJNr++Crw5LqbpA5FFhXSFvHGzYr+pYjNnu0v2nnWOuoGkpoIXY3I7XFml/dlpAn1BXp1z21IqHdWzsCETWRX6k1A+oVo/Of8IB/9VtQ2ZW0Rav6atXPKzYoxXK+2QpKhmpoD+NKAQlSPJZc4LsOm4wkWNDycYjVczrXFNgkHnWIDvWU8iXGg=
+  file: "./build/libs/stellar-base.jar"
+  skip_cleanup: true
+  on:
+    repo: stellar/stellar-upgrade
+    tags: true

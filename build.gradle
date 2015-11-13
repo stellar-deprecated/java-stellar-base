@@ -7,9 +7,10 @@ group = 'stellar'
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'java-stellar-base',
+        attributes 'Implementation-Title': 'stellar-base',
                    'Implementation-Version': version
     }
+    archiveName 'stellar-base.jar'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
