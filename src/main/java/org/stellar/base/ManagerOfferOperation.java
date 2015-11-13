@@ -65,7 +65,7 @@ public class ManagerOfferOperation extends Operation {
     return body;
   }
 
-  static class Builder {
+  public static class Builder {
 
     private final Asset mSelling;
     private final Asset mBuying;

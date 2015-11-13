@@ -142,7 +142,7 @@ public class Transaction {
   /**
    * Builder pattern to create new transactions.
    */
-  static class Builder {
+  public static class Builder {
     private final Account mSourceAccount;
     private org.stellar.base.xdr.Memo mMemo;
     List<Operation> mOperations;

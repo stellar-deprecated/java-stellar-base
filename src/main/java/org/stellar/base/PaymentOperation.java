@@ -50,7 +50,7 @@ public class PaymentOperation extends Operation {
     return body;
   }
 
-  static class Builder {
+  public static class Builder {
     private final StellarKeypair mDestination;
     private final Asset mAsset;
     private final long mAmount;
