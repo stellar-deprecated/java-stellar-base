@@ -42,7 +42,7 @@ abstract class Operation {
 
   /**
    * Returns new Operation object from Operation XDR object.
-   * @param xdr
+   * @param xdr XDR object
    * @return
    */
   public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {

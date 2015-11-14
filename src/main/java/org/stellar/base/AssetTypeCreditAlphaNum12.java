@@ -10,8 +10,8 @@ public class AssetTypeCreditAlphaNum12 extends AssetTypeCreditAlphaNum {
 
   /**
    * Class constructor
-   * @param code
-   * @param issuer
+   * @param code Asset code
+   * @param issuer Asset issuer
    */
   public AssetTypeCreditAlphaNum12(String code, Keypair issuer) {
     super(code, issuer);

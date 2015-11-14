@@ -11,7 +11,7 @@ public class Account {
 
   /**
    * Class constructor.
-   * @param keypair
+   * @param keypair Keypair associated with this Account
    * @param sequenceNumber Current sequence number of the account
    */
   public Account(Keypair keypair, long sequenceNumber) {
@@ -20,14 +20,16 @@ public class Account {
   }
 
   /**
-   * @return Keypair associated with this Account
+   * Returns keypair associated with this Account
+   * @return
    */
   public Keypair getKeypair() {
     return mKeypair;
   }
 
   /**
-   * @return Current sequence number ot this Account.
+   * Returns current sequence number ot this Account.
+   * @return
    */
   public long getSequenceNumber() {
     return mSequenceNumber;

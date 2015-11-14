@@ -5,16 +5,16 @@ package org.stellar.base;
  */
 public abstract class Asset {
   /**
-   * Creates one of AssetTypeCreditAlphaNum4 or AssetTypeCreditAlphaNum12 object based on a <code>assetCode</code> length
-   * @param assetCode
-   * @param issuer
+   * Creates one of AssetTypeCreditAlphaNum4 or AssetTypeCreditAlphaNum12 object based on a <code>code</code> length
+   * @param code Asset code
+   * @param issuer Asset issuer
    * @return
    */
-  static Asset createNonNativeAsset(String assetCode, Keypair issuer) {
-    if (assetCode.length() >= 1 && assetCode.length() <= 4) {
-      return new AssetTypeCreditAlphaNum4(assetCode, issuer);
-    } else if (assetCode.length() >= 5 && assetCode.length() <= 12) {
-      return new AssetTypeCreditAlphaNum12(assetCode, issuer);
+  public static Asset createNonNativeAsset(String code, Keypair issuer) {
+    if (code.length() >= 1 && code.length() <= 4) {
+      return new AssetTypeCreditAlphaNum4(code, issuer);
+    } else if (code.length() >= 5 && code.length() <= 12) {
+      return new AssetTypeCreditAlphaNum12(code, issuer);
     } else {
       throw new AssetCodeLengthInvalidException();
     }
@@ -22,10 +22,10 @@ public abstract class Asset {
 
   /**
    * Generates Asset object from a given XDR object
-   * @param xdr
+   * @param xdr XDR object
    * @return
    */
-  static Asset fromXdr(org.stellar.base.xdr.Asset xdr) {
+  public static Asset fromXdr(org.stellar.base.xdr.Asset xdr) {
     switch (xdr.getDiscriminant()) {
       case ASSET_TYPE_NATIVE:
         return new AssetTypeNative();
@@ -50,5 +50,5 @@ public abstract class Asset {
    * Generates XDR object from a given Asset object
    * @return
    */
-  abstract org.stellar.base.xdr.Asset toXdr();
+  public abstract org.stellar.base.xdr.Asset toXdr();
 }

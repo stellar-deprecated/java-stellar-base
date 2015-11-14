@@ -49,7 +49,7 @@ public class Network {
 
     /**
      * Use <code>network</code> as a current network.
-     * @param network
+     * @param network Network object to set as current network
      */
     public static void use(Network network) {
         current = network;

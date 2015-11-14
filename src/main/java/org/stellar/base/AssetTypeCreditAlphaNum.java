@@ -3,7 +3,7 @@ package org.stellar.base;
 /**
  * Base class for AssetTypeCreditAlphaNum4 and AssetTypeCreditAlphaNum12 subclasses.
  */
-public abstract class AssetTypeCreditAlphaNum extends Asset {
+abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final String mCode;
     protected final Keypair mIssuer;
 

@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class StrKey {
+class StrKey {
     public enum VersionByte {
         ACCOUNT_ID((byte)0x30),
         SEED((byte)0x90);

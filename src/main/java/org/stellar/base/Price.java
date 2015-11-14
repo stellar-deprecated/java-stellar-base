@@ -44,7 +44,7 @@ public class Price {
      * @param price Ex. "1.25"
      * @return
      */
-    static Price fromString(String price) {
+    public static Price fromString(String price) {
         BigDecimal maxInt = new BigDecimal(Integer.MAX_VALUE);
         BigDecimal number = new BigDecimal(price);
         BigDecimal a;
