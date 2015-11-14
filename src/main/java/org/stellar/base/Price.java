@@ -27,7 +27,7 @@ public class Price {
      * Returns numerator.
      * @return
      */
-    int getNumerator() {
+    public int getNumerator() {
         return n;
     }
 
@@ -35,7 +35,7 @@ public class Price {
      * Returns denominator
      * @return
      */
-    int getDenominator() {
+    public int getDenominator() {
         return d;
     }
 
