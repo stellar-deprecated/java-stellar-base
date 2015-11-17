@@ -1,7 +1,7 @@
 import org.stellar.base.*;
 
 public class StellarExample {
-  public static void main(String [] args) throws java.io.IOException {
+  public static void main(String [] args) {
     // Uncoment when using Public network
     //Network.usePublicNetwork();
 

@@ -127,16 +127,20 @@ public class Keypair {
     return mPublicKey.getAbyte();
   }
 
-  public SignatureHint getSignatureHint() throws IOException {
-    ByteArrayOutputStream publicKeyBytesStream = new ByteArrayOutputStream();
-    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(publicKeyBytesStream);
-    PublicKey.encode(xdrOutputStream, this.getXdrPublicKey());
-    byte[] publicKeyBytes = publicKeyBytesStream.toByteArray();
-    byte[] signatureHintBytes = Arrays.copyOfRange(publicKeyBytes, publicKeyBytes.length - 4, publicKeyBytes.length);
+  public SignatureHint getSignatureHint() {
+    try {
+      ByteArrayOutputStream publicKeyBytesStream = new ByteArrayOutputStream();
+      XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(publicKeyBytesStream);
+      PublicKey.encode(xdrOutputStream, this.getXdrPublicKey());
+      byte[] publicKeyBytes = publicKeyBytesStream.toByteArray();
+      byte[] signatureHintBytes = Arrays.copyOfRange(publicKeyBytes, publicKeyBytes.length - 4, publicKeyBytes.length);
 
-    SignatureHint signatureHint = new SignatureHint();
-    signatureHint.setSignatureHint(signatureHintBytes);
-    return signatureHint;
+      SignatureHint signatureHint = new SignatureHint();
+      signatureHint.setSignatureHint(signatureHintBytes);
+      return signatureHint;
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
   }
 
   public PublicKey getXdrPublicKey() {
@@ -176,7 +180,7 @@ public class Keypair {
    * @param data
    * @return
    */
-  public DecoratedSignature signDecorated(byte[] data) throws IOException {
+  public DecoratedSignature signDecorated(byte[] data) {
     byte[] signatureBytes = this.sign(data);
 
     org.stellar.base.xdr.Signature signature = new org.stellar.base.xdr.Signature();

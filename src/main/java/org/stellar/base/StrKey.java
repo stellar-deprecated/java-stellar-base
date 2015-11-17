@@ -20,19 +20,11 @@ class StrKey {
     }
 
     public static String encodeStellarAddress(byte[] data) {
-        try {
-            return encodeCheck(VersionByte.ACCOUNT_ID, data);
-        } catch (IOException e) {
-            return null;
-        }
+        return encodeCheck(VersionByte.ACCOUNT_ID, data);
     }
 
     public static String encodeStellarSecretSeed(byte[] data) {
-        try {
-            return encodeCheck(VersionByte.SEED, data);
-        } catch (IOException e) {
-            return null;
-        }
+        return encodeCheck(VersionByte.SEED, data);
     }
 
     public static byte[] decodeStellarAddress(String data) {
@@ -43,16 +35,20 @@ class StrKey {
         return decodeCheck(VersionByte.SEED, data);
     }
 
-    protected static String encodeCheck(VersionByte versionByte, byte[] data) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        outputStream.write(versionByte.getValue());
-        outputStream.write(data);
-        byte payload[] = outputStream.toByteArray();
-        byte checksum[] = StrKey.calculateChecksum(payload);
-        outputStream.write(checksum);
-        byte unencoded[] = outputStream.toByteArray();
-        Base32 base32Codec = new Base32();
-        return base32Codec.encodeAsString(unencoded);
+    protected static String encodeCheck(VersionByte versionByte, byte[] data) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            outputStream.write(versionByte.getValue());
+            outputStream.write(data);
+            byte payload[] = outputStream.toByteArray();
+            byte checksum[] = StrKey.calculateChecksum(payload);
+            outputStream.write(checksum);
+            byte unencoded[] = outputStream.toByteArray();
+            Base32 base32Codec = new Base32();
+            return base32Codec.encodeAsString(unencoded);
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
     }
 
     protected static byte[] decodeCheck(VersionByte versionByte, String encoded) {

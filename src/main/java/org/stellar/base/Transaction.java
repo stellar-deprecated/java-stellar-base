@@ -18,13 +18,13 @@ public class Transaction {
   private final int BASE_FEE = 100;
 
   private final int mFee;
-  private final Account mSourceAccount;
+  private final Keypair mSourceAccount;
   private final long mSequenceNumber;
   private final Operation[] mOperations;
   private final org.stellar.base.xdr.Memo mMemo;
   private List<DecoratedSignature> mSignatures;
 
-  Transaction(Account sourceAccount, long sequenceNumber, Operation[] operations, org.stellar.base.xdr.Memo memo) {
+  Transaction(Keypair sourceAccount, long sequenceNumber, Operation[] operations, org.stellar.base.xdr.Memo memo) {
     if (operations.length == 0) {
       throw new RuntimeException("At least one operation required.");
     }
@@ -42,7 +42,7 @@ public class Transaction {
    * @param signer
    * @throws IOException
    */
-  public void sign(Keypair signer) throws IOException {
+  public void sign(Keypair signer) {
     byte[] txHash = this.hash();
     mSignatures.add(signer.signDecorated(txHash));
   }
@@ -79,6 +79,22 @@ public class Transaction {
   }
 
   /**
+   *
+   * @return
+   */
+  public Keypair getSourceAccount() {
+    return mSourceAccount;
+  }
+
+  public long getSequenceNumber() {
+    return mSequenceNumber;
+  }
+
+  public org.stellar.base.xdr.Memo getMemo() {
+    return mMemo;
+  }
+
+  /**
    * Generates Transaction XDR object.
    * @return
    */
@@ -93,7 +109,7 @@ public class Transaction {
     sequenceNumber.setSequenceNumber(sequenceNumberUint);
     // sourceAccount
     org.stellar.base.xdr.AccountID sourceAccount = new org.stellar.base.xdr.AccountID();
-    sourceAccount.setAccountID(mSourceAccount.getKeypair().getXdrPublicKey());
+    sourceAccount.setAccountID(mSourceAccount.getXdrPublicKey());
     // operations
     org.stellar.base.xdr.Operation[] operations = new org.stellar.base.xdr.Operation[mOperations.length];
     for (int i = 0; i < mOperations.length; i++) {
@@ -136,15 +152,18 @@ public class Transaction {
   /**
    * Returns base64-encoded TransactionEnvelope XDR object. Transaction need to have at least one signature.
    * @return
-   * @throws IOException
    */
-  public String toEnvelopeXdrBase64() throws IOException {
-    org.stellar.base.xdr.TransactionEnvelope envelope = this.toEnvelopeXdr();
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
-    org.stellar.base.xdr.TransactionEnvelope.encode(xdrOutputStream, envelope);
-    Base64 base64Codec = new Base64();
-    return base64Codec.encodeAsString(outputStream.toByteArray());
+  public String toEnvelopeXdrBase64() {
+    try {
+      org.stellar.base.xdr.TransactionEnvelope envelope = this.toEnvelopeXdr();
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
+      org.stellar.base.xdr.TransactionEnvelope.encode(xdrOutputStream, envelope);
+      Base64 base64Codec = new Base64();
+      return base64Codec.encodeAsString(outputStream.toByteArray());
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
   }
 
   /**
@@ -199,7 +218,7 @@ public class Transaction {
       mSourceAccount.incrementSequenceNumber();
       Operation[] operations = new Operation[mOperations.size()];
       operations = mOperations.toArray(operations);
-      return new Transaction(mSourceAccount, mSourceAccount.getSequenceNumber(), operations, mMemo);
+      return new Transaction(mSourceAccount.getKeypair(), mSourceAccount.getSequenceNumber(), operations, mMemo);
     }
   }
 }

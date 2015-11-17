@@ -13,12 +13,13 @@ public class TransactionTest extends TestCase {
     }
 
     @Test
-    public void testBuilderSuccessTestnet() throws FormatException, IOException {
+    public void testBuilderSuccessTestnet() throws FormatException {
         // GBPMKIRA2OQW2XZZQUCQILI5TMVZ6JNRKM423BSAISDM7ZFWQ6KWEBC4
         Keypair source = Keypair.fromSecretSeed("SCH27VUZZ6UAKB67BDNF6FA42YMBMQCBKXWGMFD5TZ6S5ZZCZFLRXKHS");
         Keypair destination = Keypair.fromAddress("GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR");
 
-        Account account = new Account(source, 2908908335136768L);
+        long sequenceNumber = 2908908335136768L;
+        Account account = new Account(source, sequenceNumber);
         Transaction transaction = new Transaction.Builder(account)
                 .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
                 .build();
@@ -28,10 +29,13 @@ public class TransactionTest extends TestCase {
         assertEquals(
                 "AAAAAF7FIiDToW1fOYUFBC0dmyufJbFTOa2GQESGz+S2h5ViAAAAZAAKVaMAAAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAEqBfIAAAAAAAAAAABtoeVYgAAAEDLki9Oi700N60Lo8gUmEFHbKvYG4QSqXiLIt9T0ru2O5BphVl/jR9tYtHAD+UeDYhgXNgwUxqTEu1WukvEyYcD",
                 transaction.toEnvelopeXdrBase64());
+
+        assertEquals(transaction.getSourceAccount(), source);
+        assertEquals(transaction.getSequenceNumber(), sequenceNumber+1);
     }
 
     @Test
-    public void testBuilderMemoText() throws FormatException, IOException {
+    public void testBuilderMemoText() throws FormatException {
         // GBPMKIRA2OQW2XZZQUCQILI5TMVZ6JNRKM423BSAISDM7ZFWQ6KWEBC4
         Keypair source = Keypair.fromSecretSeed("SCH27VUZZ6UAKB67BDNF6FA42YMBMQCBKXWGMFD5TZ6S5ZZCZFLRXKHS");
         Keypair destination = Keypair.fromAddress("GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR");
@@ -50,7 +54,7 @@ public class TransactionTest extends TestCase {
     }
 
     @Test
-    public void testBuilderSuccessPublic() throws FormatException, IOException {
+    public void testBuilderSuccessPublic() throws FormatException {
         Network.usePublicNetwork();
 
         // GBPMKIRA2OQW2XZZQUCQILI5TMVZ6JNRKM423BSAISDM7ZFWQ6KWEBC4

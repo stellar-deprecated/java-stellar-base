@@ -29,15 +29,18 @@ abstract class Operation {
   /**
    * Returns base64-encoded Operation XDR object.
    * @return
-   * @throws IOException
    */
-  public String toXdrBase64() throws IOException {
-    org.stellar.base.xdr.Operation operation = this.toXdr();
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
-    org.stellar.base.xdr.Operation.encode(xdrOutputStream, operation);
-    Base64 base64Codec = new Base64();
-    return base64Codec.encodeAsString(outputStream.toByteArray());
+  public String toXdrBase64() {
+    try {
+      org.stellar.base.xdr.Operation operation = this.toXdr();
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      XdrDataOutputStream xdrOutputStream = new XdrDataOutputStream(outputStream);
+      org.stellar.base.xdr.Operation.encode(xdrOutputStream, operation);
+      Base64 base64Codec = new Base64();
+      return base64Codec.encodeAsString(outputStream.toByteArray());
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
   }
 
   /**
@@ -47,7 +50,7 @@ abstract class Operation {
    */
   public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
     org.stellar.base.xdr.Operation.OperationBody body = xdr.getBody();
-    Operation operation = null;
+    Operation operation;
     switch (body.getDiscriminant()) {
       case CREATE_ACCOUNT:
         operation = new CreateAccountOperation.Builder(body.getCreateAccountOp()).build();

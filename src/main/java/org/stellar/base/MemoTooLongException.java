@@ -1,5 +1,9 @@
 package org.stellar.base;
 
+/**
+ * Indicates that value passed to Memo
+ * @see Memo
+ */
 public class MemoTooLongException extends RuntimeException {
     public MemoTooLongException() {
         super();
