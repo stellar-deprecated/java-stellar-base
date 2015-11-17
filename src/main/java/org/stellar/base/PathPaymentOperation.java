@@ -30,7 +30,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * The asset deducted from the sender's account.
-   * @return
    */
   public Asset getSendAsset() {
     return mSendAsset;
@@ -38,7 +37,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * The maximum amount of send asset to deduct (excluding fees)
-   * @return
    */
   public long getSendMax() {
     return mSendMax;
@@ -46,7 +44,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * Account that receives the payment.
-   * @return
    */
   public Keypair getDestination() {
     return mDestination;
@@ -54,7 +51,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * The asset the destination account receives.
-   * @return
    */
   public Asset getDestAsset() {
     return mDestAsset;
@@ -62,7 +58,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * The amount of destination asset the destination account receives.
-   * @return
    */
   public long getDestAmount() {
     return mDestAmount;
@@ -70,7 +65,6 @@ public class PathPaymentOperation extends Operation {
 
   /**
    * The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path would contain XLM and BTC.
-   * @return
    */
   public Asset[] getPath() {
     return mPath;
@@ -157,7 +151,7 @@ public class PathPaymentOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param sourceAccount The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
@@ -166,7 +160,6 @@ public class PathPaymentOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public PathPaymentOperation build() {
       PathPaymentOperation operation = new PathPaymentOperation(mSendAsset, mSendMax, mDestination,

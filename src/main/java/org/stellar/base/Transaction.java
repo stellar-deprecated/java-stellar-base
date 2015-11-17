@@ -39,8 +39,7 @@ public class Transaction {
 
   /**
    * Adds a new signature to this transaction.
-   * @param signer
-   * @throws IOException
+   * @param signer {@link Keypair} object representing a signer
    */
   public void sign(Keypair signer) {
     byte[] txHash = this.hash();
@@ -49,7 +48,6 @@ public class Transaction {
 
   /**
    * Returns transaction hash.
-   * @return
    */
   public byte[] hash() {
     return Util.hash(this.signatureBase());
@@ -57,7 +55,6 @@ public class Transaction {
 
   /**
    * Returns signature base.
-   * @return
    */
   public byte[] signatureBase() {
     try {
@@ -78,10 +75,6 @@ public class Transaction {
     }
   }
 
-  /**
-   *
-   * @return
-   */
   public Keypair getSourceAccount() {
     return mSourceAccount;
   }
@@ -96,7 +89,6 @@ public class Transaction {
 
   /**
    * Generates Transaction XDR object.
-   * @return
    */
   public org.stellar.base.xdr.Transaction toXdr() {
     // fee
@@ -131,8 +123,6 @@ public class Transaction {
 
   /**
    * Generates TransactionEnvelope XDR object. Transaction need to have at least one signature.
-   * @return
-   * @throws IOException
    */
   public org.stellar.base.xdr.TransactionEnvelope toEnvelopeXdr() {
     if (mSignatures.size() == 0) {
@@ -151,7 +141,6 @@ public class Transaction {
 
   /**
    * Returns base64-encoded TransactionEnvelope XDR object. Transaction need to have at least one signature.
-   * @return
    */
   public String toEnvelopeXdrBase64() {
     try {
@@ -188,7 +177,7 @@ public class Transaction {
     /**
      * Adds a new <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">operation</a> to this transaction.
      * @param operation
-     * @return
+     * @return Builder object so you can chain methods.
      * @see Operation
      */
     public Builder addOperation(Operation operation) {
@@ -199,7 +188,7 @@ public class Transaction {
     /**
      * Adds a <a href="https://www.stellar.org/developers/learn/concepts/transactions.html" target="_blank">memo</a> to this transaction.
      * @param memo
-     * @return
+     * @return Builder object so you can chain methods.
      * @see Memo
      */
     public Builder addMemo(org.stellar.base.xdr.Memo memo) {
@@ -212,7 +201,6 @@ public class Transaction {
 
     /**
      * Builds a transaction.
-     * @return
      */
     public Transaction build() {
       mSourceAccount.incrementSequenceNumber();

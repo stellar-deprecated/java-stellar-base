@@ -13,7 +13,6 @@ abstract class Operation {
 
   /**
    * Generates Operation XDR object.
-   * @return
    */
   public org.stellar.base.xdr.Operation toXdr() {
     org.stellar.base.xdr.Operation xdr = new org.stellar.base.xdr.Operation();
@@ -28,7 +27,6 @@ abstract class Operation {
 
   /**
    * Returns base64-encoded Operation XDR object.
-   * @return
    */
   public String toXdrBase64() {
     try {
@@ -46,7 +44,6 @@ abstract class Operation {
   /**
    * Returns new Operation object from Operation XDR object.
    * @param xdr XDR object
-   * @return
    */
   public static Operation fromXdr(org.stellar.base.xdr.Operation xdr) {
     org.stellar.base.xdr.Operation.OperationBody body = xdr.getBody();
@@ -90,7 +87,6 @@ abstract class Operation {
 
   /**
    * Returns operation source account.
-   * @return
    */
   public Keypair getSourceAccount() {
     return mSourceAccount;

@@ -18,7 +18,6 @@ public class AccountMergeOperation extends Operation {
 
     /**
      * The account that receives the remaining XLM balance of the source account.
-     * @return
      */
     public Keypair getDestination() {
         return mDestination;
@@ -67,7 +66,6 @@ public class AccountMergeOperation extends Operation {
 
         /**
          * Builds an operation
-         * @return
          */
         public AccountMergeOperation build() {
             AccountMergeOperation operation = new AccountMergeOperation(mDestination);

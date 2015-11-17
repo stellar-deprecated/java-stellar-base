@@ -31,7 +31,6 @@ class Util {
   /**
    * Returns SHA-256 hash of <code>data</code>.
    * @param data
-   * @return
    */
   public static byte[] hash(byte[] data) {
     try {
@@ -47,7 +46,6 @@ class Util {
    * Pads <code>bytes</code> array to <code>length</code> with zeros.
    * @param bytes
    * @param length
-   * @return
    */
   static byte[] paddedByteArray(byte[] bytes, int length) {
     byte[] finalBytes = new byte[length];
@@ -60,7 +58,6 @@ class Util {
    * Pads <code>string</code> to <code>length</code> with zeros.
    * @param string
    * @param length
-   * @return
    */
   static byte[] paddedByteArray(String string, int length) {
     return Util.paddedByteArray(string.getBytes(), length);
@@ -69,7 +66,6 @@ class Util {
   /**
    * Remove zeros from the end of <code>bytes</code> array.
    * @param bytes
-   * @return
    */
   static String paddedByteArrayToString(byte[] bytes) {
     return new String(bytes).split("\0")[0];

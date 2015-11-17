@@ -8,13 +8,22 @@ import org.stellar.base.xdr.Uint64;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Represents Memo.
+ * <p>The memo contains optional extra information. It is the responsibility of the client to interpret this value. Memos can be one of the following types:</p>
+ * <ul>
+ *  <li><code>MEMO_TEXT</code>: A string up to 28-bytes long.</li>
+ *  <li><code>MEMO_ID</code>: A 64 bit unsigned integer.</li>
+ *  <li><code>MEMO_HASH</code>: A 32 byte hash.</li>
+ *  <li><code>MEMO_RETURN</code>: A 32 byte hash intended to be interpreted as the hash of the transaction the sender is refunding.</li>
+ * </ul>
+ * <p>Use static methods to generate any of above types.</p>
  * @see Transaction
  */
 public class Memo {
+    Memo() {
+    }
+
     /**
      * Creates MEMO_NONE type memo.
-     * @return
      */
     public static org.stellar.base.xdr.Memo none() {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
@@ -25,7 +34,6 @@ public class Memo {
     /**
      * Creates MEMO_TEXT type memo.
      * @param text
-     * @return
      */
     public static org.stellar.base.xdr.Memo text(String text) {
         if (text.getBytes(StandardCharsets.UTF_8).length > 28) {
@@ -41,7 +49,6 @@ public class Memo {
     /**
      * Creates MEMO_ID type memo.
      * @param id
-     * @return
      */
     public static org.stellar.base.xdr.Memo id(long id) {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
@@ -55,7 +62,6 @@ public class Memo {
     /**
      * Creates MEMO_HASH type memo from byte array.
      * @param bytes
-     * @return
      */
     public static org.stellar.base.xdr.Memo hash(byte[] bytes) {
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
@@ -77,7 +83,6 @@ public class Memo {
     /**
      * Creates MEMO_HASH type memo from hex-encoded string
      * @param hexString
-     * @return
      * @throws DecoderException
      */
     public static org.stellar.base.xdr.Memo hash(String hexString) throws DecoderException {
@@ -89,7 +94,6 @@ public class Memo {
     /**
      * Creates MEMO_RETURN type memo from byte array.
      * @param bytes
-     * @return
      */
     public static org.stellar.base.xdr.Memo returnHash(byte[] bytes) {
         org.stellar.base.xdr.Memo memo = Memo.hash(bytes);
@@ -100,7 +104,6 @@ public class Memo {
     /**
      * Creates MEMO_RETURN type memo from hex-encoded string.
      * @param hexString
-     * @return
      * @throws DecoderException
      */
     public static org.stellar.base.xdr.Memo returnHash(String hexString) throws DecoderException {

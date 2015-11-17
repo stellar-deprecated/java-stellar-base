@@ -25,7 +25,6 @@ public class Price {
 
     /**
      * Returns numerator.
-     * @return
      */
     public int getNumerator() {
         return n;
@@ -33,7 +32,6 @@ public class Price {
 
     /**
      * Returns denominator
-     * @return
      */
     public int getDenominator() {
         return d;
@@ -42,7 +40,6 @@ public class Price {
     /**
      * Approximates <code>price</code> to a fraction.
      * @param price Ex. "1.25"
-     * @return
      */
     public static Price fromString(String price) {
         BigDecimal maxInt = new BigDecimal(Integer.MAX_VALUE);
@@ -78,7 +75,6 @@ public class Price {
 
     /**
      * Generates Price XDR object.
-     * @return
      */
     public org.stellar.base.xdr.Price toXdr() {
         org.stellar.base.xdr.Price xdr = new org.stellar.base.xdr.Price();

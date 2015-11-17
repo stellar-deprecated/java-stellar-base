@@ -20,7 +20,6 @@ public class ChangeTrustOperation extends Operation {
 
   /**
    * The asset of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the line is USD.
-   * @return
    */
   public Asset getAsset() {
     return mAsset;
@@ -28,7 +27,6 @@ public class ChangeTrustOperation extends Operation {
 
   /**
    * The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
-   * @return
    */
   public long getLimit() {
     return mLimit;
@@ -85,7 +83,6 @@ public class ChangeTrustOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public ChangeTrustOperation build() {
       ChangeTrustOperation operation = new ChangeTrustOperation(mAsset, mLimit);

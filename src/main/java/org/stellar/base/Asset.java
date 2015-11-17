@@ -2,13 +2,17 @@ package org.stellar.base;
 
 /**
  * Base Asset class.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
  */
 public abstract class Asset {
+  Asset() {
+    //
+  }
+
   /**
    * Creates one of AssetTypeCreditAlphaNum4 or AssetTypeCreditAlphaNum12 object based on a <code>code</code> length
    * @param code Asset code
    * @param issuer Asset issuer
-   * @return
    */
   public static Asset createNonNativeAsset(String code, Keypair issuer) {
     if (code.length() >= 1 && code.length() <= 4) {
@@ -23,7 +27,6 @@ public abstract class Asset {
   /**
    * Generates Asset object from a given XDR object
    * @param xdr XDR object
-   * @return
    */
   public static Asset fromXdr(org.stellar.base.xdr.Asset xdr) {
     switch (xdr.getDiscriminant()) {
@@ -48,7 +51,6 @@ public abstract class Asset {
 
   /**
    * Generates XDR object from a given Asset object
-   * @return
    */
   public abstract org.stellar.base.xdr.Asset toXdr();
 }

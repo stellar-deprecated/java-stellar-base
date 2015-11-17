@@ -25,7 +25,6 @@ public class Network {
 
     /**
      * Returns network passphrase
-     * @return
      */
     public String getNetworkPassphrase() {
         return networkPassphrase;
@@ -33,7 +32,6 @@ public class Network {
 
     /**
      * Returns network id (SHA-256 hashed <code>networkPassphrase</code>).
-     * @return
      */
     public byte[] getNetworkId() {
         return Util.hash(current.getNetworkPassphrase().getBytes(StandardCharsets.UTF_8));
@@ -41,7 +39,6 @@ public class Network {
 
     /**
      * Returns currently used Network object.
-     * @return
      */
     public static Network current() {
         return current;

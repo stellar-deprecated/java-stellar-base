@@ -5,6 +5,7 @@ import org.stellar.base.xdr.AssetType;
 
 /**
  * Represents all assets with codes 1-4 characters long.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
  */
 public class AssetTypeCreditAlphaNum4 extends AssetTypeCreditAlphaNum {
 

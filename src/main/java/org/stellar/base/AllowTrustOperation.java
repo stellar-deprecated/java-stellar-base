@@ -23,7 +23,6 @@ public class AllowTrustOperation extends Operation {
 
   /**
    * The account of the recipient of the trustline.
-   * @return
    */
   public Keypair getTrustor() {
     return mTrustor;
@@ -31,7 +30,6 @@ public class AllowTrustOperation extends Operation {
 
   /**
    * The asset of the trustline the source account is authorizing. For example, if a gateway wants to allow another account to hold its USD credit, the type is USD.
-   * @return
    */
   public String getAssetCode() {
     return mAssetCode;
@@ -39,7 +37,6 @@ public class AllowTrustOperation extends Operation {
 
   /**
    * Flag indicating whether the trustline is authorized.
-   * @return
    */
   public boolean getAuthorize() {
     return mAuthorize;
@@ -122,7 +119,6 @@ public class AllowTrustOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public AllowTrustOperation build() {
       AllowTrustOperation operation = new AllowTrustOperation(mTrustor, mAssetCode, mAuthorize);

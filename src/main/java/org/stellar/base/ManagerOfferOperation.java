@@ -30,7 +30,6 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * The asset being sold in this operation
-   * @return
    */
   public Asset getSelling() {
     return mSelling;
@@ -38,7 +37,6 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * The asset being bought in this operation
-   * @return
    */
   public Asset getBuying() {
     return mBuying;
@@ -46,7 +44,6 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * Amount of selling being sold.
-   * @return
    */
   public long getAmount() {
     return mAmount;
@@ -54,7 +51,6 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * Price of 1 unit of selling in terms of buying.
-   * @return
    */
   public String getPrice() {
     return mPrice;
@@ -62,7 +58,6 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * The ID of the offer.
-   * @return
    */
   public long getOfferId() {
     return mOfferId;
@@ -143,7 +138,7 @@ public class ManagerOfferOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param account The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
@@ -152,7 +147,6 @@ public class ManagerOfferOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public ManagerOfferOperation build() {
       ManagerOfferOperation operation = new ManagerOfferOperation(mSelling, mBuying, mAmount, mPrice, mOfferId);

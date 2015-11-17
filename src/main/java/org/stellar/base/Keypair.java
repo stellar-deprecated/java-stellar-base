@@ -109,7 +109,6 @@ public class Keypair {
 
   /**
    * Returns the human readable address encoded in strkey.
-   * @return
    */
   public String getAddress() {
     return StrKey.encodeStellarAddress(mPublicKey.getAbyte());
@@ -117,7 +116,6 @@ public class Keypair {
 
   /**
    * Returns the human readable secret seed encoded in strkey.
-   * @return
    */
   public String getSecretSeed() {
     return StrKey.encodeStellarSecretSeed(mPrivateKey.getSeed());
@@ -178,7 +176,6 @@ public class Keypair {
   /**
    * Sign the provided data with the keypair's private key and returns {@link DecoratedSignature}.
    * @param data
-   * @return
    */
   public DecoratedSignature signDecorated(byte[] data) {
     byte[] signatureBytes = this.sign(data);

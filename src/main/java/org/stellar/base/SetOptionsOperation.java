@@ -41,7 +41,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Account of the inflation destination.
-   * @return
    */
   public Keypair getInflationDestination() {
     return mInflationDestination;
@@ -49,7 +48,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Indicates which flags to clear. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
-   * @return
    */
   public int getClearFlags() {
     return mClearFlags;
@@ -57,7 +55,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Indicates which flags to set. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
-   * @return
    */
   public int getSetFlags() {
     return mSetFlags;
@@ -65,7 +62,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Weight of the master key.
-   * @return
    */
   public int getMasterKeyWeight() {
     return mMasterKeyWeight;
@@ -73,7 +69,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a low threshold</a>.
-   * @return
    */
   public int getLowThreshold() {
     return mLowThreshold;
@@ -81,7 +76,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a medium threshold</a>.
-   * @return
    */
   public int getMediumThreshold() {
     return mMediumThreshold;
@@ -89,7 +83,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a high threshold</a>.
-   * @return
    */
   public int getHighThreshold() {
     return mHighThreshold;
@@ -97,7 +90,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * The home domain of an account.
-   * @return
    */
   public String getHomeDomain() {
     return mHomeDomain;
@@ -105,7 +97,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Additional signer added/removed in this operation.
-   * @return
    */
   public Keypair getSigner() {
     return mSigner;
@@ -113,7 +104,6 @@ public class SetOptionsOperation extends Operation {
 
   /**
    * Additional signer weight. The signer is deleted if the weight is 0.
-   * @return
    */
   public byte getSignerWeight() {
     return mSignerWeight;
@@ -236,6 +226,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Sets the inflation destination for the account.
      * @param inflationDestination The inflation destination account.
+     * @return Builder object so you can chain methods.
      */
     public Builder setInflationDestination(Keypair inflationDestination) {
       mInflationDestination = inflationDestination;
@@ -245,7 +236,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Clears the given flags from the account.
      * @param clearFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setClearFlags(int clearFlags) {
       mClearFlags = clearFlags;
@@ -255,7 +246,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Sets the given flags on the account.
      * @param setFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSetFlags(int setFlags) {
       mSetFlags = setFlags;
@@ -265,7 +256,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Weight of the master key.
      * @param masterKeyWeight Number between 0 and 255
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setMasterKeyWeight(int masterKeyWeight) {
       mMasterKeyWeight = masterKeyWeight;
@@ -275,7 +266,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * A number from 0-255 representing the threshold this account sets on all operations it performs that have a low threshold.
      * @param lowThreshold Number between 0 and 255
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setLowThreshold(int lowThreshold) {
       mLowThreshold = lowThreshold;
@@ -285,7 +276,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * A number from 0-255 representing the threshold this account sets on all operations it performs that have a medium threshold.
      * @param mediumThreshold Number between 0 and 255
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setMediumThreshold(int mediumThreshold) {
       mMediumThreshold = mediumThreshold;
@@ -295,7 +286,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * A number from 0-255 representing the threshold this account sets on all operations it performs that have a high threshold.
      * @param highThreshold Number between 0 and 255
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setHighThreshold(int highThreshold) {
       mHighThreshold = highThreshold;
@@ -305,6 +296,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Sets the account's home domain address used in <a href="https://www.stellar.org/developers/learn/concepts/federation.html" target="_blank">Federation</a>.
      * @param homeDomain A string of the address which can be up to 32 characters.
+     * @return Builder object so you can chain methods.
      */
     public Builder setHomeDomain(String homeDomain) {
       if (homeDomain.length() > 32) {
@@ -318,7 +310,7 @@ public class SetOptionsOperation extends Operation {
      * Add, update, or remove a signer from the account. Signer is deleted if the weight = 0;
      * @param signer The keypair to set as a signer.
      * @param weight The weight to attach to the signer (0-255)
-     * @return Builder
+     * @return Builder object so you can chain methods.
      */
     public Builder setSigner(Keypair signer, int weight) {
       mSigner = signer;
@@ -329,7 +321,7 @@ public class SetOptionsOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param sourceAccount The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
@@ -338,7 +330,6 @@ public class SetOptionsOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public SetOptionsOperation build() {
       SetOptionsOperation operation = new SetOptionsOperation(mInflationDestination, mClearFlags,

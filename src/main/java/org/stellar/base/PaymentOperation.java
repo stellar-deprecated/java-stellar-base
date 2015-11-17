@@ -23,7 +23,6 @@ public class PaymentOperation extends Operation {
 
   /**
    * Account that receives the payment.
-   * @return
    */
   public Keypair getDestination() {
     return mDestination;
@@ -31,7 +30,6 @@ public class PaymentOperation extends Operation {
 
   /**
    * Asset to send to the destination account.
-   * @return
    */
   public Asset getAsset() {
     return mAsset;
@@ -39,7 +37,6 @@ public class PaymentOperation extends Operation {
 
   /**
    * Amount of the asset to send.
-   * @return
    */
   public long getAmount() {
     return mAmount;
@@ -102,7 +99,7 @@ public class PaymentOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param account The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
@@ -111,7 +108,6 @@ public class PaymentOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public PaymentOperation build() {
       PaymentOperation operation = new PaymentOperation(mDestination, mAsset, mAmount);

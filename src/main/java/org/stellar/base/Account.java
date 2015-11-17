@@ -21,7 +21,6 @@ public class Account {
 
   /**
    * Returns keypair associated with this Account
-   * @return
    */
   public Keypair getKeypair() {
     return mKeypair;
@@ -29,7 +28,6 @@ public class Account {
 
   /**
    * Returns current sequence number ot this Account.
-   * @return
    */
   public long getSequenceNumber() {
     return mSequenceNumber;

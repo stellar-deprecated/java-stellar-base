@@ -2,6 +2,7 @@ package org.stellar.base;
 
 /**
  * Base class for AssetTypeCreditAlphaNum4 and AssetTypeCreditAlphaNum12 subclasses.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
  */
 abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final String mCode;
@@ -14,7 +15,6 @@ abstract class AssetTypeCreditAlphaNum extends Asset {
 
     /**
      * Returns asset code
-     * @return
      */
     public String getCode() {
         return mCode;
@@ -22,7 +22,6 @@ abstract class AssetTypeCreditAlphaNum extends Asset {
 
     /**
      * Returns asset issuer
-     * @return
      */
     public Keypair getIssuer() {
         return mIssuer;

@@ -21,15 +21,13 @@ public class CreateAccountOperation extends Operation {
 
   /**
    * Amount of XLM to send to the newly created account.
-   * @return
    */
   public long getStartingBalance() {
     return mStartingBalance;
   }
 
   /**
-   * Account that is created and funded.
-   * @return
+   * Account that is created and funded
    */
   public Keypair getDestination() {
     return mDestination;
@@ -83,7 +81,7 @@ public class CreateAccountOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param account The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair account) {
       mSourceAccount = account;
@@ -92,7 +90,6 @@ public class CreateAccountOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public CreateAccountOperation build() {
       CreateAccountOperation operation = new CreateAccountOperation(mDestination, mStartingBalance);

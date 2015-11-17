@@ -25,7 +25,6 @@ public class CreatePassiveOfferOperation extends Operation {
 
   /**
    * The asset being sold in this operation
-   * @return
    */
   public Asset getSelling() {
     return mSelling;
@@ -33,7 +32,6 @@ public class CreatePassiveOfferOperation extends Operation {
 
   /**
    * The asset being bought in this operation
-   * @return
    */
   public Asset getBuying() {
     return mBuying;
@@ -41,7 +39,6 @@ public class CreatePassiveOfferOperation extends Operation {
 
   /**
    * Amount of selling being sold.
-   * @return
    */
   public long getAmount() {
     return mAmount;
@@ -49,7 +46,6 @@ public class CreatePassiveOfferOperation extends Operation {
 
   /**
    * Price of 1 unit of selling in terms of buying.
-   * @return
    */
   public String getPrice() {
     return mPrice;
@@ -116,7 +112,7 @@ public class CreatePassiveOfferOperation extends Operation {
     /**
      * Sets the source account for this operation.
      * @param sourceAccount The operation's source account.
-     * @return
+     * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair sourceAccount) {
       mSourceAccount = sourceAccount;
@@ -125,7 +121,6 @@ public class CreatePassiveOfferOperation extends Operation {
 
     /**
      * Builds an operation
-     * @return
      */
     public CreatePassiveOfferOperation build() {
       CreatePassiveOfferOperation operation = new CreatePassiveOfferOperation(mSelling, mBuying, mAmount, mPrice);
