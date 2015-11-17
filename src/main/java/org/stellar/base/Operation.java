@@ -7,7 +7,7 @@ import org.stellar.base.xdr.XdrDataOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-abstract class Operation {
+public abstract class Operation {
 
   private Keypair mSourceAccount;
 
