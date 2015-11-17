@@ -6,8 +6,8 @@ import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.PathPaymentOp;
 
 /**
- * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#path-payment">PathPayment</a> operation.
- * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#path-payment" target="_blank">PathPayment</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
  */
 public class PathPaymentOperation extends Operation {
 

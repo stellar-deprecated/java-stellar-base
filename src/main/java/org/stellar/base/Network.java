@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
  * Network class is used to specify which Stellar network you want to use.
  * Each network has a <code>networkPassphrase</code> which is hashed to
  * every transaction id.
- * Default network is <a href="https://www.stellar.org/developers/learn/get-started/test-net.html">Test Network</a>.
+ * Default network is <a href="https://www.stellar.org/developers/learn/get-started/test-net.html" target="_blank">Test Network</a>.
  */
 public class Network {
     private final static String PUBLIC = "Public Global Stellar Network ; September 2015";

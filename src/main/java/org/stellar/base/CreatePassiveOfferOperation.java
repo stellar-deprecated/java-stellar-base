@@ -7,8 +7,8 @@ import org.stellar.base.xdr.OperationType;
 import java.math.BigDecimal;
 
 /**
- * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-passive-offer">CreatePassiveOffer</a> operation.
- * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-passive-offer" target="_blank">CreatePassiveOffer</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
  */
 public class CreatePassiveOfferOperation extends Operation {
   private final Asset mSelling;

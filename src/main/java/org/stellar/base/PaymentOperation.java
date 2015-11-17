@@ -6,8 +6,8 @@ import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.PaymentOp;
 
 /**
- * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#payment">Payment</a> operation.
- * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#payment" target="_blank">Payment</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
  */
 public class PaymentOperation extends Operation {
 

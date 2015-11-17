@@ -5,8 +5,8 @@ import org.stellar.base.xdr.Operation.OperationBody;
 import org.stellar.base.xdr.OperationType;
 
 /**
- * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#account-merge">AccountMerge</a> operation.
- * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">List of Operations</a>
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#account-merge" target="_blank">AccountMerge</a> operation.
+ * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
  */
 public class AccountMergeOperation extends Operation {
 

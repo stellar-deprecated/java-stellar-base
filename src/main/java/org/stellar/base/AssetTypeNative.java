@@ -3,7 +3,7 @@ package org.stellar.base;
 import org.stellar.base.xdr.AssetType;
 
 /**
- * Represents Stellar native asset - <a href="https://www.stellar.org/developers/learn/concepts/assets.html">lumens (XLM)</a>
+ * Represents Stellar native asset - <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">lumens (XLM)</a>
  */
 public class AssetTypeNative extends Asset {
 

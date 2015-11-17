@@ -48,7 +48,7 @@ public class SetOptionsOperation extends Operation {
   }
 
   /**
-   * Indicates which flags to clear. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+   * Indicates which flags to clear. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
    * @return
    */
   public int getClearFlags() {
@@ -56,7 +56,7 @@ public class SetOptionsOperation extends Operation {
   }
 
   /**
-   * Indicates which flags to set. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+   * Indicates which flags to set. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
    * @return
    */
   public int getSetFlags() {
@@ -72,7 +72,7 @@ public class SetOptionsOperation extends Operation {
   }
 
   /**
-   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a low threshold</a>.
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a low threshold</a>.
    * @return
    */
   public int getLowThreshold() {
@@ -80,7 +80,7 @@ public class SetOptionsOperation extends Operation {
   }
 
   /**
-   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a medium threshold</a>.
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a medium threshold</a>.
    * @return
    */
   public int getMediumThreshold() {
@@ -88,7 +88,7 @@ public class SetOptionsOperation extends Operation {
   }
 
   /**
-   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html">a high threshold</a>.
+   * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a high threshold</a>.
    * @return
    */
   public int getHighThreshold() {
@@ -244,7 +244,7 @@ public class SetOptionsOperation extends Operation {
 
     /**
      * Clears the given flags from the account.
-     * @param clearFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+     * @param clearFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
      * @return
      */
     public Builder setClearFlags(int clearFlags) {
@@ -254,7 +254,7 @@ public class SetOptionsOperation extends Operation {
 
     /**
      * Sets the given flags on the account.
-     * @param setFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html">accounts doc</a>.
+     * @param setFlags For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
      * @return
      */
     public Builder setSetFlags(int setFlags) {
@@ -303,7 +303,7 @@ public class SetOptionsOperation extends Operation {
     }
 
     /**
-     * Sets the account's home domain address used in <a href="https://www.stellar.org/developers/learn/concepts/federation.html">Federation</a>.
+     * Sets the account's home domain address used in <a href="https://www.stellar.org/developers/learn/concepts/federation.html" target="_blank">Federation</a>.
      * @param homeDomain A string of the address which can be up to 32 characters.
      */
     public Builder setHomeDomain(String homeDomain) {

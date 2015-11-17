@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents <a href="https://www.stellar.org/developers/learn/concepts/transactions.html">Transaction</a> in Stellar network.
+ * Represents <a href="https://www.stellar.org/developers/learn/concepts/transactions.html" target="_blank">Transaction</a> in Stellar network.
  */
 public class Transaction {
   private final int BASE_FEE = 100;
@@ -186,7 +186,7 @@ public class Transaction {
     }
 
     /**
-     * Adds a new <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html">operation</a> to this transaction.
+     * Adds a new <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">operation</a> to this transaction.
      * @param operation
      * @return
      * @see Operation
@@ -197,7 +197,7 @@ public class Transaction {
     }
 
     /**
-     * Adds a <a href="https://www.stellar.org/developers/learn/concepts/transactions.html">memo</a> to this transaction.
+     * Adds a <a href="https://www.stellar.org/developers/learn/concepts/transactions.html" target="_blank">memo</a> to this transaction.
      * @param memo
      * @return
      * @see Memo
