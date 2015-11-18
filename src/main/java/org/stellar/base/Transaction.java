@@ -11,6 +11,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/transactions.html" target="_blank">Transaction</a> in Stellar network.
  */
@@ -25,13 +28,11 @@ public class Transaction {
   private List<DecoratedSignature> mSignatures;
 
   Transaction(Keypair sourceAccount, long sequenceNumber, Operation[] operations, org.stellar.base.xdr.Memo memo) {
-    if (operations.length == 0) {
-      throw new RuntimeException("At least one operation required.");
-    }
+    mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
+    mSequenceNumber = checkNotNull(sequenceNumber, "sequenceNumber cannot be null");
+    mOperations = checkNotNull(operations, "operations cannot be null");
+    checkArgument(operations.length > 0, "At least one operation required");
 
-    mSourceAccount = sourceAccount;
-    mSequenceNumber = sequenceNumber;
-    mOperations = operations;
     mFee = operations.length * BASE_FEE;
     mSignatures = new ArrayList<DecoratedSignature>();
     mMemo = memo != null ? memo : Memo.none();
@@ -170,6 +171,7 @@ public class Transaction {
      * will be incremented.
      */
     public Builder(Account sourceAccount) {
+      checkNotNull(sourceAccount, "sourceAccount cannot be null");
       mSourceAccount = sourceAccount;
       mOperations = new ArrayList<Operation>();
     }
@@ -181,6 +183,7 @@ public class Transaction {
      * @see Operation
      */
     public Builder addOperation(Operation operation) {
+      checkNotNull(operation, "operation cannot be null");
       mOperations.add(operation);
       return this;
     }
@@ -195,6 +198,7 @@ public class Transaction {
       if (mMemo != null) {
         throw new RuntimeException("Memo has been already added.");
       }
+      checkNotNull(memo, "memo cannot be null");
       mMemo = memo;
       return this;
     }
@@ -203,9 +207,9 @@ public class Transaction {
      * Builds a transaction.
      */
     public Transaction build() {
-      mSourceAccount.incrementSequenceNumber();
       Operation[] operations = new Operation[mOperations.size()];
       operations = mOperations.toArray(operations);
+      mSourceAccount.incrementSequenceNumber();
       return new Transaction(mSourceAccount.getKeypair(), mSourceAccount.getSequenceNumber(), operations, mMemo);
     }
   }

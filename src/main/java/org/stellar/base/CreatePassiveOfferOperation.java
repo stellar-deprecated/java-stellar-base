@@ -6,6 +6,8 @@ import org.stellar.base.xdr.OperationType;
 
 import java.math.BigDecimal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-passive-offer" target="_blank">CreatePassiveOffer</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -13,14 +15,14 @@ import java.math.BigDecimal;
 public class CreatePassiveOfferOperation extends Operation {
   private final Asset mSelling;
   private final Asset mBuying;
-  private final long mAmount;
+  private final Long mAmount;
   private final String mPrice;
 
-  private CreatePassiveOfferOperation(Asset selling, Asset buying, long amount, String price) {
-    mSelling = selling;
-    mBuying = buying;
-    mAmount = amount;
-    mPrice = price;
+  private CreatePassiveOfferOperation(Asset selling, Asset buying, Long amount, String price) {
+    mSelling = checkNotNull(selling, "selling cannot be null");
+    mBuying = checkNotNull(buying, "buying cannot be null");
+    mAmount = checkNotNull(amount, "amount cannot be null");
+    mPrice = checkNotNull(price, "price cannot be null");
   }
 
   /**

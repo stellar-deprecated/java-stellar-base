@@ -4,6 +4,8 @@ import org.stellar.base.xdr.ChangeTrustOp;
 import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#change-trust" target="_blank">ChangeTrust</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -11,11 +13,11 @@ import org.stellar.base.xdr.OperationType;
 public class ChangeTrustOperation extends Operation {
 
   private final Asset mAsset;
-  private final long mLimit;
+  private final Long mLimit;
 
-  private ChangeTrustOperation(Asset asset, long limit) {
-    mAsset = asset;
-    mLimit = limit;
+  private ChangeTrustOperation(Asset asset, Long limit) {
+    mAsset = checkNotNull(asset, "asset cannot be null");
+    mLimit = checkNotNull(limit, "limit cannot be null");
   }
 
   /**
@@ -52,7 +54,7 @@ public class ChangeTrustOperation extends Operation {
    */
   public static class Builder {
     private final Asset mAsset;
-    private final long mLimit;
+    private final Long mLimit;
 
     private Keypair mSourceAccount;
 
@@ -66,7 +68,7 @@ public class ChangeTrustOperation extends Operation {
      * @param asset The asset of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the line is USD.
      * @param limit The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
      */
-    public Builder(Asset asset, long limit) {
+    public Builder(Asset asset, Long limit) {
       mAsset = asset;
       mLimit = limit;
     }

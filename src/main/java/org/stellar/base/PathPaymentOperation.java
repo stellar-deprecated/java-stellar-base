@@ -5,6 +5,9 @@ import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.PathPaymentOp;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#path-payment" target="_blank">PathPayment</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -12,20 +15,21 @@ import org.stellar.base.xdr.PathPaymentOp;
 public class PathPaymentOperation extends Operation {
 
   private final Asset mSendAsset;
-  private final long mSendMax;
+  private final Long mSendMax;
   private final Keypair mDestination;
   private final Asset mDestAsset;
-  private final long mDestAmount;
+  private final Long mDestAmount;
   private final Asset[] mPath;
 
-  private PathPaymentOperation(Asset sendAsset, long sendMax, Keypair destination,
-      Asset destAsset, long destAmount, Asset[] path) {
-    mSendAsset = sendAsset;
-    mSendMax = sendMax;
-    mDestination = destination;
-    mDestAsset = destAsset;
-    mDestAmount = destAmount;
-    mPath = path;
+  private PathPaymentOperation(Asset sendAsset, Long sendMax, Keypair destination,
+      Asset destAsset, Long destAmount, Asset[] path) {
+    mSendAsset = checkNotNull(sendAsset, "sendAsset cannot be null");
+    mSendMax = checkNotNull(sendMax, "sendMax cannot be null");
+    mDestination = checkNotNull(destination, "destination cannot be null");
+    mDestAsset = checkNotNull(destAsset, "destAsset cannot be null");
+    mDestAmount = checkNotNull(destAmount, "destAmount cannot be null");
+    mPath = checkNotNull(path, "path cannot be null");
+    checkArgument(path.length > 0, "At least one asset required in the path");
   }
 
   /**
@@ -38,7 +42,7 @@ public class PathPaymentOperation extends Operation {
   /**
    * The maximum amount of send asset to deduct (excluding fees)
    */
-  public long getSendMax() {
+  public Long getSendMax() {
     return mSendMax;
   }
 
@@ -59,7 +63,7 @@ public class PathPaymentOperation extends Operation {
   /**
    * The amount of destination asset the destination account receives.
    */
-  public long getDestAmount() {
+  public Long getDestAmount() {
     return mDestAmount;
   }
 
@@ -109,10 +113,10 @@ public class PathPaymentOperation extends Operation {
    */
   public static class Builder {
     private final Asset mSendAsset;
-    private final long mSendMax;
+    private final Long mSendMax;
     private final Keypair mDestination;
     private final Asset mDestAsset;
-    private final long mDestAmount;
+    private final Long mDestAmount;
     private final Asset[] mPath;
 
     private Keypair mSourceAccount;
@@ -138,8 +142,8 @@ public class PathPaymentOperation extends Operation {
      * @param destAmount The amount of destination asset the destination account receives.
      * @param path The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path field would contain XLM and BTC.
      */
-    public Builder(Asset sendAsset, long sendMax, Keypair destination,
-        Asset destAsset, long destAmount, Asset[] path) {
+    public Builder(Asset sendAsset, Long sendMax, Keypair destination,
+        Asset destAsset, Long destAmount, Asset[] path) {
       mSendAsset = sendAsset;
       mSendMax = sendMax;
       mDestination = destination;

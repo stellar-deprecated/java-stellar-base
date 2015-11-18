@@ -5,6 +5,8 @@ import org.stellar.base.xdr.AllowTrustOp;
 import org.stellar.base.xdr.AssetType;
 import org.stellar.base.xdr.OperationType;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#allow-trust" target="_blank">AllowTrust</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -16,8 +18,8 @@ public class AllowTrustOperation extends Operation {
   private final boolean mAuthorize;
 
   private AllowTrustOperation(Keypair trustor, String assetCode, boolean authorize) {
-    mTrustor = trustor;
-    mAssetCode = assetCode;
+    mTrustor = checkNotNull(trustor, "trustor cannot be null");
+    mAssetCode = checkNotNull(assetCode, "assetCode cannot be null");
     mAuthorize = authorize;
   }
 

@@ -2,6 +2,8 @@ package org.stellar.base;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Network class is used to specify which Stellar network you want to use.
  * Each network has a <code>networkPassphrase</code> which is hashed to
@@ -20,7 +22,7 @@ public class Network {
      * @param networkPassphrase
      */
     Network(String networkPassphrase) {
-        this.networkPassphrase = networkPassphrase;
+        this.networkPassphrase = checkNotNull(networkPassphrase, "networkPassphrase cannot be null");
     }
 
     /**
@@ -49,6 +51,7 @@ public class Network {
      * @param network Network object to set as current network
      */
     public static void use(Network network) {
+        checkNotNull(network, "network cannot be null");
         current = network;
     }
 

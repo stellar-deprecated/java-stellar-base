@@ -7,6 +7,8 @@ import org.stellar.base.xdr.Uint64;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * <p>The memo contains optional extra information. It is the responsibility of the client to interpret this value. Memos can be one of the following types:</p>
  * <ul>
@@ -36,6 +38,8 @@ public class Memo {
      * @param text
      */
     public static org.stellar.base.xdr.Memo text(String text) {
+        checkNotNull(text, "text cannot be null");
+
         if (text.getBytes(StandardCharsets.UTF_8).length > 28) {
             throw new MemoTooLongException("text must be <= 28 bytes.");
         }
@@ -86,6 +90,7 @@ public class Memo {
      * @throws DecoderException
      */
     public static org.stellar.base.xdr.Memo hash(String hexString) throws DecoderException {
+        checkNotNull(hexString, "hexString cannot be null");
         Hex hexCodec = new Hex();
         byte[] decoded = hexCodec.decodeHex(hexString.toCharArray());
         return Memo.hash(decoded);
@@ -107,6 +112,7 @@ public class Memo {
      * @throws DecoderException
      */
     public static org.stellar.base.xdr.Memo returnHash(String hexString) throws DecoderException {
+        checkNotNull(hexString, "hexString cannot be null");
         org.stellar.base.xdr.Memo memo = Memo.hash(hexString);
         memo.setDiscriminant(MemoType.MEMO_RETURN);
         return memo;

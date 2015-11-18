@@ -102,7 +102,7 @@ public class TransactionTest extends TestCase {
             Transaction transaction = new Transaction.Builder(account).build();
             fail();
         } catch (RuntimeException exception) {
-            assertTrue(exception.getMessage().contains("At least one operation required."));
+            assertTrue(exception.getMessage().contains("At least one operation required"));
         }
     }
 

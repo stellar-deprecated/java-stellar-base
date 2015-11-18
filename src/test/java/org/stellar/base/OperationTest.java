@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.stellar.base.xdr.Int32;
 
 import java.io.IOException;
 
@@ -73,9 +74,9 @@ public class OperationTest extends TestCase {
     Keypair pathIssuer2 = Keypair.fromSecretSeed("SA64U7C5C7BS5IHWEPA7YWFN3Z6FE5L6KAMYUIT4AQ7KVTVLD23C6HEZ");
 
     Asset sendAsset = new AssetTypeNative();
-    long sendMax = 1000;
+    Long sendMax = 1000L;
     Asset destAsset = new AssetTypeCreditAlphaNum4("USD", issuer);
-    long destAmount = 1000;
+    Long destAmount = 1000L;
     Asset[] path = {new AssetTypeCreditAlphaNum4("USD", pathIssuer1), new AssetTypeCreditAlphaNum12("TESTTEST", pathIssuer2)};
 
     PathPaymentOperation operation = new PathPaymentOperation.Builder(
@@ -148,7 +149,7 @@ public class OperationTest extends TestCase {
             operation.toXdrBase64());
   }
 
-  public void testSetOptionsOperation() throws IOException, FormatException {
+  public void testSetOptionsOperation() throws FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR
@@ -156,14 +157,14 @@ public class OperationTest extends TestCase {
     // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
     Keypair signer = Keypair.fromSecretSeed("SA64U7C5C7BS5IHWEPA7YWFN3Z6FE5L6KAMYUIT4AQ7KVTVLD23C6HEZ");
 
-    int clearFlags = 1;
-    int setFlags = 1;
-    int masterKeyWeight = 1;
-    int lowThreshold = 2;
-    int mediumThreshold = 3;
-    int highThreshold = 4;
+    Integer clearFlags = 1;
+    Integer setFlags = 1;
+    Integer masterKeyWeight = 1;
+    Integer lowThreshold = 2;
+    Integer mediumThreshold = 3;
+    Integer highThreshold = 4;
     String homeDomain = "stellar.org";
-    int signerWeight = 1;
+    Byte signerWeight = 1;
 
     SetOptionsOperation operation = new SetOptionsOperation.Builder()
         .setInflationDestination(inflationDestination)
@@ -191,10 +192,42 @@ public class OperationTest extends TestCase {
     Assert.assertEquals(homeDomain, parsedOperation.getHomeDomain());
     Assert.assertEquals(signer.getAddress(), parsedOperation.getSigner().getAddress());
     Assert.assertEquals(signerWeight, parsedOperation.getSignerWeight());
+    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAABAAAAAET+21WXwEtXRyxb/GBe1tc5V/WUzIOW4yJp+XQgNUUiAAAAAQ==",
             operation.toXdrBase64());
+  }
+
+  public void testSetOptionsOperationSingleField() {
+    // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
+    Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
+
+    String homeDomain = "stellar.org";
+
+    SetOptionsOperation operation = new SetOptionsOperation.Builder()
+        .setHomeDomain(homeDomain)
+        .setSourceAccount(source)
+        .build();
+
+    org.stellar.base.xdr.Operation xdr = operation.toXdr();
+    SetOptionsOperation parsedOperation = (SetOptionsOperation) SetOptionsOperation.fromXdr(xdr);
+
+    Assert.assertEquals(null, parsedOperation.getInflationDestination());
+    Assert.assertEquals(null, parsedOperation.getClearFlags());
+    Assert.assertEquals(null, parsedOperation.getSetFlags());
+    Assert.assertEquals(null, parsedOperation.getMasterKeyWeight());
+    Assert.assertEquals(null, parsedOperation.getLowThreshold());
+    Assert.assertEquals(null, parsedOperation.getMediumThreshold());
+    Assert.assertEquals(null, parsedOperation.getHighThreshold());
+    Assert.assertEquals(homeDomain, parsedOperation.getHomeDomain());
+    Assert.assertEquals(null, parsedOperation.getSigner());
+    Assert.assertEquals(null, parsedOperation.getSignerWeight());
+    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+
+    assertEquals(
+          "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAAA",
+          operation.toXdrBase64());
   }
 
   public void testManagerOfferOperation() throws IOException, FormatException {

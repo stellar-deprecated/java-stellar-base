@@ -4,6 +4,8 @@ import org.stellar.base.xdr.AccountID;
 import org.stellar.base.xdr.Operation.OperationBody;
 import org.stellar.base.xdr.OperationType;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#account-merge" target="_blank">AccountMerge</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -13,7 +15,7 @@ public class AccountMergeOperation extends Operation {
     private final Keypair mDestination;
 
     private AccountMergeOperation(Keypair destination) {
-        mDestination = destination;
+        mDestination = checkNotNull(destination, "destination cannot be null");
     }
 
     /**

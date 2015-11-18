@@ -14,19 +14,19 @@ import org.stellar.base.xdr.Uint32;
 public class SetOptionsOperation extends Operation {
 
   private final Keypair mInflationDestination;
-  private final int mClearFlags;
-  private final int mSetFlags;
-  private int mMasterKeyWeight = -1;
-  private int mLowThreshold = -1;
-  private int mMediumThreshold = -1;
-  private int mHighThreshold = -1;
+  private final Integer mClearFlags;
+  private final Integer mSetFlags;
+  private final Integer mMasterKeyWeight;
+  private final Integer mLowThreshold;
+  private final Integer mMediumThreshold;
+  private final Integer mHighThreshold;
   private final String mHomeDomain;
   private final Keypair mSigner;
-  private final byte mSignerWeight;
+  private final Byte mSignerWeight;
 
-  private SetOptionsOperation(Keypair inflationDestination, int clearFlags, int setFlags,
-      int masterKeyWeight, int lowThreshold, int mediumThreshold, int highThreshold,
-      String homeDomain, Keypair signer, byte signerWeight) {
+  private SetOptionsOperation(Keypair inflationDestination, Integer clearFlags, Integer setFlags,
+                              Integer masterKeyWeight, Integer lowThreshold, Integer mediumThreshold,
+                              Integer highThreshold, String homeDomain, Keypair signer, Byte signerWeight) {
     mInflationDestination = inflationDestination;
     mClearFlags = clearFlags;
     mSetFlags = setFlags;
@@ -49,42 +49,42 @@ public class SetOptionsOperation extends Operation {
   /**
    * Indicates which flags to clear. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
    */
-  public int getClearFlags() {
+  public Integer getClearFlags() {
     return mClearFlags;
   }
 
   /**
    * Indicates which flags to set. For details about the flags, please refer to the <a href="https://www.stellar.org/developers/learn/concepts/accounts.html" target="_blank">accounts doc</a>.
    */
-  public int getSetFlags() {
+  public Integer getSetFlags() {
     return mSetFlags;
   }
 
   /**
    * Weight of the master key.
    */
-  public int getMasterKeyWeight() {
+  public Integer getMasterKeyWeight() {
     return mMasterKeyWeight;
   }
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a low threshold</a>.
    */
-  public int getLowThreshold() {
+  public Integer getLowThreshold() {
     return mLowThreshold;
   }
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a medium threshold</a>.
    */
-  public int getMediumThreshold() {
+  public Integer getMediumThreshold() {
     return mMediumThreshold;
   }
 
   /**
    * A number from 0-255 representing the threshold this account sets on all operations it performs that have <a href="https://www.stellar.org/developers/learn/concepts/multi-sig.html" target="_blank">a high threshold</a>.
    */
-  public int getHighThreshold() {
+  public Integer getHighThreshold() {
     return mHighThreshold;
   }
 
@@ -105,7 +105,7 @@ public class SetOptionsOperation extends Operation {
   /**
    * Additional signer weight. The signer is deleted if the weight is 0.
    */
-  public byte getSignerWeight() {
+  public Byte getSignerWeight() {
     return mSignerWeight;
   }
 
@@ -117,32 +117,32 @@ public class SetOptionsOperation extends Operation {
       inflationDestination.setAccountID(mInflationDestination.getXdrPublicKey());
       op.setInflationDest(inflationDestination);
     }
-    if (mClearFlags != 0) {
+    if (mClearFlags != null) {
       Uint32 clearFlags = new Uint32();
       clearFlags.setUint32(mClearFlags);
       op.setClearFlags(clearFlags);
     }
-    if (mSetFlags != 0) {
+    if (mSetFlags != null) {
       Uint32 setFlags = new Uint32();
       setFlags.setUint32(mSetFlags);
       op.setSetFlags(setFlags);
     }
-    if (mMasterKeyWeight != -1) {
+    if (mMasterKeyWeight != null) {
       Uint32 uint32 = new Uint32();
       uint32.setUint32(mMasterKeyWeight);
       op.setMasterWeight(uint32);
     }
-    if (mLowThreshold != -1) {
+    if (mLowThreshold != null) {
       Uint32 uint32 = new Uint32();
       uint32.setUint32(mLowThreshold);
       op.setLowThreshold(uint32);
     }
-    if (mMediumThreshold != -1) {
+    if (mMediumThreshold != null) {
       Uint32 uint32 = new Uint32();
       uint32.setUint32(mMediumThreshold);
       op.setMedThreshold(uint32);
     }
-    if (mHighThreshold != -1) {
+    if (mHighThreshold != null) {
       Uint32 uint32 = new Uint32();
       uint32.setUint32(mHighThreshold);
       op.setHighThreshold(uint32);
@@ -175,15 +175,15 @@ public class SetOptionsOperation extends Operation {
    */
   public static class Builder {
     private Keypair mInflationDestination;
-    private int mClearFlags;
-    private int mSetFlags;
-    private int mMasterKeyWeight = -1;
-    private int mLowThreshold = -1;
-    private int mMediumThreshold = -1;
-    private int mHighThreshold = -1;
+    private Integer mClearFlags;
+    private Integer mSetFlags;
+    private Integer mMasterKeyWeight;
+    private Integer mLowThreshold;
+    private Integer mMediumThreshold;
+    private Integer mHighThreshold;
     private String mHomeDomain;
     private Keypair mSigner;
-    private byte mSignerWeight;
+    private Byte mSignerWeight;
     private Keypair mSourceAccount;
 
     Builder(SetOptionsOp op) {

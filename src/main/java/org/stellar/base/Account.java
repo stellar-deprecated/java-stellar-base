@@ -1,5 +1,7 @@
 package org.stellar.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents an account in Stellar network with it's sequence number.
  * Account object is required to build a {@link Transaction}.
@@ -7,16 +9,16 @@ package org.stellar.base;
  */
 public class Account {
   private final Keypair mKeypair;
-  private long mSequenceNumber;
+  private Long mSequenceNumber;
 
   /**
    * Class constructor.
    * @param keypair Keypair associated with this Account
    * @param sequenceNumber Current sequence number of the account
    */
-  public Account(Keypair keypair, long sequenceNumber) {
-    mKeypair = keypair;
-    mSequenceNumber = sequenceNumber;
+  public Account(Keypair keypair, Long sequenceNumber) {
+    mKeypair = checkNotNull(keypair, "keypair cannot be null");
+    mSequenceNumber = checkNotNull(sequenceNumber, "sequenceNumber cannot be null");
   }
 
   /**
@@ -29,7 +31,7 @@ public class Account {
   /**
    * Returns current sequence number ot this Account.
    */
-  public long getSequenceNumber() {
+  public Long getSequenceNumber() {
     return mSequenceNumber;
   }
 

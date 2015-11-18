@@ -1,5 +1,7 @@
 package org.stellar.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Base class for AssetTypeCreditAlphaNum4 and AssetTypeCreditAlphaNum12 subclasses.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
@@ -9,8 +11,8 @@ abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final Keypair mIssuer;
 
     public AssetTypeCreditAlphaNum(String code, Keypair issuer) {
-        mCode = code;
-        mIssuer = issuer;
+        mCode = checkNotNull(code, "code cannot be null");
+        mIssuer = checkNotNull(issuer, "issuer cannot be null");
     }
 
     /**

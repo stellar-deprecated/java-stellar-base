@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents Price. Price in Stellar is represented as a fraction.
  */
@@ -42,6 +44,7 @@ public class Price {
      * @param price Ex. "1.25"
      */
     public static Price fromString(String price) {
+        checkNotNull(price, "price cannot be null");
         BigDecimal maxInt = new BigDecimal(Integer.MAX_VALUE);
         BigDecimal number = new BigDecimal(price);
         BigDecimal a;

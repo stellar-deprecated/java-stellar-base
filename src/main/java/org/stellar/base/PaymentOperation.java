@@ -5,6 +5,8 @@ import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 import org.stellar.base.xdr.PaymentOp;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#payment" target="_blank">Payment</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -13,12 +15,12 @@ public class PaymentOperation extends Operation {
 
   private final Keypair mDestination;
   private final Asset mAsset;
-  private final long mAmount;
+  private final Long mAmount;
 
-  private PaymentOperation(Keypair destination, Asset asset, long amount) {
-    mDestination = destination;
-    mAsset = asset;
-    mAmount = amount;
+  private PaymentOperation(Keypair destination, Asset asset, Long amount) {
+    mDestination = checkNotNull(destination, "destination cannot be null");
+    mAsset = checkNotNull(asset, "asset cannot be null");
+    mAmount = checkNotNull(amount, "amount cannot be null");
   }
 
   /**
@@ -70,7 +72,7 @@ public class PaymentOperation extends Operation {
   public static class Builder {
     private final Keypair mDestination;
     private final Asset mAsset;
-    private final long mAmount;
+    private final Long mAmount;
 
     private Keypair mSourceAccount;
 
@@ -90,7 +92,7 @@ public class PaymentOperation extends Operation {
      * @param asset The asset to send.
      * @param amount The amount to send.
      */
-    public Builder(Keypair destination, Asset asset, long amount) {
+    public Builder(Keypair destination, Asset asset, Long amount) {
       mDestination = destination;
       mAsset = asset;
       mAmount = amount;

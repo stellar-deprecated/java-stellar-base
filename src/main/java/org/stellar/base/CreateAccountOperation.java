@@ -5,6 +5,8 @@ import org.stellar.base.xdr.CreateAccountOp;
 import org.stellar.base.xdr.Int64;
 import org.stellar.base.xdr.OperationType;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#create-account" target="_blank">CreateAccount</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -12,11 +14,11 @@ import org.stellar.base.xdr.OperationType;
 public class CreateAccountOperation extends Operation {
 
   private final Keypair mDestination;
-  private final long mStartingBalance;
+  private final Long mStartingBalance;
 
-  private CreateAccountOperation(Keypair destination, long startingBalance) {
-    mDestination = destination;
-    mStartingBalance = startingBalance;
+  private CreateAccountOperation(Keypair destination, Long startingBalance) {
+    mDestination = checkNotNull(destination, "destination cannot be null");
+    mStartingBalance = checkNotNull(startingBalance, "startingBalance cannot be null");
   }
 
   /**

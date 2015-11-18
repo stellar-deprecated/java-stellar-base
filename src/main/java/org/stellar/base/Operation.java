@@ -7,6 +7,8 @@ import org.stellar.base.xdr.XdrDataOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public abstract class Operation {
 
   private Keypair mSourceAccount;
@@ -97,7 +99,7 @@ public abstract class Operation {
    * @param keypair
    */
   void setSourceAccount(Keypair keypair) {
-    mSourceAccount = keypair;
+    mSourceAccount = checkNotNull(keypair, "keypair cannot be null");
   }
 
   /**

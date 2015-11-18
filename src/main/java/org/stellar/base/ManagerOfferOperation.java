@@ -8,6 +8,8 @@ import org.stellar.base.xdr.Uint64;
 
 import java.math.BigDecimal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#manage-offer" target="_blank">ManageOffer</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
@@ -16,15 +18,16 @@ public class ManagerOfferOperation extends Operation {
 
   private final Asset mSelling;
   private final Asset mBuying;
-  private final long mAmount;
+  private final Long mAmount;
   private final String mPrice;
   private final long mOfferId;
 
-  private ManagerOfferOperation(Asset selling, Asset buying, long amount, String price, long offerId) {
-    mSelling = selling;
-    mBuying = buying;
-    mAmount = amount;
-    mPrice = price;
+  private ManagerOfferOperation(Asset selling, Asset buying, Long amount, String price, long offerId) {
+    mSelling = checkNotNull(selling, "selling cannot be null");
+    mBuying = checkNotNull(buying, "buying cannot be null");
+    mAmount = checkNotNull(amount, "amount cannot be null");
+    mPrice = checkNotNull(price, "price cannot be null");
+    // offerId can be null
     mOfferId = offerId;
   }
 
