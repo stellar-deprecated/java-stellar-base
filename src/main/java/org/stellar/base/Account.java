@@ -7,7 +7,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Account object is required to build a {@link Transaction}.
  * @see org.stellar.base.Transaction.Builder
  */
-public class Account {
+public class Account implements TransactionBuilderAccount {
   private final Keypair mKeypair;
   private Long mSequenceNumber;
 

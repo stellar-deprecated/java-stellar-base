@@ -160,7 +160,7 @@ public class Transaction {
    * Builds a new Transaction object.
    */
   public static class Builder {
-    private final Account mSourceAccount;
+    private final TransactionBuilderAccount mSourceAccount;
     private org.stellar.base.xdr.Memo mMemo;
     List<Operation> mOperations;
 
@@ -170,7 +170,7 @@ public class Transaction {
      * who will use a sequence number. When build() is called, the account object's sequence number
      * will be incremented.
      */
-    public Builder(Account sourceAccount) {
+    public Builder(TransactionBuilderAccount sourceAccount) {
       checkNotNull(sourceAccount, "sourceAccount cannot be null");
       mSourceAccount = sourceAccount;
       mOperations = new ArrayList<Operation>();

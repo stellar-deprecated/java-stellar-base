@@ -10,6 +10,7 @@ import java.io.IOException;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class Operation {
+  Operation() {}
 
   private Keypair mSourceAccount;
 

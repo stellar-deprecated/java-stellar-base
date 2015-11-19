@@ -5,9 +5,7 @@ package org.stellar.base;
  * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
  */
 public abstract class Asset {
-  Asset() {
-    //
-  }
+  Asset() {}
 
   /**
    * Creates one of AssetTypeCreditAlphaNum4 or AssetTypeCreditAlphaNum12 object based on a <code>code</code> length
