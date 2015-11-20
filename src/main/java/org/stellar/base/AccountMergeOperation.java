@@ -12,24 +12,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AccountMergeOperation extends Operation {
 
-    private final Keypair mDestination;
+    private final Keypair destination;
 
     private AccountMergeOperation(Keypair destination) {
-        mDestination = checkNotNull(destination, "destination cannot be null");
+        this.destination = checkNotNull(destination, "destination cannot be null");
     }
 
     /**
      * The account that receives the remaining XLM balance of the source account.
      */
     public Keypair getDestination() {
-        return mDestination;
+        return destination;
     }
 
     @Override
     OperationBody toOperationBody() {
         OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
         AccountID destination = new AccountID();
-        destination.setAccountID(mDestination.getXdrPublicKey());
+        destination.setAccountID(this.destination.getXdrPublicKey());
         body.setDestination(destination);
         body.setDiscriminant(OperationType.ACCOUNT_MERGE);
         return body;
@@ -40,12 +40,12 @@ public class AccountMergeOperation extends Operation {
      * @see AccountMergeOperation
      */
     public static class Builder {
-        private final Keypair mDestination;
+        private final Keypair destination;
 
         private Keypair mSourceAccount;
 
         Builder(OperationBody op) {
-            mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+            destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
         }
 
         /**
@@ -53,7 +53,7 @@ public class AccountMergeOperation extends Operation {
          * @param destination The account that receives the remaining XLM balance of the source account.
          */
         public Builder(Keypair destination) {
-            mDestination = destination;
+            this.destination = destination;
         }
 
         /**
@@ -70,7 +70,7 @@ public class AccountMergeOperation extends Operation {
          * Builds an operation
          */
         public AccountMergeOperation build() {
-            AccountMergeOperation operation = new AccountMergeOperation(mDestination);
+            AccountMergeOperation operation = new AccountMergeOperation(destination);
             if (mSourceAccount != null) {
                 operation.setSourceAccount(mSourceAccount);
             }

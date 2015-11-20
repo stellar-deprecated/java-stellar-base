@@ -12,34 +12,34 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ChangeTrustOperation extends Operation {
 
-  private final Asset mAsset;
-  private final Long mLimit;
+  private final Asset asset;
+  private final Long limit;
 
   private ChangeTrustOperation(Asset asset, Long limit) {
-    mAsset = checkNotNull(asset, "asset cannot be null");
-    mLimit = checkNotNull(limit, "limit cannot be null");
+    this.asset = checkNotNull(asset, "asset cannot be null");
+    this.limit = checkNotNull(limit, "limit cannot be null");
   }
 
   /**
    * The asset of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the line is USD.
    */
   public Asset getAsset() {
-    return mAsset;
+    return asset;
   }
 
   /**
    * The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
    */
   public long getLimit() {
-    return mLimit;
+    return limit;
   }
 
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     ChangeTrustOp op = new ChangeTrustOp();
-    op.setLine(mAsset.toXdr());
+    op.setLine(asset.toXdr());
     Int64 limit = new Int64();
-    limit.setInt64(mLimit);
+    limit.setInt64(this.limit);
     op.setLimit(limit);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -53,14 +53,14 @@ public class ChangeTrustOperation extends Operation {
    * @see ChangeTrustOperation
    */
   public static class Builder {
-    private final Asset mAsset;
-    private final Long mLimit;
+    private final Asset asset;
+    private final Long limit;
 
     private Keypair mSourceAccount;
 
     Builder(ChangeTrustOp op) {
-      mAsset = Asset.fromXdr(op.getLine());
-      mLimit = op.getLimit().getInt64();
+      asset = Asset.fromXdr(op.getLine());
+      limit = op.getLimit().getInt64();
     }
 
     /**
@@ -69,8 +69,8 @@ public class ChangeTrustOperation extends Operation {
      * @param limit The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
      */
     public Builder(Asset asset, Long limit) {
-      mAsset = asset;
-      mLimit = limit;
+      this.asset = asset;
+      this.limit = limit;
     }
 
     /**
@@ -87,7 +87,7 @@ public class ChangeTrustOperation extends Operation {
      * Builds an operation
      */
     public ChangeTrustOperation build() {
-      ChangeTrustOperation operation = new ChangeTrustOperation(mAsset, mLimit);
+      ChangeTrustOperation operation = new ChangeTrustOperation(asset, limit);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

@@ -13,35 +13,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PaymentOperation extends Operation {
 
-  private final Keypair mDestination;
-  private final Asset mAsset;
-  private final Long mAmount;
+  private final Keypair destination;
+  private final Asset asset;
+  private final Long amount;
 
   private PaymentOperation(Keypair destination, Asset asset, Long amount) {
-    mDestination = checkNotNull(destination, "destination cannot be null");
-    mAsset = checkNotNull(asset, "asset cannot be null");
-    mAmount = checkNotNull(amount, "amount cannot be null");
+    this.destination = checkNotNull(destination, "destination cannot be null");
+    this.asset = checkNotNull(asset, "asset cannot be null");
+    this.amount = checkNotNull(amount, "amount cannot be null");
   }
 
   /**
    * Account that receives the payment.
    */
   public Keypair getDestination() {
-    return mDestination;
+    return destination;
   }
 
   /**
    * Asset to send to the destination account.
    */
   public Asset getAsset() {
-    return mAsset;
+    return asset;
   }
 
   /**
    * Amount of the asset to send.
    */
   public long getAmount() {
-    return mAmount;
+    return amount;
   }
 
   @Override
@@ -50,13 +50,13 @@ public class PaymentOperation extends Operation {
 
     // destination
     AccountID destination = new AccountID();
-    destination.setAccountID(mDestination.getXdrPublicKey());
+    destination.setAccountID(this.destination.getXdrPublicKey());
     op.setDestination(destination);
     // asset
-    op.setAsset(mAsset.toXdr());
+    op.setAsset(asset.toXdr());
     // amount
     Int64 amount = new Int64();
-    amount.setInt64(mAmount);
+    amount.setInt64(this.amount);
     op.setAmount(amount);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -70,9 +70,9 @@ public class PaymentOperation extends Operation {
    * @see PathPaymentOperation
    */
   public static class Builder {
-    private final Keypair mDestination;
-    private final Asset mAsset;
-    private final Long mAmount;
+    private final Keypair destination;
+    private final Asset asset;
+    private final Long amount;
 
     private Keypair mSourceAccount;
 
@@ -81,9 +81,9 @@ public class PaymentOperation extends Operation {
      * @param op {@link PaymentOp}
      */
     Builder(PaymentOp op) {
-      mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
-      mAsset = Asset.fromXdr(op.getAsset());
-      mAmount = op.getAmount().getInt64().longValue();
+      destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      asset = Asset.fromXdr(op.getAsset());
+      amount = op.getAmount().getInt64().longValue();
     }
 
     /**
@@ -93,9 +93,9 @@ public class PaymentOperation extends Operation {
      * @param amount The amount to send.
      */
     public Builder(Keypair destination, Asset asset, Long amount) {
-      mDestination = destination;
-      mAsset = asset;
-      mAmount = amount;
+      this.destination = destination;
+      this.asset = asset;
+      this.amount = amount;
     }
 
     /**
@@ -112,7 +112,7 @@ public class PaymentOperation extends Operation {
      * Builds an operation
      */
     public PaymentOperation build() {
-      PaymentOperation operation = new PaymentOperation(mDestination, mAsset, mAmount);
+      PaymentOperation operation = new PaymentOperation(destination, asset, amount);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

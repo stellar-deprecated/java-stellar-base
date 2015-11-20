@@ -13,36 +13,36 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CreateAccountOperation extends Operation {
 
-  private final Keypair mDestination;
-  private final Long mStartingBalance;
+  private final Keypair destination;
+  private final Long startingBalance;
 
   private CreateAccountOperation(Keypair destination, Long startingBalance) {
-    mDestination = checkNotNull(destination, "destination cannot be null");
-    mStartingBalance = checkNotNull(startingBalance, "startingBalance cannot be null");
+    this.destination = checkNotNull(destination, "destination cannot be null");
+    this.startingBalance = checkNotNull(startingBalance, "startingBalance cannot be null");
   }
 
   /**
    * Amount of XLM to send to the newly created account.
    */
   public long getStartingBalance() {
-    return mStartingBalance;
+    return startingBalance;
   }
 
   /**
    * Account that is created and funded
    */
   public Keypair getDestination() {
-    return mDestination;
+    return destination;
   }
 
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     CreateAccountOp op = new CreateAccountOp();
     AccountID destination = new AccountID();
-    destination.setAccountID(mDestination.getXdrPublicKey());
+    destination.setAccountID(this.destination.getXdrPublicKey());
     op.setDestination(destination);
     Int64 startingBalance = new Int64();
-    startingBalance.setInt64(Long.valueOf(mStartingBalance));
+    startingBalance.setInt64(Long.valueOf(this.startingBalance));
     op.setStartingBalance(startingBalance);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -56,8 +56,8 @@ public class CreateAccountOperation extends Operation {
    * @see CreateAccountOperation
    */
   public static class Builder {
-    private final Keypair mDestination;
-    private final long mStartingBalance;
+    private final Keypair destination;
+    private final long startingBalance;
 
     private Keypair mSourceAccount;
 
@@ -66,8 +66,8 @@ public class CreateAccountOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(CreateAccountOp op) {
-      mDestination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
-      mStartingBalance = op.getStartingBalance().getInt64().longValue();
+      destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      startingBalance = op.getStartingBalance().getInt64().longValue();
     }
 
     /**
@@ -76,8 +76,8 @@ public class CreateAccountOperation extends Operation {
      * @param startingBalance The initial balance to start with.
      */
     public Builder(Keypair destination, long startingBalance) {
-      mDestination = destination;
-      mStartingBalance = startingBalance;
+      this.destination = destination;
+      this.startingBalance = startingBalance;
     }
 
     /**
@@ -94,7 +94,7 @@ public class CreateAccountOperation extends Operation {
      * Builds an operation
      */
     public CreateAccountOperation build() {
-      CreateAccountOperation operation = new CreateAccountOperation(mDestination, mStartingBalance);
+      CreateAccountOperation operation = new CreateAccountOperation(destination, startingBalance);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

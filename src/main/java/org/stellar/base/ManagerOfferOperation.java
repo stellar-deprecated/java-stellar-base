@@ -16,68 +16,68 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ManagerOfferOperation extends Operation {
 
-  private final Asset mSelling;
-  private final Asset mBuying;
-  private final Long mAmount;
-  private final String mPrice;
-  private final long mOfferId;
+  private final Asset selling;
+  private final Asset buying;
+  private final Long amount;
+  private final String price;
+  private final long offerId;
 
   private ManagerOfferOperation(Asset selling, Asset buying, Long amount, String price, long offerId) {
-    mSelling = checkNotNull(selling, "selling cannot be null");
-    mBuying = checkNotNull(buying, "buying cannot be null");
-    mAmount = checkNotNull(amount, "amount cannot be null");
-    mPrice = checkNotNull(price, "price cannot be null");
+    this.selling = checkNotNull(selling, "selling cannot be null");
+    this.buying = checkNotNull(buying, "buying cannot be null");
+    this.amount = checkNotNull(amount, "amount cannot be null");
+    this.price = checkNotNull(price, "price cannot be null");
     // offerId can be null
-    mOfferId = offerId;
+    this.offerId = offerId;
   }
 
   /**
    * The asset being sold in this operation
    */
   public Asset getSelling() {
-    return mSelling;
+    return selling;
   }
 
   /**
    * The asset being bought in this operation
    */
   public Asset getBuying() {
-    return mBuying;
+    return buying;
   }
 
   /**
    * Amount of selling being sold.
    */
   public long getAmount() {
-    return mAmount;
+    return amount;
   }
 
   /**
    * Price of 1 unit of selling in terms of buying.
    */
   public String getPrice() {
-    return mPrice;
+    return price;
   }
 
   /**
    * The ID of the offer.
    */
   public long getOfferId() {
-    return mOfferId;
+    return offerId;
   }
 
   @Override
   org.stellar.base.xdr.Operation.OperationBody toOperationBody() {
     ManageOfferOp op = new ManageOfferOp();
-    op.setSelling(mSelling.toXdr());
-    op.setBuying(mBuying.toXdr());
+    op.setSelling(selling.toXdr());
+    op.setBuying(buying.toXdr());
     Int64 amount = new Int64();
-    amount.setInt64(Long.valueOf(mAmount));
+    amount.setInt64(Long.valueOf(this.amount));
     op.setAmount(amount);
-    Price price = Price.fromString(mPrice);
+    Price price = Price.fromString(this.price);
     op.setPrice(price.toXdr());
     Uint64 offerId = new Uint64();
-    offerId.setUint64(Long.valueOf(mOfferId));
+    offerId.setUint64(Long.valueOf(this.offerId));
     op.setOfferID(offerId);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -93,11 +93,11 @@ public class ManagerOfferOperation extends Operation {
    */
   public static class Builder {
 
-    private final Asset mSelling;
-    private final Asset mBuying;
-    private final long mAmount;
-    private final String mPrice;
-    private long mOfferId = 0;
+    private final Asset selling;
+    private final Asset buying;
+    private final long amount;
+    private final String price;
+    private long offerId = 0;
 
     private Keypair mSourceAccount;
 
@@ -106,13 +106,13 @@ public class ManagerOfferOperation extends Operation {
      * @param op {@link CreateAccountOp}
      */
     Builder(ManageOfferOp op) {
-      mSelling = Asset.fromXdr(op.getSelling());
-      mBuying = Asset.fromXdr(op.getBuying());
-      mAmount = op.getAmount().getInt64().longValue();
+      selling = Asset.fromXdr(op.getSelling());
+      buying = Asset.fromXdr(op.getBuying());
+      amount = op.getAmount().getInt64().longValue();
       int n = op.getPrice().getN().getInt32().intValue();
       int d = op.getPrice().getD().getInt32().intValue();
-      mPrice = new BigDecimal(n).divide(new BigDecimal(d)).toString();
-      mOfferId = op.getOfferID().getUint64().longValue();
+      price = new BigDecimal(n).divide(new BigDecimal(d)).toString();
+      offerId = op.getOfferID().getUint64().longValue();
     }
 
     /**
@@ -123,10 +123,10 @@ public class ManagerOfferOperation extends Operation {
      * @param price Price of 1 unit of selling in terms of buying.
      */
     public Builder(Asset selling, Asset buying, long amount, String price) {
-      mSelling = selling;
-      mBuying = buying;
-      mAmount = amount;
-      mPrice = price;
+      this.selling = selling;
+      this.buying = buying;
+      this.amount = amount;
+      this.price = price;
     }
 
     /**
@@ -134,7 +134,7 @@ public class ManagerOfferOperation extends Operation {
      * @param offerId
      */
     public Builder setOfferId(long offerId) {
-      mOfferId = offerId;
+      this.offerId = offerId;
       return this;
     }
 
@@ -152,7 +152,7 @@ public class ManagerOfferOperation extends Operation {
      * Builds an operation
      */
     public ManagerOfferOperation build() {
-      ManagerOfferOperation operation = new ManagerOfferOperation(mSelling, mBuying, mAmount, mPrice, mOfferId);
+      ManagerOfferOperation operation = new ManagerOfferOperation(selling, buying, amount, price, offerId);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }
