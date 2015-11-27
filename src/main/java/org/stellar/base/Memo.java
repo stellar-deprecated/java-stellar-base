@@ -1,5 +1,6 @@
 package org.stellar.base;
 
+import com.google.common.base.Strings;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.stellar.base.xdr.MemoType;
@@ -40,8 +41,9 @@ public class Memo {
     public static org.stellar.base.xdr.Memo text(String text) {
         checkNotNull(text, "text cannot be null");
 
-        if (text.getBytes(StandardCharsets.UTF_8).length > 28) {
-            throw new MemoTooLongException("text must be <= 28 bytes.");
+        int length = text.getBytes((StandardCharsets.UTF_8)).length;
+        if (length > 28) {
+            throw new MemoTooLongException("text must be <= 28 bytes. length=" + String.valueOf(length));
         }
 
         org.stellar.base.xdr.Memo memo = new org.stellar.base.xdr.Memo();
