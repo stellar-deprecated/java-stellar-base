@@ -22,11 +22,11 @@ public class SetOptionsOperation extends Operation {
   private final Integer highThreshold;
   private final String homeDomain;
   private final Keypair signer;
-  private final Byte signerWeight;
+  private final Integer signerWeight;
 
   private SetOptionsOperation(Keypair inflationDestination, Integer clearFlags, Integer setFlags,
                               Integer masterKeyWeight, Integer lowThreshold, Integer mediumThreshold,
-                              Integer highThreshold, String homeDomain, Keypair signer, Byte signerWeight) {
+                              Integer highThreshold, String homeDomain, Keypair signer, Integer signerWeight) {
     this.inflationDestination = inflationDestination;
     this.clearFlags = clearFlags;
     this.setFlags = setFlags;
@@ -105,7 +105,7 @@ public class SetOptionsOperation extends Operation {
   /**
    * Additional signer weight. The signer is deleted if the weight is 0.
    */
-  public Byte getSignerWeight() {
+  public Integer getSignerWeight() {
     return signerWeight;
   }
 
@@ -183,7 +183,7 @@ public class SetOptionsOperation extends Operation {
     private Integer highThreshold;
     private String homeDomain;
     private Keypair signer;
-    private Byte signerWeight;
+    private Integer signerWeight;
     private Keypair sourceAccount;
 
     Builder(SetOptionsOp op) {
@@ -214,7 +214,7 @@ public class SetOptionsOperation extends Operation {
       }
       if (op.getSigner() != null) {
         signer = Keypair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
-        signerWeight = (byte) (op.getSigner().getWeight().getUint32().intValue() & 0xFF);
+        signerWeight = op.getSigner().getWeight().getUint32().intValue() & 0xFF;
       }
     }
 
@@ -312,9 +312,9 @@ public class SetOptionsOperation extends Operation {
      * @param weight The weight to attach to the signer (0-255)
      * @return Builder object so you can chain methods.
      */
-    public Builder setSigner(Keypair signer, int weight) {
+    public Builder setSigner(Keypair signer, Integer weight) {
       this.signer = signer;
-      signerWeight = (byte) (weight & 0xFF);
+      signerWeight = weight & 0xFF;
       return this;
     }
 

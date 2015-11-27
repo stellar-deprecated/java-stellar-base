@@ -164,7 +164,7 @@ public class OperationTest extends TestCase {
     Integer mediumThreshold = 3;
     Integer highThreshold = 4;
     String homeDomain = "stellar.org";
-    Byte signerWeight = 1;
+    Integer signerWeight = 1;
 
     SetOptionsOperation operation = new SetOptionsOperation.Builder()
         .setInflationDestination(inflationDestination)
