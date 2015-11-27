@@ -1,10 +1,11 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
-public class AccountTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+public class AccountTest  {
     @Test
     public void testNullArguments() {
         try {

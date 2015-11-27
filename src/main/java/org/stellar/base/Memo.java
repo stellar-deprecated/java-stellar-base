@@ -91,8 +91,7 @@ public class Memo {
      */
     public static org.stellar.base.xdr.Memo hash(String hexString) throws DecoderException {
         checkNotNull(hexString, "hexString cannot be null");
-        Hex hexCodec = new Hex();
-        byte[] decoded = hexCodec.decodeHex(hexString.toCharArray());
+        byte[] decoded = Hex.decodeHex(hexString.toCharArray());
         return Memo.hash(decoded);
     }
 

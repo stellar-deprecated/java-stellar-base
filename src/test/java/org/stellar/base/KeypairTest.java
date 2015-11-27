@@ -1,17 +1,18 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeypairTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class KeypairTest {
 
   private static final String SEED = "1123740522f11bfef6b3671f51e159ccf589ccf8965262dd5f97d1721d383dd4";
 
-  @org.junit.Test
+  @Test
   public void testSign() {
     String expectedSig = "587d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
     Keypair keypair = Keypair.fromSecretSeed(Util.hexToBytes(SEED));
@@ -20,7 +21,7 @@ public class KeypairTest extends TestCase {
     Assert.assertArrayEquals(Util.hexToBytes(expectedSig), sig);
   }
 
-  @org.junit.Test
+  @Test
   public void testVerifyTrue() throws Exception {
     String sig = "587d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
     String data = "hello world";
@@ -28,7 +29,7 @@ public class KeypairTest extends TestCase {
     Assert.assertTrue(keypair.verify(data.getBytes(), Util.hexToBytes(sig)));
   }
 
-  @org.junit.Test
+  @Test
   public void testVerifyFalse() throws Exception {
     String badSig = "687d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
     byte[] corrupt = {0x00};
@@ -38,7 +39,7 @@ public class KeypairTest extends TestCase {
     Assert.assertFalse(keypair.verify(data.getBytes(), corrupt));
   }
 
-  @org.junit.Test
+  @Test
   public void testFromSecretSeed() throws Exception {
     Map<String, String> keypairs = new HashMap<String, String>();
     keypairs.put("SDJHRQF4GCMIIKAAAQ6IHY42X73FQFLHUULAPSKKD4DFDM7UXWWCRHBE", "GCZHXL5HXQX5ABDM26LHYRCQZ5OJFHLOPLZX47WEBP3V2PF5AVFK2A5D");

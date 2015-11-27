@@ -1,12 +1,14 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
 import java.io.IOException;
 
-public class TransactionTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class TransactionTest {
 
     public void tearDown() {
         Network.useTestNetwork();

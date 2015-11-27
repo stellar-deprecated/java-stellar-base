@@ -1,10 +1,10 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
-public class NetworkTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class NetworkTest {
 
     public void tearDown() {
         Network.useTestNetwork();

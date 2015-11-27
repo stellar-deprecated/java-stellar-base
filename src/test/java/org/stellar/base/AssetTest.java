@@ -1,13 +1,15 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by andrewrogers on 7/1/15.
  */
-public class AssetTest extends TestCase {
+public class AssetTest {
 
   @Test
   public void testAssetTypeNative() {
