@@ -1,10 +1,10 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
-public class PriceTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class PriceTest {
     @Test
     public void testFromDouble() {
         PriceTestCase[] tests = {

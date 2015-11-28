@@ -14,7 +14,7 @@ public class StellarExample {
 
     Account sourceAccount = new Account(sourceKeypair, 3009998980382720L);
 
-    PaymentOperation operation = new PaymentOperation.Builder(destination, new AssetTypeNative(), 20000000).build();
+    PaymentOperation operation = new PaymentOperation.Builder(destination, new AssetTypeNative(), 20000000L).build();
     Transaction transaction = new Transaction.Builder(sourceAccount)
       .addOperation(operation)
       .addMemo(Memo.text("Java FTW!"))

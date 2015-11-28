@@ -1,14 +1,13 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.stellar.base.xdr.Int32;
 
 import java.io.IOException;
 
-public class OperationTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class OperationTest {
 
   @Test
   public void testCreateAccountOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
@@ -25,15 +24,16 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     CreateAccountOperation parsedOperation = (CreateAccountOperation) Operation.fromXdr(xdr);
 
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
-    Assert.assertEquals(startingAmount, parsedOperation.getStartingBalance());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(startingAmount, parsedOperation.getStartingBalance());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAAAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAD6A==",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testPaymentOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -50,16 +50,17 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     PaymentOperation parsedOperation = (PaymentOperation) Operation.fromXdr(xdr);
 
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
     Assert.assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
-    Assert.assertEquals(amount, parsedOperation.getAmount());
+    assertEquals(amount, parsedOperation.getAmount());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAEAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAAAAAAA+g=",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testPathPaymentOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -88,18 +89,19 @@ public class OperationTest extends TestCase {
     PathPaymentOperation parsedOperation = (PathPaymentOperation) Operation.fromXdr(xdr);
 
     Assert.assertTrue(parsedOperation.getSendAsset() instanceof AssetTypeNative);
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
-    Assert.assertEquals(sendMax, parsedOperation.getSendMax());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(sendMax, parsedOperation.getSendMax());
     Assert.assertTrue(parsedOperation.getDestAsset() instanceof AssetTypeCreditAlphaNum4);
-    Assert.assertEquals(destAmount, parsedOperation.getDestAmount());
-    Assert.assertEquals(path.length, parsedOperation.getPath().length);
+    assertEquals(destAmount, parsedOperation.getDestAmount());
+    assertEquals(path.length, parsedOperation.getPath().length);
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAIAAAAAAAAAAAAAA+gAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEAAAAAACNlYd30HdCuLI54eyYjyX/fDyH9IJWIr/hKDcXKQbq1QAAAAAAAAPoAAAAAgAAAAFVU0QAAAAAACoIKnpnw8rtrfxa276dFZo1C19mDqWXtG4ufhWrLUd1AAAAAlRFU1RURVNUAAAAAAAAAABE/ttVl8BLV0csW/xgXtbXOVf1lMyDluMiafl0IDVFIg==",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testChangeTrustOperation() throws FormatException, IOException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -114,15 +116,16 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     ChangeTrustOperation parsedOperation = (ChangeTrustOperation) Operation.fromXdr(xdr);
 
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
     Assert.assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
-    Assert.assertEquals(limit, parsedOperation.getLimit());
+    assertEquals(limit, parsedOperation.getLimit());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAYAAAAAf/////////8=",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testAllowTrustOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -139,16 +142,17 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     AllowTrustOperation parsedOperation = (AllowTrustOperation) Operation.fromXdr(xdr);
 
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    Assert.assertEquals(trustor.getAddress(), parsedOperation.getTrustor().getAddress());
-    Assert.assertEquals(assetCode, parsedOperation.getAssetCode());
-    Assert.assertEquals(authorize, parsedOperation.getAuthorize());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(trustor.getAddress(), parsedOperation.getTrustor().getAddress());
+    assertEquals(assetCode, parsedOperation.getAssetCode());
+    assertEquals(authorize, parsedOperation.getAuthorize());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAcAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEQQAAAAE=",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testSetOptionsOperation() throws FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -182,23 +186,24 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     SetOptionsOperation parsedOperation = (SetOptionsOperation) SetOptionsOperation.fromXdr(xdr);
 
-    Assert.assertEquals(inflationDestination.getAddress(), parsedOperation.getInflationDestination().getAddress());
-    Assert.assertEquals(clearFlags, parsedOperation.getClearFlags());
-    Assert.assertEquals(setFlags, parsedOperation.getSetFlags());
-    Assert.assertEquals(masterKeyWeight, parsedOperation.getMasterKeyWeight());
-    Assert.assertEquals(lowThreshold, parsedOperation.getLowThreshold());
-    Assert.assertEquals(mediumThreshold, parsedOperation.getMediumThreshold());
-    Assert.assertEquals(highThreshold, parsedOperation.getHighThreshold());
-    Assert.assertEquals(homeDomain, parsedOperation.getHomeDomain());
-    Assert.assertEquals(signer.getAddress(), parsedOperation.getSigner().getAddress());
-    Assert.assertEquals(signerWeight, parsedOperation.getSignerWeight());
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(inflationDestination.getAddress(), parsedOperation.getInflationDestination().getAddress());
+    assertEquals(clearFlags, parsedOperation.getClearFlags());
+    assertEquals(setFlags, parsedOperation.getSetFlags());
+    assertEquals(masterKeyWeight, parsedOperation.getMasterKeyWeight());
+    assertEquals(lowThreshold, parsedOperation.getLowThreshold());
+    assertEquals(mediumThreshold, parsedOperation.getMediumThreshold());
+    assertEquals(highThreshold, parsedOperation.getHighThreshold());
+    assertEquals(homeDomain, parsedOperation.getHomeDomain());
+    assertEquals(signer.getAddress(), parsedOperation.getSigner().getAddress());
+    assertEquals(signerWeight, parsedOperation.getSignerWeight());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAABAAAAAET+21WXwEtXRyxb/GBe1tc5V/WUzIOW4yJp+XQgNUUiAAAAAQ==",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testSetOptionsOperationSingleField() {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -213,23 +218,24 @@ public class OperationTest extends TestCase {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     SetOptionsOperation parsedOperation = (SetOptionsOperation) SetOptionsOperation.fromXdr(xdr);
 
-    Assert.assertEquals(null, parsedOperation.getInflationDestination());
-    Assert.assertEquals(null, parsedOperation.getClearFlags());
-    Assert.assertEquals(null, parsedOperation.getSetFlags());
-    Assert.assertEquals(null, parsedOperation.getMasterKeyWeight());
-    Assert.assertEquals(null, parsedOperation.getLowThreshold());
-    Assert.assertEquals(null, parsedOperation.getMediumThreshold());
-    Assert.assertEquals(null, parsedOperation.getHighThreshold());
-    Assert.assertEquals(homeDomain, parsedOperation.getHomeDomain());
-    Assert.assertEquals(null, parsedOperation.getSigner());
-    Assert.assertEquals(null, parsedOperation.getSignerWeight());
-    Assert.assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(null, parsedOperation.getInflationDestination());
+    assertEquals(null, parsedOperation.getClearFlags());
+    assertEquals(null, parsedOperation.getSetFlags());
+    assertEquals(null, parsedOperation.getMasterKeyWeight());
+    assertEquals(null, parsedOperation.getLowThreshold());
+    assertEquals(null, parsedOperation.getMediumThreshold());
+    assertEquals(null, parsedOperation.getHighThreshold());
+    assertEquals(homeDomain, parsedOperation.getHomeDomain());
+    assertEquals(null, parsedOperation.getSigner());
+    assertEquals(null, parsedOperation.getSignerWeight());
+    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
 
     assertEquals(
           "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAAA",
           operation.toXdrBase64());
   }
 
+  @Test
   public void testManagerOfferOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -254,17 +260,18 @@ public class OperationTest extends TestCase {
     Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
     Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
     Assert.assertTrue(parsedOperation.getBuying().equals(buying));
-    Assert.assertEquals(amount, parsedOperation.getAmount());
-    Assert.assertEquals(price, parsedOperation.getPrice());
-    Assert.assertEquals(priceObj.getNumerator(), 5333399);
-    Assert.assertEquals(priceObj.getDenominator(), 6250000);
-    Assert.assertEquals(offerId, parsedOperation.getOfferId());
+    assertEquals(amount, parsedOperation.getAmount());
+    assertEquals(price, parsedOperation.getPrice());
+    assertEquals(priceObj.getNumerator(), 5333399);
+    assertEquals(priceObj.getDenominator(), 6250000);
+    assertEquals(offerId, parsedOperation.getOfferId());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAMAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZABRYZcAX14QAAAAAAAAAAE=",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testCreatePassiveOfferOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -287,16 +294,17 @@ public class OperationTest extends TestCase {
     Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
     Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
     Assert.assertTrue(parsedOperation.getBuying().equals(buying));
-    Assert.assertEquals(amount, parsedOperation.getAmount());
-    Assert.assertEquals(price, parsedOperation.getPrice());
-    Assert.assertEquals(priceObj.getNumerator(), 36731261);
-    Assert.assertEquals(priceObj.getDenominator(), 12500000);
+    assertEquals(amount, parsedOperation.getAmount());
+    assertEquals(price, parsedOperation.getPrice());
+    assertEquals(priceObj.getNumerator(), 36731261);
+    assertEquals(priceObj.getDenominator(), 12500000);
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAQAAAAAAAAAAVVTRAAAAAAARP7bVZfAS1dHLFv8YF7W1zlX9ZTMg5bjImn5dCA1RSIAAAAAAAAAZAIweX0Avrwg",
             operation.toXdrBase64());
   }
 
+  @Test
   public void testAccountMergeOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
@@ -311,7 +319,7 @@ public class OperationTest extends TestCase {
 
     AccountMergeOperation parsedOperation = (AccountMergeOperation) Operation.fromXdr(xdr);
 
-    Assert.assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAgAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxA=",

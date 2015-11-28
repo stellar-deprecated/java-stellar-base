@@ -1,14 +1,16 @@
 package org.stellar.base;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 import org.stellar.base.xdr.MemoType;
 
 import java.util.Arrays;
 
-public class MemoTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class MemoTest {
     @Test
     public void testMemoNone() {
         org.stellar.base.xdr.Memo memo = Memo.none();
@@ -33,6 +35,16 @@ public class MemoTest extends TestCase {
     public void testMemoTextTooLong() {
         try {
             Memo.text("12345678901234567890123456789");
+            fail();
+        } catch (RuntimeException exception) {
+            assertTrue(exception.getMessage().contains("text must be <= 28 bytes."));
+        }
+    }
+
+    @Test
+    public void testMemoTextTooLongUtf8() {
+        try {
+            Memo.text("价值交易的开源协议!!");
             fail();
         } catch (RuntimeException exception) {
             assertTrue(exception.getMessage().contains("text must be <= 28 bytes."));
