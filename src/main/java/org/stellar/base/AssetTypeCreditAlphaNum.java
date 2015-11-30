@@ -6,7 +6,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Base class for AssetTypeCreditAlphaNum4 and AssetTypeCreditAlphaNum12 subclasses.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/assets.html" target="_blank">Assets</a>
  */
-abstract class AssetTypeCreditAlphaNum extends Asset {
+public abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final String mCode;
     protected final Keypair mIssuer;
 

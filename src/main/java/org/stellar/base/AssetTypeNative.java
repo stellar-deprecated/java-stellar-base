@@ -11,6 +11,11 @@ public class AssetTypeNative extends Asset {
   public AssetTypeNative() {}
 
   @Override
+  public String getType() {
+    return "native";
+  }
+
+  @Override
   public boolean equals(Object object) {
     return this.getClass().equals(object.getClass());
   }

@@ -44,6 +44,17 @@ public abstract class Asset {
     }
   }
 
+  /**
+   * Returns asset type. Possible types:
+   * <ul>
+   *   <li><code>native</code></li>
+   *   <li><code>credit_alphanum4</code></li>
+   *   <li><code>credit_alphanum12</code></li>
+   * </ul>
+   * @return
+   */
+  public abstract String getType();
+
   @Override
   public abstract boolean equals(Object object);
 

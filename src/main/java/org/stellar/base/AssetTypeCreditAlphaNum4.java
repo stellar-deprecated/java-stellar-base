@@ -22,6 +22,11 @@ public class AssetTypeCreditAlphaNum4 extends AssetTypeCreditAlphaNum {
   }
 
   @Override
+  public String getType() {
+    return "credit_alphanum4";
+  }
+
+  @Override
   public org.stellar.base.xdr.Asset toXdr() {
     org.stellar.base.xdr.Asset xdr = new org.stellar.base.xdr.Asset();
     xdr.setDiscriminant(AssetType.ASSET_TYPE_CREDIT_ALPHANUM4);
