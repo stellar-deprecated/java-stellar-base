@@ -13,9 +13,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ChangeTrustOperation extends Operation {
 
   private final Asset asset;
-  private final Long limit;
+  private final String limit;
 
-  private ChangeTrustOperation(Asset asset, Long limit) {
+  private ChangeTrustOperation(Asset asset, String limit) {
     this.asset = checkNotNull(asset, "asset cannot be null");
     this.limit = checkNotNull(limit, "limit cannot be null");
   }
@@ -30,7 +30,7 @@ public class ChangeTrustOperation extends Operation {
   /**
    * The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
    */
-  public long getLimit() {
+  public String getLimit() {
     return limit;
   }
 
@@ -39,7 +39,7 @@ public class ChangeTrustOperation extends Operation {
     ChangeTrustOp op = new ChangeTrustOp();
     op.setLine(asset.toXdr());
     Int64 limit = new Int64();
-    limit.setInt64(this.limit);
+    limit.setInt64(Operation.toXdrAmount(this.limit));
     op.setLimit(limit);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -54,23 +54,24 @@ public class ChangeTrustOperation extends Operation {
    */
   public static class Builder {
     private final Asset asset;
-    private final Long limit;
+    private final String limit;
 
     private Keypair mSourceAccount;
 
     Builder(ChangeTrustOp op) {
       asset = Asset.fromXdr(op.getLine());
-      limit = op.getLimit().getInt64();
+      limit = Operation.fromXdrAmount(op.getLimit().getInt64().longValue());
     }
 
     /**
      * Creates a new ChangeTrust builder.
      * @param asset The asset of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the line is USD.
      * @param limit The limit of the trustline. For example, if a gateway extends a trustline of up to 200 USD to a user, the limit is 200.
+     * @throws ArithmeticException when limit has more than 7 decimal places.
      */
-    public Builder(Asset asset, Long limit) {
-      this.asset = asset;
-      this.limit = limit;
+    public Builder(Asset asset, String limit) {
+      this.asset = checkNotNull(asset, "asset cannot be null");
+      this.limit = checkNotNull(limit, "limit cannot be null");
     }
 
     /**
@@ -79,7 +80,7 @@ public class ChangeTrustOperation extends Operation {
      * @return Builder object so you can chain methods.
      */
     public Builder setSourceAccount(Keypair sourceAccount) {
-      mSourceAccount = sourceAccount;
+      mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
       return this;
     }
 

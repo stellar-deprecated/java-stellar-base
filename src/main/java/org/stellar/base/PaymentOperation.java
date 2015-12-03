@@ -15,9 +15,9 @@ public class PaymentOperation extends Operation {
 
   private final Keypair destination;
   private final Asset asset;
-  private final Long amount;
+  private final String amount;
 
-  private PaymentOperation(Keypair destination, Asset asset, Long amount) {
+  private PaymentOperation(Keypair destination, Asset asset, String amount) {
     this.destination = checkNotNull(destination, "destination cannot be null");
     this.asset = checkNotNull(asset, "asset cannot be null");
     this.amount = checkNotNull(amount, "amount cannot be null");
@@ -40,7 +40,7 @@ public class PaymentOperation extends Operation {
   /**
    * Amount of the asset to send.
    */
-  public long getAmount() {
+  public String getAmount() {
     return amount;
   }
 
@@ -56,7 +56,7 @@ public class PaymentOperation extends Operation {
     op.setAsset(asset.toXdr());
     // amount
     Int64 amount = new Int64();
-    amount.setInt64(this.amount);
+    amount.setInt64(Operation.toXdrAmount(this.amount));
     op.setAmount(amount);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -72,7 +72,7 @@ public class PaymentOperation extends Operation {
   public static class Builder {
     private final Keypair destination;
     private final Asset asset;
-    private final Long amount;
+    private final String amount;
 
     private Keypair mSourceAccount;
 
@@ -83,16 +83,17 @@ public class PaymentOperation extends Operation {
     Builder(PaymentOp op) {
       destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
       asset = Asset.fromXdr(op.getAsset());
-      amount = op.getAmount().getInt64().longValue();
+      amount = Operation.fromXdrAmount(op.getAmount().getInt64().longValue());
     }
 
     /**
      * Creates a new PaymentOperation builder.
      * @param destination The destination keypair (uses only the public key).
      * @param asset The asset to send.
-     * @param amount The amount to send.
+     * @param amount The amount to send in lumens.
+     * @throws ArithmeticException when amount has more than 7 decimal places.
      */
-    public Builder(Keypair destination, Asset asset, Long amount) {
+    public Builder(Keypair destination, Asset asset, String amount) {
       this.destination = destination;
       this.asset = asset;
       this.amount = amount;

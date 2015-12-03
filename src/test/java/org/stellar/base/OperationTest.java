@@ -1,11 +1,12 @@
 package org.stellar.base;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class OperationTest {
 
@@ -16,7 +17,7 @@ public class OperationTest {
     // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR
     Keypair destination = Keypair.fromSecretSeed("SDHZGHURAYXKU2KMVHPOXI6JG2Q4BSQUQCEOY72O3QQTCLR2T455PMII");
 
-    long startingAmount = 1000;
+    String startingAmount = "1000";
     CreateAccountOperation operation = new CreateAccountOperation.Builder(destination, startingAmount)
         .setSourceAccount(source)
         .build();
@@ -24,12 +25,13 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     CreateAccountOperation parsedOperation = (CreateAccountOperation) Operation.fromXdr(xdr);
 
+    assertEquals(10000000000L, xdr.getBody().getCreateAccountOp().getStartingBalance().getInt64().longValue());
     assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
     assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
     assertEquals(startingAmount, parsedOperation.getStartingBalance());
 
     assertEquals(
-            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAAAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAD6A==",
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAAAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAACVAvkAA==",
             operation.toXdrBase64());
   }
 
@@ -41,7 +43,7 @@ public class OperationTest {
     Keypair destination = Keypair.fromSecretSeed("SDHZGHURAYXKU2KMVHPOXI6JG2Q4BSQUQCEOY72O3QQTCLR2T455PMII");
 
     Asset asset = new AssetTypeNative();
-    long amount = 1000;
+    String amount = "1000";
 
     PaymentOperation operation = new PaymentOperation.Builder(destination, asset, amount)
         .setSourceAccount(source)
@@ -50,13 +52,14 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     PaymentOperation parsedOperation = (PaymentOperation) Operation.fromXdr(xdr);
 
+    assertEquals(10000000000L, xdr.getBody().getPaymentOp().getAmount().getInt64().longValue());
     assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
     assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
-    Assert.assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
+    assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
     assertEquals(amount, parsedOperation.getAmount());
 
     assertEquals(
-            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAEAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAAAAAAA+g=",
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAEAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAAAAAAAAlQL5AA=",
             operation.toXdrBase64());
   }
 
@@ -75,9 +78,9 @@ public class OperationTest {
     Keypair pathIssuer2 = Keypair.fromSecretSeed("SA64U7C5C7BS5IHWEPA7YWFN3Z6FE5L6KAMYUIT4AQ7KVTVLD23C6HEZ");
 
     Asset sendAsset = new AssetTypeNative();
-    Long sendMax = 1000L;
+    String sendMax = "0.0001";
     Asset destAsset = new AssetTypeCreditAlphaNum4("USD", issuer);
-    Long destAmount = 1000L;
+    String destAmount = "0.0001";
     Asset[] path = {new AssetTypeCreditAlphaNum4("USD", pathIssuer1), new AssetTypeCreditAlphaNum12("TESTTEST", pathIssuer2)};
 
     PathPaymentOperation operation = new PathPaymentOperation.Builder(
@@ -88,11 +91,13 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     PathPaymentOperation parsedOperation = (PathPaymentOperation) Operation.fromXdr(xdr);
 
-    Assert.assertTrue(parsedOperation.getSendAsset() instanceof AssetTypeNative);
+    assertEquals(1000L, xdr.getBody().getPathPaymentOp().getSendMax().getInt64().longValue());
+    assertEquals(1000L, xdr.getBody().getPathPaymentOp().getDestAmount().getInt64().longValue());
+    assertTrue(parsedOperation.getSendAsset() instanceof AssetTypeNative);
     assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
     assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
     assertEquals(sendMax, parsedOperation.getSendMax());
-    Assert.assertTrue(parsedOperation.getDestAsset() instanceof AssetTypeCreditAlphaNum4);
+    assertTrue(parsedOperation.getDestAsset() instanceof AssetTypeCreditAlphaNum4);
     assertEquals(destAmount, parsedOperation.getDestAmount());
     assertEquals(path.length, parsedOperation.getPath().length);
 
@@ -107,7 +112,7 @@ public class OperationTest {
     Keypair source = Keypair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
 
     Asset asset = new AssetTypeNative();
-    long limit = Long.MAX_VALUE;
+    String limit = "922337203685.4775807";
 
     ChangeTrustOperation operation = new ChangeTrustOperation.Builder(asset, limit)
         .setSourceAccount(source)
@@ -116,8 +121,9 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     ChangeTrustOperation parsedOperation = (ChangeTrustOperation) Operation.fromXdr(xdr);
 
+    assertEquals(9223372036854775807L, xdr.getBody().getChangeTrustOp().getLimit().getInt64().longValue());
     assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    Assert.assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
+    assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
     assertEquals(limit, parsedOperation.getLimit());
 
     assertEquals(
@@ -244,7 +250,7 @@ public class OperationTest {
 
     Asset selling = new AssetTypeNative();
     Asset buying = Asset.createNonNativeAsset("USD", issuer);
-    long amount = 100;
+    String amount = "0.00001";
     String price = "0.85334384"; // n=5333399 d=6250000
     Price priceObj = Price.fromString(price);
     long offerId = 1;
@@ -257,9 +263,10 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     ManagerOfferOperation parsedOperation = (ManagerOfferOperation) ManagerOfferOperation.fromXdr(xdr);
 
-    Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
-    Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
-    Assert.assertTrue(parsedOperation.getBuying().equals(buying));
+    assertEquals(100L, xdr.getBody().getManageOfferOp().getAmount().getInt64().longValue());
+    assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
+    assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
+    assertTrue(parsedOperation.getBuying().equals(buying));
     assertEquals(amount, parsedOperation.getAmount());
     assertEquals(price, parsedOperation.getPrice());
     assertEquals(priceObj.getNumerator(), 5333399);
@@ -280,7 +287,7 @@ public class OperationTest {
 
     Asset selling = new AssetTypeNative();
     Asset buying = Asset.createNonNativeAsset("USD", issuer);
-    long amount = 100;
+    String amount = "0.00001";
     String price = "2.93850088"; // n=36731261 d=12500000
     Price priceObj = Price.fromString(price);
 
@@ -291,9 +298,10 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     CreatePassiveOfferOperation parsedOperation = (CreatePassiveOfferOperation) CreatePassiveOfferOperation.fromXdr(xdr);
 
-    Assert.assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
-    Assert.assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
-    Assert.assertTrue(parsedOperation.getBuying().equals(buying));
+    assertEquals(100L, xdr.getBody().getCreatePassiveOfferOp().getAmount().getInt64().longValue());
+    assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);
+    assertTrue(parsedOperation.getBuying() instanceof AssetTypeCreditAlphaNum4);
+    assertTrue(parsedOperation.getBuying().equals(buying));
     assertEquals(amount, parsedOperation.getAmount());
     assertEquals(price, parsedOperation.getPrice());
     assertEquals(priceObj.getNumerator(), 36731261);
@@ -324,5 +332,42 @@ public class OperationTest {
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAgAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxA=",
             operation.toXdrBase64());
+  }
+
+  @Test
+  public void testToXdrAmount() {
+    assertEquals(0L, Operation.toXdrAmount("0"));
+    assertEquals(1L, Operation.toXdrAmount("0.0000001"));
+    assertEquals(10000000L, Operation.toXdrAmount("1"));
+    assertEquals(11234567L, Operation.toXdrAmount("1.1234567"));
+    assertEquals(729912843007381L, Operation.toXdrAmount("72991284.3007381"));
+    assertEquals(729912843007381L, Operation.toXdrAmount("72991284.30073810"));
+    assertEquals(1014016711446800155L, Operation.toXdrAmount("101401671144.6800155"));
+    assertEquals(9223372036854775807L, Operation.toXdrAmount("922337203685.4775807"));
+
+    try {
+      Operation.toXdrAmount("0.00000001");
+      fail();
+    }
+    catch (ArithmeticException e) {}
+    catch (Exception e) { fail(); }
+
+    try {
+      Operation.toXdrAmount("72991284.30073811");
+      fail();
+    }
+    catch (ArithmeticException e) {}
+    catch (Exception e) { fail(); }
+  }
+
+  @Test
+  public void testFromXdrAmount() {
+    assertEquals("0", Operation.fromXdrAmount(0L));
+    assertEquals("0.0000001", Operation.fromXdrAmount(1L));
+    assertEquals("1", Operation.fromXdrAmount(10000000L));
+    assertEquals("1.1234567", Operation.fromXdrAmount(11234567L));
+    assertEquals("72991284.3007381", Operation.fromXdrAmount(729912843007381L));
+    assertEquals("101401671144.6800155", Operation.fromXdrAmount(1014016711446800155L));
+    assertEquals("922337203685.4775807", Operation.fromXdrAmount(9223372036854775807L));
   }
 }

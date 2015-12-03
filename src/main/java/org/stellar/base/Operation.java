@@ -6,6 +6,7 @@ import org.stellar.base.xdr.XdrDataOutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -13,6 +14,19 @@ public abstract class Operation {
   Operation() {}
 
   private Keypair mSourceAccount;
+
+  private static final BigDecimal ONE = new BigDecimal(10).pow(7);
+
+  protected static long toXdrAmount(String value) {
+    value = checkNotNull(value, "value cannot be null");
+    BigDecimal amount = new BigDecimal(value).multiply(Operation.ONE);
+    return amount.longValueExact();
+  }
+
+  protected static String fromXdrAmount(long value) {
+    BigDecimal amount = new BigDecimal(value).divide(Operation.ONE);
+    return amount.toPlainString();
+  }
 
   /**
    * Generates Operation XDR object.

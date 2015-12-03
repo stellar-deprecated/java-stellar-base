@@ -18,11 +18,11 @@ public class ManagerOfferOperation extends Operation {
 
   private final Asset selling;
   private final Asset buying;
-  private final Long amount;
+  private final String amount;
   private final String price;
   private final long offerId;
 
-  private ManagerOfferOperation(Asset selling, Asset buying, Long amount, String price, long offerId) {
+  private ManagerOfferOperation(Asset selling, Asset buying, String amount, String price, long offerId) {
     this.selling = checkNotNull(selling, "selling cannot be null");
     this.buying = checkNotNull(buying, "buying cannot be null");
     this.amount = checkNotNull(amount, "amount cannot be null");
@@ -48,7 +48,7 @@ public class ManagerOfferOperation extends Operation {
   /**
    * Amount of selling being sold.
    */
-  public long getAmount() {
+  public String getAmount() {
     return amount;
   }
 
@@ -72,7 +72,7 @@ public class ManagerOfferOperation extends Operation {
     op.setSelling(selling.toXdr());
     op.setBuying(buying.toXdr());
     Int64 amount = new Int64();
-    amount.setInt64(Long.valueOf(this.amount));
+    amount.setInt64(Operation.toXdrAmount(this.amount));
     op.setAmount(amount);
     Price price = Price.fromString(this.price);
     op.setPrice(price.toXdr());
@@ -95,7 +95,7 @@ public class ManagerOfferOperation extends Operation {
 
     private final Asset selling;
     private final Asset buying;
-    private final long amount;
+    private final String amount;
     private final String price;
     private long offerId = 0;
 
@@ -108,7 +108,7 @@ public class ManagerOfferOperation extends Operation {
     Builder(ManageOfferOp op) {
       selling = Asset.fromXdr(op.getSelling());
       buying = Asset.fromXdr(op.getBuying());
-      amount = op.getAmount().getInt64().longValue();
+      amount = Operation.fromXdrAmount(op.getAmount().getInt64().longValue());
       int n = op.getPrice().getN().getInt32().intValue();
       int d = op.getPrice().getD().getInt32().intValue();
       price = new BigDecimal(n).divide(new BigDecimal(d)).toString();
@@ -121,12 +121,13 @@ public class ManagerOfferOperation extends Operation {
      * @param buying The asset being bought in this operation
      * @param amount Amount of selling being sold.
      * @param price Price of 1 unit of selling in terms of buying.
+     * @throws ArithmeticException when amount has more than 7 decimal places.
      */
-    public Builder(Asset selling, Asset buying, long amount, String price) {
-      this.selling = selling;
-      this.buying = buying;
-      this.amount = amount;
-      this.price = price;
+    public Builder(Asset selling, Asset buying, String amount, String price) {
+      this.selling = checkNotNull(selling, "selling cannot be null");
+      this.buying = checkNotNull(buying, "buying cannot be null");
+      this.amount = checkNotNull(amount, "amount cannot be null");
+      this.price = checkNotNull(price, "price cannot be null");
     }
 
     /**
@@ -140,11 +141,11 @@ public class ManagerOfferOperation extends Operation {
 
     /**
      * Sets the source account for this operation.
-     * @param account The operation's source account.
+     * @param sourceAccount The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair account) {
-      mSourceAccount = account;
+    public Builder setSourceAccount(Keypair sourceAccount) {
+      mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
       return this;
     }
 

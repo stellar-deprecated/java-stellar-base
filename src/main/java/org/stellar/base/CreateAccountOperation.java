@@ -14,9 +14,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CreateAccountOperation extends Operation {
 
   private final Keypair destination;
-  private final Long startingBalance;
+  private final String startingBalance;
 
-  private CreateAccountOperation(Keypair destination, Long startingBalance) {
+  private CreateAccountOperation(Keypair destination, String startingBalance) {
     this.destination = checkNotNull(destination, "destination cannot be null");
     this.startingBalance = checkNotNull(startingBalance, "startingBalance cannot be null");
   }
@@ -24,7 +24,7 @@ public class CreateAccountOperation extends Operation {
   /**
    * Amount of XLM to send to the newly created account.
    */
-  public long getStartingBalance() {
+  public String getStartingBalance() {
     return startingBalance;
   }
 
@@ -42,7 +42,7 @@ public class CreateAccountOperation extends Operation {
     destination.setAccountID(this.destination.getXdrPublicKey());
     op.setDestination(destination);
     Int64 startingBalance = new Int64();
-    startingBalance.setInt64(Long.valueOf(this.startingBalance));
+    startingBalance.setInt64(Operation.toXdrAmount(this.startingBalance));
     op.setStartingBalance(startingBalance);
 
     org.stellar.base.xdr.Operation.OperationBody body = new org.stellar.base.xdr.Operation.OperationBody();
@@ -57,7 +57,7 @@ public class CreateAccountOperation extends Operation {
    */
   public static class Builder {
     private final Keypair destination;
-    private final long startingBalance;
+    private final String startingBalance;
 
     private Keypair mSourceAccount;
 
@@ -67,15 +67,16 @@ public class CreateAccountOperation extends Operation {
      */
     Builder(CreateAccountOp op) {
       destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
-      startingBalance = op.getStartingBalance().getInt64().longValue();
+      startingBalance = Operation.fromXdrAmount(op.getStartingBalance().getInt64().longValue());
     }
 
     /**
      * Creates a new CreateAccount builder.
      * @param destination The destination keypair (uses only the public key).
-     * @param startingBalance The initial balance to start with.
+     * @param startingBalance The initial balance to start with in lumens.
+     * @throws ArithmeticException when startingBalance has more than 7 decimal places.
      */
-    public Builder(Keypair destination, long startingBalance) {
+    public Builder(Keypair destination, String startingBalance) {
       this.destination = destination;
       this.startingBalance = startingBalance;
     }

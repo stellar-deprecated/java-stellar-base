@@ -23,7 +23,7 @@ public class TransactionTest {
         long sequenceNumber = 2908908335136768L;
         Account account = new Account(source, sequenceNumber);
         Transaction transaction = new Transaction.Builder(account)
-                .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                .addOperation(new CreateAccountOperation.Builder(destination, "2000").build())
                 .build();
 
         transaction.sign(source);
@@ -44,7 +44,7 @@ public class TransactionTest {
 
         Account account = new Account(source, 2908908335136768L);
         Transaction transaction = new Transaction.Builder(account)
-                .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                .addOperation(new CreateAccountOperation.Builder(destination, "2000").build())
                 .addMemo(Memo.text("Hello world!"))
                 .build();
 
@@ -65,7 +65,7 @@ public class TransactionTest {
 
         Account account = new Account(source, 2908908335136768L);
         Transaction transaction = new Transaction.Builder(account)
-                .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                .addOperation(new CreateAccountOperation.Builder(destination, "2000").build())
                 .build();
 
         transaction.sign(source);
@@ -83,7 +83,7 @@ public class TransactionTest {
 
         Account account = new Account(source, 2908908335136768L);
         Transaction transaction = new Transaction.Builder(account)
-                .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                .addOperation(new CreateAccountOperation.Builder(destination, "2000").build())
                 .build();
 
         try {
@@ -117,7 +117,7 @@ public class TransactionTest {
         try {
             Account account = new Account(source, 2908908335136768L);
             new Transaction.Builder(account)
-                    .addOperation(new CreateAccountOperation.Builder(destination, 20000000000L).build())
+                    .addOperation(new CreateAccountOperation.Builder(destination, "2000").build())
                     .addMemo(Memo.none())
                     .addMemo(Memo.none());
             fail();
