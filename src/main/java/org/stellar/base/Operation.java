@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * Abstract class for operations.
+ */
 public abstract class Operation {
   Operation() {}
 

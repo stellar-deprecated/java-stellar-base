@@ -24,10 +24,10 @@ public class Transaction {
   private final Keypair mSourceAccount;
   private final long mSequenceNumber;
   private final Operation[] mOperations;
-  private final org.stellar.base.xdr.Memo mMemo;
+  private final Memo mMemo;
   private List<DecoratedSignature> mSignatures;
 
-  Transaction(Keypair sourceAccount, long sequenceNumber, Operation[] operations, org.stellar.base.xdr.Memo memo) {
+  Transaction(Keypair sourceAccount, long sequenceNumber, Operation[] operations, Memo memo) {
     mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
     mSequenceNumber = checkNotNull(sequenceNumber, "sequenceNumber cannot be null");
     mOperations = checkNotNull(operations, "operations cannot be null");
@@ -84,7 +84,7 @@ public class Transaction {
     return mSequenceNumber;
   }
 
-  public org.stellar.base.xdr.Memo getMemo() {
+  public Memo getMemo() {
     return mMemo;
   }
 
@@ -117,7 +117,7 @@ public class Transaction {
     transaction.setSeqNum(sequenceNumber);
     transaction.setSourceAccount(sourceAccount);
     transaction.setOperations(operations);
-    transaction.setMemo(mMemo);
+    transaction.setMemo(mMemo.toXdr());
     transaction.setExt(ext);
     return transaction;
   }
@@ -161,7 +161,7 @@ public class Transaction {
    */
   public static class Builder {
     private final TransactionBuilderAccount mSourceAccount;
-    private org.stellar.base.xdr.Memo mMemo;
+    private Memo mMemo;
     List<Operation> mOperations;
 
     /**
@@ -194,7 +194,7 @@ public class Transaction {
      * @return Builder object so you can chain methods.
      * @see Memo
      */
-    public Builder addMemo(org.stellar.base.xdr.Memo memo) {
+    public Builder addMemo(Memo memo) {
       if (mMemo != null) {
         throw new RuntimeException("Memo has been already added.");
       }

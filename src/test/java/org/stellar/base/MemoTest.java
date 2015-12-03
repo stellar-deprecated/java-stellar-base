@@ -13,21 +13,21 @@ import static org.junit.Assert.fail;
 public class MemoTest {
     @Test
     public void testMemoNone() {
-        org.stellar.base.xdr.Memo memo = Memo.none();
-        assertEquals(MemoType.MEMO_NONE, memo.getDiscriminant());
+        MemoNone memo = Memo.none();
+        assertEquals(MemoType.MEMO_NONE, memo.toXdr().getDiscriminant());
     }
 
     @Test
     public void testMemoTextSuccess() {
-        org.stellar.base.xdr.Memo memo = Memo.text("test");
-        assertEquals(MemoType.MEMO_TEXT, memo.getDiscriminant());
+        MemoText memo = Memo.text("test");
+        assertEquals(MemoType.MEMO_TEXT, memo.toXdr().getDiscriminant());
         assertEquals("test", memo.getText());
     }
 
     @Test
     public void testMemoTextUtf8() {
-        org.stellar.base.xdr.Memo memo = Memo.text("三");
-        assertEquals(MemoType.MEMO_TEXT, memo.getDiscriminant());
+        MemoText memo = Memo.text("三");
+        assertEquals(MemoType.MEMO_TEXT, memo.toXdr().getDiscriminant());
         assertEquals("三", memo.getText());
     }
 
@@ -53,26 +53,30 @@ public class MemoTest {
 
     @Test
     public void testMemoId() {
-        org.stellar.base.xdr.Memo memo = Memo.id(9223372036854775807L);
-        assertEquals(MemoType.MEMO_ID, memo.getDiscriminant());
-        assertEquals(new Long(9223372036854775807L), memo.getId().getUint64());
+        MemoId memo = Memo.id(9223372036854775807L);
+        assertEquals(9223372036854775807L, memo.getId());
+        assertEquals(MemoType.MEMO_ID, memo.toXdr().getDiscriminant());
+        assertEquals(new Long(9223372036854775807L), memo.toXdr().getId().getUint64());
     }
 
     @Test
     public void testMemoHashSuccess() throws DecoderException {
-        org.stellar.base.xdr.Memo memo = Memo.hash("4142434445464748494a4b4c");
-        assertEquals(MemoType.MEMO_HASH, memo.getDiscriminant());
+        MemoHash memo = Memo.hash("4142434445464748494a4b4c");
+        assertEquals(MemoType.MEMO_HASH, memo.toXdr().getDiscriminant());
         String test = "ABCDEFGHIJKL";
-        assertEquals(test, Util.paddedByteArrayToString(memo.getHash().getHash()));
+        assertEquals(test, Util.paddedByteArrayToString(memo.getBytes()));
+        assertEquals("4142434445464748494a4b4c", memo.getTrimmedHexValue());
     }
 
     @Test
     public void testMemoHashBytesSuccess() {
         byte[] bytes = new byte[10];
         Arrays.fill(bytes, (byte) 'A');
-        org.stellar.base.xdr.Memo memo = Memo.hash(bytes);
-        assertEquals(MemoType.MEMO_HASH, memo.getDiscriminant());
-        assertEquals("AAAAAAAAAA", Util.paddedByteArrayToString(memo.getHash().getHash()));
+        MemoHash memo = Memo.hash(bytes);
+        assertEquals(MemoType.MEMO_HASH, memo.toXdr().getDiscriminant());
+        assertEquals("AAAAAAAAAA", Util.paddedByteArrayToString(memo.getBytes()));
+        assertEquals("4141414141414141414100000000000000000000000000000000000000000000", memo.getHexValue());
+        assertEquals("41414141414141414141", memo.getTrimmedHexValue());
     }
 
     @Test
@@ -83,7 +87,7 @@ public class MemoTest {
             Memo.hash(longer);
             fail();
         } catch (MemoTooLongException exception) {
-            assertTrue(exception.getMessage().contains("Memo.hash can contain 32 bytes at max."));
+            assertTrue(exception.getMessage().contains("MEMO_HASH can contain 32 bytes at max."));
         }
     }
 
@@ -99,7 +103,8 @@ public class MemoTest {
 
     @Test
     public void testMemoReturnHashSuccess() throws DecoderException {
-        org.stellar.base.xdr.Memo memo = Memo.returnHash("4142434445464748494a4b4c");
-        assertEquals(MemoType.MEMO_RETURN, memo.getDiscriminant());
+        MemoReturnHash memo = Memo.returnHash("4142434445464748494a4b4c");
+        assertEquals(MemoType.MEMO_RETURN, memo.toXdr().getDiscriminant());
+        assertEquals("4142434445464748494a4b4c", memo.getTrimmedHexValue());
     }
 }
