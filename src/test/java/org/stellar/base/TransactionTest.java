@@ -34,6 +34,7 @@ public class TransactionTest {
 
         assertEquals(transaction.getSourceAccount(), source);
         assertEquals(transaction.getSequenceNumber(), sequenceNumber+1);
+        assertEquals(transaction.getFee(), 100);
     }
 
     @Test

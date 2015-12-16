@@ -89,6 +89,13 @@ public class Transaction {
   }
 
   /**
+   * Returns fee paid for transaction in stroops (1 stroop = 0.0000001 XLM).
+   */
+  public int getFee() {
+    return mFee;
+  }
+
+  /**
    * Generates Transaction XDR object.
    */
   public org.stellar.base.xdr.Transaction toXdr() {
