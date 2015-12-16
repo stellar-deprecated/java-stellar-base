@@ -242,7 +242,7 @@ public class OperationTest {
   }
 
   @Test
-  public void testManagerOfferOperation() throws IOException, FormatException {
+  public void testManageOfferOperation() throws IOException, FormatException {
     // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
     KeyPair source = KeyPair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
     // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
@@ -255,13 +255,13 @@ public class OperationTest {
     Price priceObj = Price.fromString(price);
     long offerId = 1;
 
-    ManagerOfferOperation operation = new ManagerOfferOperation.Builder(selling, buying, amount, price)
+    ManageOfferOperation operation = new ManageOfferOperation.Builder(selling, buying, amount, price)
         .setOfferId(offerId)
         .setSourceAccount(source)
         .build();
 
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
-    ManagerOfferOperation parsedOperation = (ManagerOfferOperation) ManagerOfferOperation.fromXdr(xdr);
+    ManageOfferOperation parsedOperation = (ManageOfferOperation) ManageOfferOperation.fromXdr(xdr);
 
     assertEquals(100L, xdr.getBody().getManageOfferOp().getAmount().getInt64().longValue());
     assertTrue(parsedOperation.getSelling() instanceof AssetTypeNative);

@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Represents <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html#manage-offer" target="_blank">ManageOffer</a> operation.
  * @see <a href="https://www.stellar.org/developers/learn/concepts/list-of-operations.html" target="_blank">List of Operations</a>
  */
-public class ManagerOfferOperation extends Operation {
+public class ManageOfferOperation extends Operation {
 
   private final Asset selling;
   private final Asset buying;
@@ -22,7 +22,7 @@ public class ManagerOfferOperation extends Operation {
   private final String price;
   private final long offerId;
 
-  private ManagerOfferOperation(Asset selling, Asset buying, String amount, String price, long offerId) {
+  private ManageOfferOperation(Asset selling, Asset buying, String amount, String price, long offerId) {
     this.selling = checkNotNull(selling, "selling cannot be null");
     this.buying = checkNotNull(buying, "buying cannot be null");
     this.amount = checkNotNull(amount, "amount cannot be null");
@@ -89,7 +89,7 @@ public class ManagerOfferOperation extends Operation {
 
   /**
    * Builds ManageOffer operation.
-   * @see ManagerOfferOperation
+   * @see ManageOfferOperation
    */
   public static class Builder {
 
@@ -152,8 +152,8 @@ public class ManagerOfferOperation extends Operation {
     /**
      * Builds an operation
      */
-    public ManagerOfferOperation build() {
-      ManagerOfferOperation operation = new ManagerOfferOperation(selling, buying, amount, price, offerId);
+    public ManageOfferOperation build() {
+      ManageOfferOperation operation = new ManageOfferOperation(selling, buying, amount, price, offerId);
       if (mSourceAccount != null) {
         operation.setSourceAccount(mSourceAccount);
       }

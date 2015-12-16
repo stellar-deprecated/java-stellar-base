@@ -79,7 +79,7 @@ public abstract class Operation {
         operation = new PathPaymentOperation.Builder(body.getPathPaymentOp()).build();
         break;
       case MANAGE_OFFER:
-        operation = new ManagerOfferOperation.Builder(body.getManageOfferOp()).build();
+        operation = new ManageOfferOperation.Builder(body.getManageOfferOp()).build();
         break;
       case CREATE_PASSIVE_OFFER:
         operation = new CreatePassiveOfferOperation.Builder(body.getCreatePassiveOfferOp()).build();
