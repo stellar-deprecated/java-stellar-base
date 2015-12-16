@@ -19,7 +19,6 @@ import org.stellar.base.xdr.XdrDataOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.Signature;
 import java.security.SignatureException;
@@ -30,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Holds a Stellar keypair.
  */
-public class Keypair {
+public class KeyPair {
 
   private static final EdDSANamedCurveSpec ed25519 = EdDSANamedCurveTable.getByName("ed25519-sha-512");
 
@@ -38,30 +37,30 @@ public class Keypair {
   private final EdDSAPrivateKey mPrivateKey;
 
   /**
-   * Creates a new Keypair without a private key. Useful to simply verify a signature from a
+   * Creates a new KeyPair without a private key. Useful to simply verify a signature from a
    * given public address.
    * @param publicKey
    */
-  public Keypair(EdDSAPublicKey publicKey) {
+  public KeyPair(EdDSAPublicKey publicKey) {
     this(publicKey, null);
   }
 
   /**
-   * Creates a new Keypair from the given public and private keys.
+   * Creates a new KeyPair from the given public and private keys.
    * @param publicKey
    * @param privateKey
    */
-  public Keypair(EdDSAPublicKey publicKey, EdDSAPrivateKey privateKey) {
+  public KeyPair(EdDSAPublicKey publicKey, EdDSAPrivateKey privateKey) {
     mPublicKey = checkNotNull(publicKey, "publicKey cannot be null");
     mPrivateKey = privateKey;
   }
 
   /**
-   * Creates a new Stellar Keypair from a strkey encoded Stellar secret seed.
+   * Creates a new Stellar KeyPair from a strkey encoded Stellar secret seed.
    * @param seed The strkey encoded Stellar secret seed.
-   * @return {@link Keypair}
+   * @return {@link KeyPair}
    */
-  public static Keypair fromSecretSeed(String seed) {
+  public static KeyPair fromSecretSeed(String seed) {
     byte[] decoded = StrKey.decodeStellarSecretSeed(seed);
     return fromSecretSeed(decoded);
   }
@@ -69,20 +68,20 @@ public class Keypair {
   /**
    * Creates a new Stellar keypair from a 32 byte secret seed.
    * @param seed The 32 byte secret seed.
-   * @return {@link Keypair}
+   * @return {@link KeyPair}
    */
-  public static Keypair fromSecretSeed(byte[] seed) {
+  public static KeyPair fromSecretSeed(byte[] seed) {
     EdDSAPrivateKeySpec privKeySpec = new EdDSAPrivateKeySpec(seed, ed25519);
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(privKeySpec.getA().toByteArray(), ed25519);
-    return new Keypair(new EdDSAPublicKey(publicKeySpec), new EdDSAPrivateKey(privKeySpec));
+    return new KeyPair(new EdDSAPublicKey(publicKeySpec), new EdDSAPrivateKey(privKeySpec));
   }
 
   /**
-   * Creates a new Stellar Keypair from a strkey encoded Stellar address.
+   * Creates a new Stellar KeyPair from a strkey encoded Stellar address.
    * @param address The strkey encoded Stellar address.
-   * @return {@link Keypair}
+   * @return {@link KeyPair}
    */
-  public static Keypair fromAddress(String address) {
+  public static KeyPair fromAddress(String address) {
     byte[] decoded = StrKey.decodeStellarAddress(address);
     return fromPublicKey(decoded);
   }
@@ -90,20 +89,20 @@ public class Keypair {
   /**
    * Creates a new Stellar keypair from a 32 byte address.
    * @param address The 32 byte address.
-   * @return {@link Keypair}
+   * @return {@link KeyPair}
    */
-  public static Keypair fromPublicKey(byte[] address) {
+  public static KeyPair fromPublicKey(byte[] address) {
     EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(address, ed25519);
-    return new Keypair(new EdDSAPublicKey(publicKeySpec));
+    return new KeyPair(new EdDSAPublicKey(publicKeySpec));
   }
 
   /**
    * Generates a random Stellar keypair.
    * @return a random Stellar keypair.
    */
-  public static Keypair random() {
-    KeyPair keypair = new KeyPairGenerator().generateKeyPair();
-    return new Keypair((EdDSAPublicKey) keypair.getPublic(), (EdDSAPrivateKey) keypair.getPrivate());
+  public static KeyPair random() {
+    java.security.KeyPair keypair = new KeyPairGenerator().generateKeyPair();
+    return new KeyPair((EdDSAPublicKey) keypair.getPublic(), (EdDSAPrivateKey) keypair.getPrivate());
   }
 
   /**
@@ -149,8 +148,8 @@ public class Keypair {
     return publicKey;
   }
 
-  public static Keypair fromXdrPublicKey(PublicKey key) {
-    return Keypair.fromPublicKey(key.getEd25519().getUint256());
+  public static KeyPair fromXdrPublicKey(PublicKey key) {
+    return KeyPair.fromPublicKey(key.getEd25519().getUint256());
   }
 
   /**

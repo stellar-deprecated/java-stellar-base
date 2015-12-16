@@ -13,11 +13,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PaymentOperation extends Operation {
 
-  private final Keypair destination;
+  private final KeyPair destination;
   private final Asset asset;
   private final String amount;
 
-  private PaymentOperation(Keypair destination, Asset asset, String amount) {
+  private PaymentOperation(KeyPair destination, Asset asset, String amount) {
     this.destination = checkNotNull(destination, "destination cannot be null");
     this.asset = checkNotNull(asset, "asset cannot be null");
     this.amount = checkNotNull(amount, "amount cannot be null");
@@ -26,7 +26,7 @@ public class PaymentOperation extends Operation {
   /**
    * Account that receives the payment.
    */
-  public Keypair getDestination() {
+  public KeyPair getDestination() {
     return destination;
   }
 
@@ -70,18 +70,18 @@ public class PaymentOperation extends Operation {
    * @see PathPaymentOperation
    */
   public static class Builder {
-    private final Keypair destination;
+    private final KeyPair destination;
     private final Asset asset;
     private final String amount;
 
-    private Keypair mSourceAccount;
+    private KeyPair mSourceAccount;
 
     /**
      * Construct a new PaymentOperation builder from a PaymentOp XDR.
      * @param op {@link PaymentOp}
      */
     Builder(PaymentOp op) {
-      destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      destination = KeyPair.fromXdrPublicKey(op.getDestination().getAccountID());
       asset = Asset.fromXdr(op.getAsset());
       amount = Operation.fromXdrAmount(op.getAmount().getInt64().longValue());
     }
@@ -93,7 +93,7 @@ public class PaymentOperation extends Operation {
      * @param amount The amount to send in lumens.
      * @throws ArithmeticException when amount has more than 7 decimal places.
      */
-    public Builder(Keypair destination, Asset asset, String amount) {
+    public Builder(KeyPair destination, Asset asset, String amount) {
       this.destination = destination;
       this.asset = asset;
       this.amount = amount;
@@ -104,7 +104,7 @@ public class PaymentOperation extends Operation {
      * @param account The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair account) {
+    public Builder setSourceAccount(KeyPair account) {
       mSourceAccount = account;
       return this;
     }

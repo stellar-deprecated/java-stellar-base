@@ -16,12 +16,12 @@ public class PathPaymentOperation extends Operation {
 
   private final Asset sendAsset;
   private final String sendMax;
-  private final Keypair destination;
+  private final KeyPair destination;
   private final Asset destAsset;
   private final String destAmount;
   private final Asset[] path;
 
-  private PathPaymentOperation(Asset sendAsset, String sendMax, Keypair destination,
+  private PathPaymentOperation(Asset sendAsset, String sendMax, KeyPair destination,
       Asset destAsset, String destAmount, Asset[] path) {
     this.sendAsset = checkNotNull(sendAsset, "sendAsset cannot be null");
     this.sendMax = checkNotNull(sendMax, "sendMax cannot be null");
@@ -49,7 +49,7 @@ public class PathPaymentOperation extends Operation {
   /**
    * Account that receives the payment.
    */
-  public Keypair getDestination() {
+  public KeyPair getDestination() {
     return destination;
   }
 
@@ -114,17 +114,17 @@ public class PathPaymentOperation extends Operation {
   public static class Builder {
     private final Asset sendAsset;
     private final String sendMax;
-    private final Keypair destination;
+    private final KeyPair destination;
     private final Asset destAsset;
     private final String destAmount;
     private final Asset[] path;
 
-    private Keypair mSourceAccount;
+    private KeyPair mSourceAccount;
 
     Builder(PathPaymentOp op) {
       sendAsset = Asset.fromXdr(op.getSendAsset());
       sendMax = Operation.fromXdrAmount(op.getSendMax().getInt64().longValue());
-      destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      destination = KeyPair.fromXdrPublicKey(op.getDestination().getAccountID());
       destAsset = Asset.fromXdr(op.getDestAsset());
       destAmount = Operation.fromXdrAmount(op.getDestAmount().getInt64().longValue());
       path = new Asset[op.getPath().length];
@@ -143,7 +143,7 @@ public class PathPaymentOperation extends Operation {
      * @param path The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path field would contain XLM and BTC.
      * @throws ArithmeticException when sendMax or destAmount has more than 7 decimal places.
      */
-    public Builder(Asset sendAsset, String sendMax, Keypair destination,
+    public Builder(Asset sendAsset, String sendMax, KeyPair destination,
         Asset destAsset, String destAmount, Asset[] path) {
       this.sendAsset = checkNotNull(sendAsset, "sendAsset cannot be null");
       this.sendMax = checkNotNull(sendMax, "sendMax cannot be null");
@@ -159,7 +159,7 @@ public class PathPaymentOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair sourceAccount) {
+    public Builder setSourceAccount(KeyPair sourceAccount) {
       mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
       return this;
     }

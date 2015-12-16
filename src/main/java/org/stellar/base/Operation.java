@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class Operation {
   Operation() {}
 
-  private Keypair mSourceAccount;
+  private KeyPair mSourceAccount;
 
   private static final BigDecimal ONE = new BigDecimal(10).pow(7);
 
@@ -100,7 +100,7 @@ public abstract class Operation {
         throw new RuntimeException("Unknown operation body " + body.getDiscriminant());
     }
     if (xdr.getSourceAccount() != null) {
-      operation.setSourceAccount(Keypair.fromXdrPublicKey(xdr.getSourceAccount().getAccountID()));
+      operation.setSourceAccount(KeyPair.fromXdrPublicKey(xdr.getSourceAccount().getAccountID()));
     }
     return operation;
   }
@@ -108,7 +108,7 @@ public abstract class Operation {
   /**
    * Returns operation source account.
    */
-  public Keypair getSourceAccount() {
+  public KeyPair getSourceAccount() {
     return mSourceAccount;
   }
 
@@ -116,7 +116,7 @@ public abstract class Operation {
    * Sets operation source account.
    * @param keypair
    */
-  void setSourceAccount(Keypair keypair) {
+  void setSourceAccount(KeyPair keypair) {
     mSourceAccount = checkNotNull(keypair, "keypair cannot be null");
   }
 

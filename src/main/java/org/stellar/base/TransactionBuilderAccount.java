@@ -7,7 +7,7 @@ public interface TransactionBuilderAccount {
   /**
    * Returns keypair associated with this Account
    */
-  Keypair getKeypair();
+  KeyPair getKeypair();
 
   /**
    * Returns current sequence number ot this Account.

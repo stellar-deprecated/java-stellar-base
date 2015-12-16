@@ -14,7 +14,7 @@ public class AssetTypeCreditAlphaNum4 extends AssetTypeCreditAlphaNum {
    * @param code Asset code
    * @param issuer Asset issuer
    */
-  public AssetTypeCreditAlphaNum4(String code, Keypair issuer) {
+  public AssetTypeCreditAlphaNum4(String code, KeyPair issuer) {
     super(code, issuer);
     if (code.length() < 1 || code.length() > 4) {
       throw new AssetCodeLengthInvalidException();

@@ -99,7 +99,7 @@ public class ManagerOfferOperation extends Operation {
     private final String price;
     private long offerId = 0;
 
-    private Keypair mSourceAccount;
+    private KeyPair mSourceAccount;
 
     /**
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
@@ -144,7 +144,7 @@ public class ManagerOfferOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair sourceAccount) {
+    public Builder setSourceAccount(KeyPair sourceAccount) {
       mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
       return this;
     }

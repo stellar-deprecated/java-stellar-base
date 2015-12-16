@@ -13,10 +13,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CreateAccountOperation extends Operation {
 
-  private final Keypair destination;
+  private final KeyPair destination;
   private final String startingBalance;
 
-  private CreateAccountOperation(Keypair destination, String startingBalance) {
+  private CreateAccountOperation(KeyPair destination, String startingBalance) {
     this.destination = checkNotNull(destination, "destination cannot be null");
     this.startingBalance = checkNotNull(startingBalance, "startingBalance cannot be null");
   }
@@ -31,7 +31,7 @@ public class CreateAccountOperation extends Operation {
   /**
    * Account that is created and funded
    */
-  public Keypair getDestination() {
+  public KeyPair getDestination() {
     return destination;
   }
 
@@ -56,17 +56,17 @@ public class CreateAccountOperation extends Operation {
    * @see CreateAccountOperation
    */
   public static class Builder {
-    private final Keypair destination;
+    private final KeyPair destination;
     private final String startingBalance;
 
-    private Keypair mSourceAccount;
+    private KeyPair mSourceAccount;
 
     /**
      * Construct a new CreateAccount builder from a CreateAccountOp XDR.
      * @param op {@link CreateAccountOp}
      */
     Builder(CreateAccountOp op) {
-      destination = Keypair.fromXdrPublicKey(op.getDestination().getAccountID());
+      destination = KeyPair.fromXdrPublicKey(op.getDestination().getAccountID());
       startingBalance = Operation.fromXdrAmount(op.getStartingBalance().getInt64().longValue());
     }
 
@@ -76,7 +76,7 @@ public class CreateAccountOperation extends Operation {
      * @param startingBalance The initial balance to start with in lumens.
      * @throws ArithmeticException when startingBalance has more than 7 decimal places.
      */
-    public Builder(Keypair destination, String startingBalance) {
+    public Builder(KeyPair destination, String startingBalance) {
       this.destination = destination;
       this.startingBalance = startingBalance;
     }
@@ -86,7 +86,7 @@ public class CreateAccountOperation extends Operation {
      * @param account The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair account) {
+    public Builder setSourceAccount(KeyPair account) {
       mSourceAccount = account;
       return this;
     }

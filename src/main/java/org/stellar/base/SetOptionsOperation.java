@@ -13,7 +13,7 @@ import org.stellar.base.xdr.Uint32;
  */
 public class SetOptionsOperation extends Operation {
 
-  private final Keypair inflationDestination;
+  private final KeyPair inflationDestination;
   private final Integer clearFlags;
   private final Integer setFlags;
   private final Integer masterKeyWeight;
@@ -21,12 +21,12 @@ public class SetOptionsOperation extends Operation {
   private final Integer mediumThreshold;
   private final Integer highThreshold;
   private final String homeDomain;
-  private final Keypair signer;
+  private final KeyPair signer;
   private final Integer signerWeight;
 
-  private SetOptionsOperation(Keypair inflationDestination, Integer clearFlags, Integer setFlags,
+  private SetOptionsOperation(KeyPair inflationDestination, Integer clearFlags, Integer setFlags,
                               Integer masterKeyWeight, Integer lowThreshold, Integer mediumThreshold,
-                              Integer highThreshold, String homeDomain, Keypair signer, Integer signerWeight) {
+                              Integer highThreshold, String homeDomain, KeyPair signer, Integer signerWeight) {
     this.inflationDestination = inflationDestination;
     this.clearFlags = clearFlags;
     this.setFlags = setFlags;
@@ -42,7 +42,7 @@ public class SetOptionsOperation extends Operation {
   /**
    * Account of the inflation destination.
    */
-  public Keypair getInflationDestination() {
+  public KeyPair getInflationDestination() {
     return inflationDestination;
   }
 
@@ -98,7 +98,7 @@ public class SetOptionsOperation extends Operation {
   /**
    * Additional signer added/removed in this operation.
    */
-  public Keypair getSigner() {
+  public KeyPair getSigner() {
     return signer;
   }
 
@@ -174,7 +174,7 @@ public class SetOptionsOperation extends Operation {
    * @see SetOptionsOperation
    */
   public static class Builder {
-    private Keypair inflationDestination;
+    private KeyPair inflationDestination;
     private Integer clearFlags;
     private Integer setFlags;
     private Integer masterKeyWeight;
@@ -182,13 +182,13 @@ public class SetOptionsOperation extends Operation {
     private Integer mediumThreshold;
     private Integer highThreshold;
     private String homeDomain;
-    private Keypair signer;
+    private KeyPair signer;
     private Integer signerWeight;
-    private Keypair sourceAccount;
+    private KeyPair sourceAccount;
 
     Builder(SetOptionsOp op) {
       if (op.getInflationDest() != null) {
-        inflationDestination = Keypair.fromXdrPublicKey(
+        inflationDestination = KeyPair.fromXdrPublicKey(
                 op.getInflationDest().getAccountID());
       }
       if (op.getClearFlags() != null) {
@@ -213,7 +213,7 @@ public class SetOptionsOperation extends Operation {
         homeDomain = op.getHomeDomain().getString32();
       }
       if (op.getSigner() != null) {
-        signer = Keypair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
+        signer = KeyPair.fromXdrPublicKey(op.getSigner().getPubKey().getAccountID());
         signerWeight = op.getSigner().getWeight().getUint32().intValue() & 0xFF;
       }
     }
@@ -228,7 +228,7 @@ public class SetOptionsOperation extends Operation {
      * @param inflationDestination The inflation destination account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setInflationDestination(Keypair inflationDestination) {
+    public Builder setInflationDestination(KeyPair inflationDestination) {
       this.inflationDestination = inflationDestination;
       return this;
     }
@@ -312,7 +312,7 @@ public class SetOptionsOperation extends Operation {
      * @param weight The weight to attach to the signer (0-255)
      * @return Builder object so you can chain methods.
      */
-    public Builder setSigner(Keypair signer, Integer weight) {
+    public Builder setSigner(KeyPair signer, Integer weight) {
       this.signer = signer;
       signerWeight = weight & 0xFF;
       return this;
@@ -323,7 +323,7 @@ public class SetOptionsOperation extends Operation {
      * @param sourceAccount The operation's source account.
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair sourceAccount) {
+    public Builder setSourceAccount(KeyPair sourceAccount) {
       this.sourceAccount = sourceAccount;
       return this;
     }

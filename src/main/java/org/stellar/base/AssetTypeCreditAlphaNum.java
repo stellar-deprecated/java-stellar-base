@@ -8,9 +8,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class AssetTypeCreditAlphaNum extends Asset {
     protected final String mCode;
-    protected final Keypair mIssuer;
+    protected final KeyPair mIssuer;
 
-    public AssetTypeCreditAlphaNum(String code, Keypair issuer) {
+    public AssetTypeCreditAlphaNum(String code, KeyPair issuer) {
         mCode = checkNotNull(code, "code cannot be null");
         mIssuer = checkNotNull(issuer, "issuer cannot be null");
     }
@@ -25,7 +25,7 @@ public abstract class AssetTypeCreditAlphaNum extends Asset {
     /**
      * Returns asset issuer
      */
-    public Keypair getIssuer() {
+    public KeyPair getIssuer() {
         return mIssuer;
     }
 

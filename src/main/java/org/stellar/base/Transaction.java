@@ -21,13 +21,13 @@ public class Transaction {
   private final int BASE_FEE = 100;
 
   private final int mFee;
-  private final Keypair mSourceAccount;
+  private final KeyPair mSourceAccount;
   private final long mSequenceNumber;
   private final Operation[] mOperations;
   private final Memo mMemo;
   private List<DecoratedSignature> mSignatures;
 
-  Transaction(Keypair sourceAccount, long sequenceNumber, Operation[] operations, Memo memo) {
+  Transaction(KeyPair sourceAccount, long sequenceNumber, Operation[] operations, Memo memo) {
     mSourceAccount = checkNotNull(sourceAccount, "sourceAccount cannot be null");
     mSequenceNumber = checkNotNull(sequenceNumber, "sequenceNumber cannot be null");
     mOperations = checkNotNull(operations, "operations cannot be null");
@@ -40,9 +40,9 @@ public class Transaction {
 
   /**
    * Adds a new signature to this transaction.
-   * @param signer {@link Keypair} object representing a signer
+   * @param signer {@link KeyPair} object representing a signer
    */
-  public void sign(Keypair signer) {
+  public void sign(KeyPair signer) {
     byte[] txHash = this.hash();
     mSignatures.add(signer.signDecorated(txHash));
   }
@@ -76,7 +76,7 @@ public class Transaction {
     }
   }
 
-  public Keypair getSourceAccount() {
+  public KeyPair getSourceAccount() {
     return mSourceAccount;
   }
 

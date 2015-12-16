@@ -13,11 +13,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AllowTrustOperation extends Operation {
 
-  private final Keypair trustor;
+  private final KeyPair trustor;
   private final String assetCode;
   private final boolean authorize;
 
-  private AllowTrustOperation(Keypair trustor, String assetCode, boolean authorize) {
+  private AllowTrustOperation(KeyPair trustor, String assetCode, boolean authorize) {
     this.trustor = checkNotNull(trustor, "trustor cannot be null");
     this.assetCode = checkNotNull(assetCode, "assetCode cannot be null");
     this.authorize = authorize;
@@ -26,7 +26,7 @@ public class AllowTrustOperation extends Operation {
   /**
    * The account of the recipient of the trustline.
    */
-  public Keypair getTrustor() {
+  public KeyPair getTrustor() {
     return trustor;
   }
 
@@ -76,14 +76,14 @@ public class AllowTrustOperation extends Operation {
    * @see AllowTrustOperation
    */
   public static class Builder {
-    private final Keypair trustor;
+    private final KeyPair trustor;
     private final String assetCode;
     private final boolean authorize;
 
-    private Keypair mSourceAccount;
+    private KeyPair mSourceAccount;
 
     Builder(AllowTrustOp op) {
-      trustor = Keypair.fromXdrPublicKey(op.getTrustor().getAccountID());
+      trustor = KeyPair.fromXdrPublicKey(op.getTrustor().getAccountID());
       switch (op.getAsset().getDiscriminant()) {
         case ASSET_TYPE_CREDIT_ALPHANUM4:
           assetCode = new String(op.getAsset().getAssetCode4());
@@ -103,7 +103,7 @@ public class AllowTrustOperation extends Operation {
      * @param assetCode The asset of the trustline the source account is authorizing. For example, if a gateway wants to allow another account to hold its USD credit, the type is USD.
      * @param authorize Flag indicating whether the trustline is authorized.
      */
-    public Builder(Keypair trustor, String assetCode, boolean authorize) {
+    public Builder(KeyPair trustor, String assetCode, boolean authorize) {
       this.trustor = trustor;
       this.assetCode = assetCode;
       this.authorize = authorize;
@@ -114,7 +114,7 @@ public class AllowTrustOperation extends Operation {
      * @param sourceAccount Source account
      * @return Builder object so you can chain methods.
      */
-    public Builder setSourceAccount(Keypair sourceAccount) {
+    public Builder setSourceAccount(KeyPair sourceAccount) {
       mSourceAccount = sourceAccount;
       return this;
     }

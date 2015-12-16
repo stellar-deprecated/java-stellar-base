@@ -8,14 +8,14 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class KeypairTest {
+public class KeyPairTest {
 
   private static final String SEED = "1123740522f11bfef6b3671f51e159ccf589ccf8965262dd5f97d1721d383dd4";
 
   @Test
   public void testSign() {
     String expectedSig = "587d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
-    Keypair keypair = Keypair.fromSecretSeed(Util.hexToBytes(SEED));
+    KeyPair keypair = KeyPair.fromSecretSeed(Util.hexToBytes(SEED));
     String data = "hello world";
     byte[] sig = keypair.sign(data.getBytes());
     Assert.assertArrayEquals(Util.hexToBytes(expectedSig), sig);
@@ -25,7 +25,7 @@ public class KeypairTest {
   public void testVerifyTrue() throws Exception {
     String sig = "587d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
     String data = "hello world";
-    Keypair keypair = Keypair.fromSecretSeed(Util.hexToBytes(SEED));
+    KeyPair keypair = KeyPair.fromSecretSeed(Util.hexToBytes(SEED));
     Assert.assertTrue(keypair.verify(data.getBytes(), Util.hexToBytes(sig)));
   }
 
@@ -34,7 +34,7 @@ public class KeypairTest {
     String badSig = "687d4b472eeef7d07aafcd0b049640b0bb3f39784118c2e2b73a04fa2f64c9c538b4b2d0f5335e968a480021fdc23e98c0ddf424cb15d8131df8cb6c4bb58309";
     byte[] corrupt = {0x00};
     String data = "hello world";
-    Keypair keypair = Keypair.fromSecretSeed(Util.hexToBytes(SEED));
+    KeyPair keypair = KeyPair.fromSecretSeed(Util.hexToBytes(SEED));
     Assert.assertFalse(keypair.verify(data.getBytes(), Util.hexToBytes(badSig)));
     Assert.assertFalse(keypair.verify(data.getBytes(), corrupt));
   }
@@ -50,7 +50,7 @@ public class KeypairTest {
 
     for (String seed : keypairs.keySet()) {
       String address = keypairs.get(seed);
-      Keypair keypair = Keypair.fromSecretSeed(seed);
+      KeyPair keypair = KeyPair.fromSecretSeed(seed);
       assertEquals(address, keypair.getAddress());
     }
   }

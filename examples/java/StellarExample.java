@@ -6,13 +6,13 @@ public class StellarExample {
     //Network.usePublicNetwork();
 
     // GCXA7A4DQSJDDJSI3UADO7WK7XLQVSFD2PMDBPOTDPRY3LAKU5O7VEJN
-    Keypair sourceKeypair = Keypair.fromSecretSeed("SBBC3BQTSA5O7JFJQAQTWPVHZ2OCSDOXWQTZB7IA3WSIPIEZICHB2V6L");
-    Keypair destination = Keypair.fromAddress("GBXXA7ASHOWRMKAGKX32SFVUFDU4R34VXEC2HVHI23ZCU2NWW66UZSZJ");
+    KeyPair sourceKeyPair = KeyPair.fromSecretSeed("SBBC3BQTSA5O7JFJQAQTWPVHZ2OCSDOXWQTZB7IA3WSIPIEZICHB2V6L");
+    KeyPair destination = KeyPair.fromAddress("GBXXA7ASHOWRMKAGKX32SFVUFDU4R34VXEC2HVHI23ZCU2NWW66UZSZJ");
 
-    System.out.println(sourceKeypair.getSecretSeed());
-    System.out.println(sourceKeypair.getAddress());
+    System.out.println(sourceKeyPair.getSecretSeed());
+    System.out.println(sourceKeyPair.getAddress());
 
-    Account sourceAccount = new Account(sourceKeypair, 3009998980382720L);
+    Account sourceAccount = new Account(sourceKeyPair, 3009998980382720L);
 
     PaymentOperation operation = new PaymentOperation.Builder(destination, new AssetTypeNative(), 20000000L).build();
     Transaction transaction = new Transaction.Builder(sourceAccount)
@@ -20,7 +20,7 @@ public class StellarExample {
       .addMemo(Memo.text("Java FTW!"))
       .build();
 
-    transaction.sign(sourceKeypair);
+    transaction.sign(sourceKeyPair);
 
     System.out.println(transaction.toEnvelopeXdrBase64());
   }
