@@ -57,16 +57,28 @@ public class KeyPair {
 
   /**
    * Creates a new Stellar KeyPair from a strkey encoded Stellar secret seed.
-   * @param seed The strkey encoded Stellar secret seed.
+   * @param seed Char array containing strkey encoded Stellar secret seed.
    * @return {@link KeyPair}
    */
-  public static KeyPair fromSecretSeed(String seed) {
+  public static KeyPair fromSecretSeed(char[] seed) {
     byte[] decoded = StrKey.decodeStellarSecretSeed(seed);
     return fromSecretSeed(decoded);
   }
 
   /**
-   * Creates a new Stellar keypair from a 32 byte secret seed.
+   * <strong>Insecure</strong> Creates a new Stellar KeyPair from a strkey encoded Stellar secret seed.
+   * This method is <u>insecure</u>. Use only if you are aware of security implications.
+   * @see <a href="http://docs.oracle.com/javase/1.5.0/docs/guide/security/jce/JCERefGuide.html#PBEEx" target="_blank">Using Password-Based Encryption</a>
+   * @param seed The strkey encoded Stellar secret seed.
+   * @return {@link KeyPair}
+   */
+  public static KeyPair fromSecretSeed(String seed) {
+    byte[] decoded = StrKey.decodeStellarSecretSeed(seed.toCharArray());
+    return fromSecretSeed(decoded);
+  }
+
+  /**
+   * Creates a new Stellar keypair from a raw 32 byte secret seed.
    * @param seed The 32 byte secret seed.
    * @return {@link KeyPair}
    */

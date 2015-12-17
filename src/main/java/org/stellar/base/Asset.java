@@ -51,7 +51,6 @@ public abstract class Asset {
    *   <li><code>credit_alphanum4</code></li>
    *   <li><code>credit_alphanum12</code></li>
    * </ul>
-   * @return
    */
   public abstract String getType();
 

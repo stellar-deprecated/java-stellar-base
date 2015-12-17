@@ -28,10 +28,10 @@ class StrKey {
     }
 
     public static byte[] decodeStellarAddress(String data) {
-        return decodeCheck(VersionByte.ACCOUNT_ID, data);
+        return decodeCheck(VersionByte.ACCOUNT_ID, data.toCharArray());
     }
 
-    public static byte[] decodeStellarSecretSeed(String data) {
+    public static byte[] decodeStellarSecretSeed(char[] data) {
         return decodeCheck(VersionByte.SEED, data);
     }
 
@@ -51,9 +51,17 @@ class StrKey {
         }
     }
 
-    protected static byte[] decodeCheck(VersionByte versionByte, String encoded) {
+    protected static byte[] decodeCheck(VersionByte versionByte, char[] encoded) {
+        byte[] bytes = new byte[encoded.length];
+        for (int i = 0; i < encoded.length; i++) {
+            if (encoded[i] > 127) {
+                throw new IllegalArgumentException("Illegal characters in encoded char array.");
+            }
+            bytes[i] = (byte) encoded[i];
+        }
+
         Base32 base32Codec = new Base32();
-        byte[] decoded = base32Codec.decode(encoded);
+        byte[] decoded = base32Codec.decode(bytes);
         byte decodedVersionByte = decoded[0];
         byte[] payload  = Arrays.copyOfRange(decoded, 0, decoded.length-2);
         byte[] data     = Arrays.copyOfRange(payload, 1, payload.length);
