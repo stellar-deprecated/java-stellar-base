@@ -20,10 +20,11 @@ class StrKey {
     }
 
     public static String encodeStellarAddress(byte[] data) {
-        return encodeCheck(VersionByte.ACCOUNT_ID, data);
+        char[] encoded = encodeCheck(VersionByte.ACCOUNT_ID, data);
+        return String.valueOf(encoded);
     }
 
-    public static String encodeStellarSecretSeed(byte[] data) {
+    public static char[] encodeStellarSecretSeed(byte[] data) {
         return encodeCheck(VersionByte.SEED, data);
     }
 
@@ -35,7 +36,7 @@ class StrKey {
         return decodeCheck(VersionByte.SEED, data);
     }
 
-    protected static String encodeCheck(VersionByte versionByte, byte[] data) {
+    protected static char[] encodeCheck(VersionByte versionByte, byte[] data) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             outputStream.write(versionByte.getValue());
@@ -45,7 +46,20 @@ class StrKey {
             outputStream.write(checksum);
             byte unencoded[] = outputStream.toByteArray();
             Base32 base32Codec = new Base32();
-            return base32Codec.encodeAsString(unencoded);
+            byte[] bytesEncoded = base32Codec.encode(unencoded);
+
+            char[] charsEncoded = new char[bytesEncoded.length];
+            for (int i = 0; i < bytesEncoded.length; i++) {
+                charsEncoded[i] = (char) bytesEncoded[i];
+            }
+
+            if (VersionByte.SEED == versionByte) {
+                Arrays.fill(unencoded, (byte) 0);
+                Arrays.fill(payload, (byte) 0);
+                Arrays.fill(bytesEncoded, (byte) 0);
+            }
+
+            return charsEncoded;
         } catch (IOException e) {
             throw new AssertionError(e);
         }
@@ -75,6 +89,12 @@ class StrKey {
 
         if (!Arrays.equals(expectedChecksum, checksum)) {
             throw new FormatException("Checksum invalid");
+        }
+
+        if (VersionByte.SEED.getValue() == decodedVersionByte) {
+            Arrays.fill(bytes, (byte) 0);
+            Arrays.fill(decoded, (byte) 0);
+            Arrays.fill(payload, (byte) 0);
         }
 
         return data;

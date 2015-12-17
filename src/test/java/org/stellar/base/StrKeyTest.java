@@ -14,8 +14,8 @@ public class StrKeyTest {
     public void testDecodeEncode() throws IOException, FormatException {
         String seed = "SDJHRQF4GCMIIKAAAQ6IHY42X73FQFLHUULAPSKKD4DFDM7UXWWCRHBE";
         byte[] secret = StrKey.decodeCheck(StrKey.VersionByte.SEED, seed.toCharArray());
-        String encoded = StrKey.encodeCheck(StrKey.VersionByte.SEED, secret);
-        assertEquals(seed, encoded);
+        char[] encoded = StrKey.encodeCheck(StrKey.VersionByte.SEED, secret);
+        assertEquals(seed, String.valueOf(encoded));
     }
 
     @Test()

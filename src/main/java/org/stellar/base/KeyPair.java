@@ -62,7 +62,9 @@ public class KeyPair {
    */
   public static KeyPair fromSecretSeed(char[] seed) {
     byte[] decoded = StrKey.decodeStellarSecretSeed(seed);
-    return fromSecretSeed(decoded);
+    KeyPair keypair = fromSecretSeed(decoded);
+    Arrays.fill(decoded, (byte) 0);
+    return keypair;
   }
 
   /**
@@ -73,8 +75,12 @@ public class KeyPair {
    * @return {@link KeyPair}
    */
   public static KeyPair fromSecretSeed(String seed) {
-    byte[] decoded = StrKey.decodeStellarSecretSeed(seed.toCharArray());
-    return fromSecretSeed(decoded);
+    char[] charSeed = seed.toCharArray();
+    byte[] decoded = StrKey.decodeStellarSecretSeed(charSeed);
+    KeyPair keypair = fromSecretSeed(decoded);
+    Arrays.fill(charSeed, ' ');
+    Arrays.fill(decoded, (byte) 0);
+    return keypair;
   }
 
   /**
@@ -127,7 +133,7 @@ public class KeyPair {
   /**
    * Returns the human readable secret seed encoded in strkey.
    */
-  public String getSecretSeed() {
+  public char[] getSecretSeed() {
     return StrKey.encodeStellarSecretSeed(mPrivateKey.getSeed());
   }
 
