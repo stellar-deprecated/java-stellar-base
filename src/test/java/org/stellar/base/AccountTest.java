@@ -30,7 +30,7 @@ public class AccountTest  {
     public void testGetters() {
         KeyPair keypair = KeyPair.random();
         Account account = new Account(keypair, 100L);
-        assertEquals(account.getKeypair().getAddress(), keypair.getAddress());
+        assertEquals(account.getKeypair().getAccountId(), keypair.getAccountId());
         assertEquals(account.getSequenceNumber(), new Long(100L));
     }
 }

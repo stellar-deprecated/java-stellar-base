@@ -26,8 +26,8 @@ public class OperationTest {
     CreateAccountOperation parsedOperation = (CreateAccountOperation) Operation.fromXdr(xdr);
 
     assertEquals(10000000000L, xdr.getBody().getCreateAccountOp().getStartingBalance().getInt64().longValue());
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
+    assertEquals(destination.getAccountId(), parsedOperation.getDestination().getAccountId());
     assertEquals(startingAmount, parsedOperation.getStartingBalance());
 
     assertEquals(
@@ -53,8 +53,8 @@ public class OperationTest {
     PaymentOperation parsedOperation = (PaymentOperation) Operation.fromXdr(xdr);
 
     assertEquals(10000000000L, xdr.getBody().getPaymentOp().getAmount().getInt64().longValue());
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
+    assertEquals(destination.getAccountId(), parsedOperation.getDestination().getAccountId());
     assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
     assertEquals(amount, parsedOperation.getAmount());
 
@@ -94,8 +94,8 @@ public class OperationTest {
     assertEquals(1000L, xdr.getBody().getPathPaymentOp().getSendMax().getInt64().longValue());
     assertEquals(1000L, xdr.getBody().getPathPaymentOp().getDestAmount().getInt64().longValue());
     assertTrue(parsedOperation.getSendAsset() instanceof AssetTypeNative);
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
+    assertEquals(destination.getAccountId(), parsedOperation.getDestination().getAccountId());
     assertEquals(sendMax, parsedOperation.getSendMax());
     assertTrue(parsedOperation.getDestAsset() instanceof AssetTypeCreditAlphaNum4);
     assertEquals(destAmount, parsedOperation.getDestAmount());
@@ -122,7 +122,7 @@ public class OperationTest {
     ChangeTrustOperation parsedOperation = (ChangeTrustOperation) Operation.fromXdr(xdr);
 
     assertEquals(9223372036854775807L, xdr.getBody().getChangeTrustOp().getLimit().getInt64().longValue());
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
     assertTrue(parsedOperation.getAsset() instanceof AssetTypeNative);
     assertEquals(limit, parsedOperation.getLimit());
 
@@ -148,8 +148,8 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     AllowTrustOperation parsedOperation = (AllowTrustOperation) Operation.fromXdr(xdr);
 
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
-    assertEquals(trustor.getAddress(), parsedOperation.getTrustor().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
+    assertEquals(trustor.getAccountId(), parsedOperation.getTrustor().getAccountId());
     assertEquals(assetCode, parsedOperation.getAssetCode());
     assertEquals(authorize, parsedOperation.getAuthorize());
 
@@ -192,7 +192,7 @@ public class OperationTest {
     org.stellar.base.xdr.Operation xdr = operation.toXdr();
     SetOptionsOperation parsedOperation = (SetOptionsOperation) SetOptionsOperation.fromXdr(xdr);
 
-    assertEquals(inflationDestination.getAddress(), parsedOperation.getInflationDestination().getAddress());
+    assertEquals(inflationDestination.getAccountId(), parsedOperation.getInflationDestination().getAccountId());
     assertEquals(clearFlags, parsedOperation.getClearFlags());
     assertEquals(setFlags, parsedOperation.getSetFlags());
     assertEquals(masterKeyWeight, parsedOperation.getMasterKeyWeight());
@@ -200,9 +200,9 @@ public class OperationTest {
     assertEquals(mediumThreshold, parsedOperation.getMediumThreshold());
     assertEquals(highThreshold, parsedOperation.getHighThreshold());
     assertEquals(homeDomain, parsedOperation.getHomeDomain());
-    assertEquals(signer.getAddress(), parsedOperation.getSigner().getAddress());
+    assertEquals(signer.getAccountId(), parsedOperation.getSigner().getAccountId());
     assertEquals(signerWeight, parsedOperation.getSignerWeight());
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAABAAAAAO3gUmG83C+VCqO6FztuMtXJF/l7grZA7MjRzqdZ9W8QAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAIAAAABAAAAAwAAAAEAAAAEAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAABAAAAAET+21WXwEtXRyxb/GBe1tc5V/WUzIOW4yJp+XQgNUUiAAAAAQ==",
@@ -234,7 +234,7 @@ public class OperationTest {
     assertEquals(homeDomain, parsedOperation.getHomeDomain());
     assertEquals(null, parsedOperation.getSigner());
     assertEquals(null, parsedOperation.getSignerWeight());
-    assertEquals(source.getAddress(), parsedOperation.getSourceAccount().getAddress());
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
 
     assertEquals(
           "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAtzdGVsbGFyLm9yZwAAAAAA",
@@ -327,7 +327,7 @@ public class OperationTest {
 
     AccountMergeOperation parsedOperation = (AccountMergeOperation) Operation.fromXdr(xdr);
 
-    assertEquals(destination.getAddress(), parsedOperation.getDestination().getAddress());
+    assertEquals(destination.getAccountId(), parsedOperation.getDestination().getAccountId());
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAgAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxA=",

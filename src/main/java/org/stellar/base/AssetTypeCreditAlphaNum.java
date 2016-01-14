@@ -38,6 +38,6 @@ public abstract class AssetTypeCreditAlphaNum extends Asset {
         AssetTypeCreditAlphaNum o = (AssetTypeCreditAlphaNum) object;
 
         return this.getCode().equals(o.getCode()) &&
-                this.getIssuer().getAddress().equals(o.getIssuer().getAddress());
+                this.getIssuer().getAccountId().equals(o.getIssuer().getAccountId());
     }
 }

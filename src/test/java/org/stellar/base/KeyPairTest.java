@@ -49,9 +49,9 @@ public class KeyPairTest {
     keypairs.put("SDYZ5IYOML3LTWJ6WIAC2YWORKVO7GJRTPPGGNJQERH72I6ZCQHDAJZN", "GABXJTV7ELEB2TQZKJYEGXBUIG6QODJULKJDI65KZMIZZG2EACJU5EA7");
 
     for (String seed : keypairs.keySet()) {
-      String address = keypairs.get(seed);
+      String accountId = keypairs.get(seed);
       KeyPair keypair = KeyPair.fromSecretSeed(seed);
-      assertEquals(address, keypair.getAddress());
+      assertEquals(accountId, keypair.getAccountId());
     }
   }
 }

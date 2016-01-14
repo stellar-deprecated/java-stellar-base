@@ -95,22 +95,32 @@ public class KeyPair {
   }
 
   /**
-   * Creates a new Stellar KeyPair from a strkey encoded Stellar address.
-   * @param address The strkey encoded Stellar address.
+   * Creates a new Stellar KeyPair from a strkey encoded Stellar account ID.
+   * @param accountId The strkey encoded Stellar account ID.
    * @return {@link KeyPair}
    */
-  public static KeyPair fromAddress(String address) {
-    byte[] decoded = StrKey.decodeStellarAddress(address);
+  public static KeyPair fromAccountId(String accountId) {
+    byte[] decoded = StrKey.decodeStellarAccountId(accountId);
     return fromPublicKey(decoded);
   }
 
   /**
-   * Creates a new Stellar keypair from a 32 byte address.
-   * @param address The 32 byte address.
+   * Creates a new Stellar KeyPair from a strkey encoded Stellar account ID.
+   * @param accountId The strkey encoded Stellar account ID.
+   * @deprecated Use {@link KeyPair#fromAccountId}
    * @return {@link KeyPair}
    */
-  public static KeyPair fromPublicKey(byte[] address) {
-    EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(address, ed25519);
+  public static KeyPair fromAddress(String accountId) {
+    return fromAccountId(accountId);
+  }
+
+  /**
+   * Creates a new Stellar keypair from a 32 byte address.
+   * @param publicKey The 32 byte public key.
+   * @return {@link KeyPair}
+   */
+  public static KeyPair fromPublicKey(byte[] publicKey) {
+    EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(publicKey, ed25519);
     return new KeyPair(new EdDSAPublicKey(publicKeySpec));
   }
 
@@ -124,10 +134,18 @@ public class KeyPair {
   }
 
   /**
-   * Returns the human readable address encoded in strkey.
+   * Returns the human readable account ID encoded in strkey.
+   */
+  public String getAccountId() {
+    return StrKey.encodeStellarAccountId(mPublicKey.getAbyte());
+  }
+
+  /**
+   * Returns the human readable account ID encoded in strkey.
+   * @deprecated Use {@link KeyPair#getAccountId}
    */
   public String getAddress() {
-    return StrKey.encodeStellarAddress(mPublicKey.getAbyte());
+    return StrKey.encodeStellarAccountId(mPublicKey.getAbyte());
   }
 
   /**

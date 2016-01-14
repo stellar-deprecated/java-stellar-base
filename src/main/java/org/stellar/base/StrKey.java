@@ -19,7 +19,7 @@ class StrKey {
         }
     }
 
-    public static String encodeStellarAddress(byte[] data) {
+    public static String encodeStellarAccountId(byte[] data) {
         char[] encoded = encodeCheck(VersionByte.ACCOUNT_ID, data);
         return String.valueOf(encoded);
     }
@@ -28,7 +28,7 @@ class StrKey {
         return encodeCheck(VersionByte.SEED, data);
     }
 
-    public static byte[] decodeStellarAddress(String data) {
+    public static byte[] decodeStellarAccountId(String data) {
         return decodeCheck(VersionByte.ACCOUNT_ID, data.toCharArray());
     }
 

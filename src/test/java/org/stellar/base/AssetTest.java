@@ -27,7 +27,7 @@ public class AssetTest {
     org.stellar.base.xdr.Asset xdr = asset.toXdr();
     AssetTypeCreditAlphaNum4 parsedAsset = (AssetTypeCreditAlphaNum4) Asset.fromXdr(xdr);
     assertEquals(code, asset.getCode());
-    assertEquals(issuer.getAddress(), parsedAsset.getIssuer().getAddress());
+    assertEquals(issuer.getAccountId(), parsedAsset.getIssuer().getAccountId());
   }
 
   @Test
@@ -38,7 +38,7 @@ public class AssetTest {
     org.stellar.base.xdr.Asset xdr = asset.toXdr();
     AssetTypeCreditAlphaNum12 parsedAsset = (AssetTypeCreditAlphaNum12) Asset.fromXdr(xdr);
     assertEquals(code, asset.getCode());
-    assertEquals(issuer.getAddress(), parsedAsset.getIssuer().getAddress());
+    assertEquals(issuer.getAccountId(), parsedAsset.getIssuer().getAccountId());
   }
 
   @Test
