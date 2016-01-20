@@ -28,8 +28,12 @@ public class PathPaymentOperation extends Operation {
     this.destination = checkNotNull(destination, "destination cannot be null");
     this.destAsset = checkNotNull(destAsset, "destAsset cannot be null");
     this.destAmount = checkNotNull(destAmount, "destAmount cannot be null");
-    this.path = checkNotNull(path, "path cannot be null");
-    checkArgument(path.length > 0, "At least one asset required in the path");
+    if (path == null) {
+      this.path = new Asset[0];
+    } else {
+      checkArgument(path.length <= 5, "The maximum number of assets in the path is 5");
+      this.path = path;
+    }
   }
 
   /**
@@ -117,7 +121,7 @@ public class PathPaymentOperation extends Operation {
     private final KeyPair destination;
     private final Asset destAsset;
     private final String destAmount;
-    private final Asset[] path;
+    private Asset[] path;
 
     private KeyPair mSourceAccount;
 
@@ -140,18 +144,27 @@ public class PathPaymentOperation extends Operation {
      * @param destination Payment destination
      * @param destAsset The asset the destination account receives.
      * @param destAmount The amount of destination asset the destination account receives.
-     * @param path The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path field would contain XLM and BTC.
      * @throws ArithmeticException when sendMax or destAmount has more than 7 decimal places.
      */
     public Builder(Asset sendAsset, String sendMax, KeyPair destination,
-        Asset destAsset, String destAmount, Asset[] path) {
+        Asset destAsset, String destAmount) {
       this.sendAsset = checkNotNull(sendAsset, "sendAsset cannot be null");
       this.sendMax = checkNotNull(sendMax, "sendMax cannot be null");
       this.destination = checkNotNull(destination, "destination cannot be null");
       this.destAsset = checkNotNull(destAsset, "destAsset cannot be null");
       this.destAmount = checkNotNull(destAmount, "destAmount cannot be null");
-      this.path = checkNotNull(path, "path cannot be null");
-      checkArgument(path.length > 0, "At least one asset required in the path");
+    }
+
+    /**
+     * Sets path for this operation
+     * @param path The assets (other than send asset and destination asset) involved in the offers the path takes. For example, if you can only find a path from USD to EUR through XLM and BTC, the path would be USD -> XLM -> BTC -> EUR and the path field would contain XLM and BTC.
+     * @return Builder object so you can chain methods.
+     */
+    public Builder setPath(Asset[] path) {
+      checkNotNull(path, "path cannot be null");
+      checkArgument(path.length <= 5, "The maximum number of assets in the path is 5");
+      this.path = path;
+      return this;
     }
 
     /**

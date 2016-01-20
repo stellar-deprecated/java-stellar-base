@@ -84,7 +84,8 @@ public class OperationTest {
     Asset[] path = {new AssetTypeCreditAlphaNum4("USD", pathIssuer1), new AssetTypeCreditAlphaNum12("TESTTEST", pathIssuer2)};
 
     PathPaymentOperation operation = new PathPaymentOperation.Builder(
-        sendAsset, sendMax, destination, destAsset, destAmount, path)
+        sendAsset, sendMax, destination, destAsset, destAmount)
+        .setPath(path)
         .setSourceAccount(source)
         .build();
 
@@ -103,6 +104,48 @@ public class OperationTest {
 
     assertEquals(
             "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAIAAAAAAAAAAAAAA+gAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEAAAAAACNlYd30HdCuLI54eyYjyX/fDyH9IJWIr/hKDcXKQbq1QAAAAAAAAPoAAAAAgAAAAFVU0QAAAAAACoIKnpnw8rtrfxa276dFZo1C19mDqWXtG4ufhWrLUd1AAAAAlRFU1RURVNUAAAAAAAAAABE/ttVl8BLV0csW/xgXtbXOVf1lMyDluMiafl0IDVFIg==",
+            operation.toXdrBase64());
+  }
+
+  @Test
+  public void testPathPaymentEmptyPathOperation() throws FormatException, IOException, AssetCodeLengthInvalidException {
+    // GC5SIC4E3V56VOHJ3OZAX5SJDTWY52JYI2AFK6PUGSXFVRJQYQXXZBZF
+    KeyPair source = KeyPair.fromSecretSeed("SC4CGETADVYTCR5HEAVZRB3DZQY5Y4J7RFNJTRA6ESMHIPEZUSTE2QDK");
+    // GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR
+    KeyPair destination = KeyPair.fromSecretSeed("SDHZGHURAYXKU2KMVHPOXI6JG2Q4BSQUQCEOY72O3QQTCLR2T455PMII");
+    // GCGZLB3X2B3UFOFSHHQ6ZGEPEX7XYPEH6SBFMIV74EUDOFZJA3VNL6X4
+    KeyPair issuer = KeyPair.fromSecretSeed("SBOBVZUN6WKVMI6KIL2GHBBEETEV6XKQGILITNH6LO6ZA22DBMSDCPAG");
+
+    // GAVAQKT2M7B4V3NN7RNNXPU5CWNDKC27MYHKLF5UNYXH4FNLFVDXKRSV
+    KeyPair pathIssuer1 = KeyPair.fromSecretSeed("SALDLG5XU5AEJWUOHAJPSC4HJ2IK3Z6BXXP4GWRHFT7P7ILSCFFQ7TC5");
+    // GBCP5W2VS7AEWV2HFRN7YYC623LTSV7VSTGIHFXDEJU7S5BAGVCSETRR
+    KeyPair pathIssuer2 = KeyPair.fromSecretSeed("SA64U7C5C7BS5IHWEPA7YWFN3Z6FE5L6KAMYUIT4AQ7KVTVLD23C6HEZ");
+
+    Asset sendAsset = new AssetTypeNative();
+    String sendMax = "0.0001";
+    Asset destAsset = new AssetTypeCreditAlphaNum4("USD", issuer);
+    String destAmount = "0.0001";
+
+    PathPaymentOperation operation = new PathPaymentOperation.Builder(
+            sendAsset, sendMax, destination, destAsset, destAmount)
+            .setSourceAccount(source)
+            .build();
+
+    org.stellar.base.xdr.Operation xdr = operation.toXdr();
+    PathPaymentOperation parsedOperation = (PathPaymentOperation) Operation.fromXdr(xdr);
+
+    assertEquals(1000L, xdr.getBody().getPathPaymentOp().getSendMax().getInt64().longValue());
+    assertEquals(1000L, xdr.getBody().getPathPaymentOp().getDestAmount().getInt64().longValue());
+    assertTrue(parsedOperation.getSendAsset() instanceof AssetTypeNative);
+    assertEquals(source.getAccountId(), parsedOperation.getSourceAccount().getAccountId());
+    assertEquals(destination.getAccountId(), parsedOperation.getDestination().getAccountId());
+    assertEquals(sendMax, parsedOperation.getSendMax());
+    assertTrue(parsedOperation.getDestAsset() instanceof AssetTypeCreditAlphaNum4);
+    assertEquals(destAmount, parsedOperation.getDestAmount());
+    assertEquals(0, parsedOperation.getPath().length);
+
+    assertEquals(
+            "AAAAAQAAAAC7JAuE3XvquOnbsgv2SRztjuk4RoBVefQ0rlrFMMQvfAAAAAIAAAAAAAAAAAAAA+gAAAAA7eBSYbzcL5UKo7oXO24y1ckX+XuCtkDsyNHOp1n1bxAAAAABVVNEAAAAAACNlYd30HdCuLI54eyYjyX/fDyH9IJWIr/hKDcXKQbq1QAAAAAAAAPoAAAAAA==",
             operation.toXdrBase64());
   }
 
