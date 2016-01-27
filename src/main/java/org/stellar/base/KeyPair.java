@@ -56,6 +56,13 @@ public class KeyPair {
   }
 
   /**
+   * Returns true if this Keypair is capable of signing
+   */
+  public boolean canSign() {
+    return mPrivateKey != null;
+  }
+
+  /**
    * Creates a new Stellar KeyPair from a strkey encoded Stellar secret seed.
    * @param seed Char array containing strkey encoded Stellar secret seed.
    * @return {@link KeyPair}

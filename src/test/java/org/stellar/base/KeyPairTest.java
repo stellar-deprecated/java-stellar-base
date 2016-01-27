@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class KeyPairTest {
 
@@ -53,5 +55,14 @@ public class KeyPairTest {
       KeyPair keypair = KeyPair.fromSecretSeed(seed);
       assertEquals(accountId, keypair.getAccountId());
     }
+  }
+
+  @Test
+  public void testCanSign() throws Exception {
+    KeyPair keypair;
+    keypair = KeyPair.fromSecretSeed("SDJHRQF4GCMIIKAAAQ6IHY42X73FQFLHUULAPSKKD4DFDM7UXWWCRHBE");
+    assertTrue(keypair.canSign());
+    keypair = KeyPair.fromAccountId("GABXJTV7ELEB2TQZKJYEGXBUIG6QODJULKJDI65KZMIZZG2EACJU5EA7");
+    assertFalse(keypair.canSign());
   }
 }
